@@ -1,0 +1,32 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+    font-family: 'Nunito';
+    src: url('./fonts/Nunito.ttf') format('woff'),
+         url('./fonts/Nunito-Italic.ttf') format('woff')
+        
+}
+
+:root{
+    font-family: 'Nunito';
+    
+}
+
+#root{
+    position: relative;
+}
+body{
+    margin: 0;
+    width: 100%;
+    height: 100vh;
+    overflow: hidden;
+    background-color: #ebeef6;
+}
+h1{
+    font-weight: 800;
+}
+.gray-trans{
+    background: #00000049;
+}
