@@ -1,10 +1,17 @@
 import {
+    AiFillCamera as Camera,
+} from 'react-icons/ai'
+
+import {
     HiFingerPrint as FingerPrint,
+    HiKey as Key,
 } from 'react-icons/hi'
 
 import {
     BiSolidPackage as Pack,
     BiSolidInfoCircle as Info,
+    BiChevronDown as Down,
+    BiChevronUp as Up,
 } from 'react-icons/bi'
 
 import {
@@ -20,6 +27,10 @@ import {
     FaDoorOpen as Exit,
 } from 'react-icons/fa'
 
+import {
+    IoMdPerson as Person,
+} from 'react-icons/io'
+
 export const MyIcons = {
     FingerPrint,
     Pack,
@@ -28,4 +39,9 @@ export const MyIcons = {
     Info,
     Profile,
     Exit,
+    Key,
+    Down, Up,
+    Camera,
+    Person,
+    
 }

@@ -30,7 +30,7 @@ export const AuthProvider = ({ children }) => {
     }, [session, loading])
 
     const signIn = async (values) => {
-        const response = await fetch(HOST + 'login/', {
+        const response = await fetch(`${HOST}/login/`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(values)

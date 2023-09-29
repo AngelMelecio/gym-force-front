@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import Inpt from '../components/Inpt'
+import Inpt from '../components/inputs/Inpt'
 import { useFormik } from 'formik'
 import { useAuth } from '../context/authContext'
 
