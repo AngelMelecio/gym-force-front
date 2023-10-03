@@ -11,23 +11,12 @@ export const useAuth = () => {
 export const AuthProvider = ({ children }) => {
 
     const navigate = useNavigate()
-
+    
     const [session, setSession] = useState(() => {
-        const auth = localStorage.getItem('auth')
+        let auth = localStorage.getItem('auth')
         return auth ? JSON.parse(auth) : null
     });
 
-    const [loading, setLoading] = useState(true)
-
-    useEffect(() => {
-        let fourMinutes = 1000 * 60 * 4
-        let interval = setInterval(() => {
-            if (session)
-                refreshToken()
-        }, fourMinutes)
-        return () => clearInterval(interval)
-
-    }, [session, loading])
 
     const signIn = async (values) => {
         const response = await fetch(`${HOST}/login/`, {
@@ -42,7 +31,8 @@ export const AuthProvider = ({ children }) => {
         setSession(data)
         localStorage.setItem('auth', JSON.stringify(data))
     }
-
+    
+    /*
     const refreshToken = async () => {
         const response = await fetch(HOST + '/token/refresh/', {
             method: 'POST',
@@ -54,11 +44,12 @@ export const AuthProvider = ({ children }) => {
             signOut()
             throw new Error(data.error)
         }
-        console.log('Successfully token refreshed')
         let newSession = { ...session, access: data.access, refresh: data.refresh }
         setSession(newSession)
         localStorage.setItem('auth', JSON.stringify(newSession))
+        if (loading) setLoading(false)
     }
+    */
 
     const signOut = () => {
         setSession(null)

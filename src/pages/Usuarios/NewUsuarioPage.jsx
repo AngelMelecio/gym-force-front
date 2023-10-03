@@ -49,12 +49,7 @@ const NewUsuarioPage = () => {
       <div className='w-full h-full bg-white rounded-lg shadow-md'>
         <AbsScroll vertical loading={userFormik.values === null}>
           <div className="flex flex-wrap px-2 pt-6 sm:px-9">
-            <div className='flex-grow w-full mt-3 total-center mb-7'>
-              <ImgInpt
-                name="foto"
-                formik={userFormik}
-              />
-            </div>
+            
             <div className='flex-grow w-full px-5 mb-6'>
               <h2 className='text-lg font-bold text-blue-900 '>
                 Datos Personales
@@ -71,7 +66,7 @@ const NewUsuarioPage = () => {
             </div>
             <div className='flex-grow w-full px-5 mb-6'>
               <h2 className='text-lg font-bold text-blue-900 '>
-                Datos de usuario
+                Datos de la Cuenta
               </h2>
             </div>
             <div className="flex-grow w-full px-4 sm:w-1/2">

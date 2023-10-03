@@ -16,8 +16,12 @@ const Opts = ({ label, name, options, formik, ...props }) => {
 
     const handleOptClick = (e, option) => {
         e.preventDefault()
-        formik?.setFieldValue(name, option)
         inptRef.current.blur()
+
+        if( formik?.values[name] === option ) return
+        
+        formik?.setFieldValue(name, option)
+        props.onKeyDown()
     }
 
     const handleInptChange = (e) => {
@@ -35,9 +39,9 @@ const Opts = ({ label, name, options, formik, ...props }) => {
                     value={options.find(o => o.value === formik?.values[name])?.label || "" }
                     onChange={handleInptChange}
                     onBlur={(e) => { setShowOpts(false); formik?.handleBlur(e) }}
-                    {...props}
                     onFocus={() => setShowOpts(true)}
                     className={`cursor-pointer w-full px-4 py-2 text-base text-gray-700 border rounded-lg outline-none  duration-200 font-medium appearance-none ${error ? 'border-rose-400' : showOpts ? 'border-blue-500' : ''} brdoer-gray-200 hover:border-blue-500`}
+                    {...props}
                 />
                 {
                     showOpts &&
