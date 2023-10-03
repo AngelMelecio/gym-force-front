@@ -75,7 +75,7 @@ const NewUsuarioPage = () => {
             <div className="flex-grow w-full px-4 sm:w-1/2">
               <Opts name="is_staff" formik={userFormik} label="Rol" options={[
                 { label: "Administrador", value: true },
-                { label: "Encargado", value: false },
+                { label: "Empleado", value: false },
               ]} />
             </div>
             <div className="flex-grow w-full px-4 sm:w-1/2">
