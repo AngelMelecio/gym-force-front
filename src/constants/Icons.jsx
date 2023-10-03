@@ -29,7 +29,10 @@ import {
 
 import {
     IoMdPerson as Person,
+    IoIosWarning as Warning,
+    IoMdClose as Close,
 } from 'react-icons/io'
+
 
 export const MyIcons = {
     FingerPrint,
@@ -43,5 +46,8 @@ export const MyIcons = {
     Down, Up,
     Camera,
     Person,
+    Warning,
+    Close
+
     
 }
