@@ -1,6 +1,16 @@
 import {
     AiFillCamera as Camera,
+    AiOutlinePlus as Plus,
+    AiFillEdit as Edit,
 } from 'react-icons/ai'
+
+import {
+    SlOptionsVertical as Options,
+} from 'react-icons/sl'
+
+import {
+    RiGhost2Line as Ghost,
+} from 'react-icons/ri'
 
 import {
     HiFingerPrint as FingerPrint,
@@ -17,6 +27,8 @@ import {
 import {
     BsFillBarChartFill as Chart,
     BsFillPeopleFill as People,
+    BsFillCheckCircleFill as Active,
+
 } from 'react-icons/bs'
 
 import {
@@ -25,12 +37,20 @@ import {
 
 import {
     FaDoorOpen as Exit,
+    FaRegTrashAlt as Trash,
 } from 'react-icons/fa'
 
 import {
     IoMdPerson as Person,
 } from 'react-icons/io'
 
+import {
+    GoSearch as Lupa,
+} from 'react-icons/go'
+
+import {
+    RxCross2 as Cancel,
+} from 'react-icons/rx'
 export const MyIcons = {
     FingerPrint,
     Pack,
@@ -41,7 +61,10 @@ export const MyIcons = {
     Exit,
     Key,
     Down, Up,
-    Camera,
-    Person,
+    Camera, Plus,
+    Person, Lupa,
+    Ghost, Active, 
+    Options, Cancel,
+    Trash, Edit
     
 }
