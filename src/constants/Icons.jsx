@@ -42,6 +42,8 @@ import {
 
 import {
     IoMdPerson as Person,
+    IoIosWarning as Warning,
+    IoMdClose as Close,
 } from 'react-icons/io'
 
 import {
@@ -51,6 +53,7 @@ import {
 import {
     RxCross2 as Cancel,
 } from 'react-icons/rx'
+
 export const MyIcons = {
     FingerPrint,
     Pack,
@@ -65,6 +68,9 @@ export const MyIcons = {
     Person, Lupa,
     Ghost, Active, 
     Options, Cancel,
-    Trash, Edit
+    Trash, Edit,
+    Warning,
+    Close
+
     
 }

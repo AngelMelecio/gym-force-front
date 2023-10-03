@@ -11,37 +11,12 @@ export const useAuth = () => {
 export const AuthProvider = ({ children }) => {
 
     const navigate = useNavigate()
-
+    
     const [session, setSession] = useState(() => {
-        const auth = localStorage.getItem('auth')
-        return auth ? JSON.parse(auth) : {
-            "access": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjk2MDI2NzAzLCJpYXQiOjE2OTYwMjU4MDMsImp0aSI6IjMwNGQwZTU1NWIyYzRjMzlhZDFhYjIzYmYyZTFiNDA3IiwidXNlcl9pZCI6MX0.8WvzvRtcEwdlY8WDfLfo2mcTSiQpFErb8q9DVhhrtbo",
-            "refresh": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTY5NjExMjIwMywiaWF0IjoxNjk2MDI1ODAzLCJqdGkiOiI5NzBmMTg0NGY2OGM0MTI1YWY4MDJiYjdhNWZjOTdlNCIsInVzZXJfaWQiOjF9.531Tb219YH_mpRrc9Ep4YoMdF5PNgFm9oVZ0v3Qj1DM",
-            "usuario": {
-                "id": 1,
-                "usuario": "developerAdmin",
-                "correo": "cesaaar26@gmail.com",
-                "nombre": "Cesar Antonio",
-                "apellidos": "Navarro Sosa",
-                "is_active": true,
-                "is_staff": true,
-                "rol": "Administrador"
-            },
-            "message": "Inicio de Sesion Existoso"
-        }
+        let auth = localStorage.getItem('auth')
+        return auth ? JSON.parse(auth) : null
     });
 
-    const [loading, setLoading] = useState(true)
-
-    useEffect(() => {
-        let fourMinutes = 1000 * 60 * 4
-        let interval = setInterval(() => {
-            if (session)
-                refreshToken()
-        }, fourMinutes)
-        return () => clearInterval(interval)
-
-    }, [session, loading])
 
     const signIn = async (values) => {
         //console.log(values)
@@ -59,7 +34,8 @@ export const AuthProvider = ({ children }) => {
         setSession(data)
         localStorage.setItem('auth', JSON.stringify(data))
     }
-
+    
+    /*
     const refreshToken = async () => {
         const response = await fetch(HOST + '/token/refresh/', {
             method: 'POST',
@@ -71,11 +47,12 @@ export const AuthProvider = ({ children }) => {
             signOut()
             throw new Error(data.error)
         }
-        console.log('Successfully token refreshed')
         let newSession = { ...session, access: data.access, refresh: data.refresh }
         setSession(newSession)
         localStorage.setItem('auth', JSON.stringify(newSession))
+        if (loading) setLoading(false)
     }
+    */
 
     const signOut = () => {
         setSession(null)

@@ -10,7 +10,7 @@ function App() {
 
   return (
     session ? (
-      <div className='flex flex-row'>
+      <div className='relative flex flex-row'>
         <AppBar />
         <AppRouter />
       </div>
