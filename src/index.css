@@ -4,9 +4,14 @@
 
 @font-face {
   font-family: 'Nunito';
-  src: url('./fonts/Nunito.ttf') format('woff'),
-    url('./fonts/Nunito-Italic.ttf') format('woff')
+  src: url('./fonts/Nunito.ttf') format('truetype'),
+       url('./fonts/Nunito-Italic.ttf') format('truetype');
+  font-weight: 700;
+  font-style: normal;
+  word-wrap: break-word;
+  color: #334163;
 }
+
 
 @font-face {
   font-family: 'RobotoCondensed';

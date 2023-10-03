@@ -43,7 +43,7 @@ const NewUsuarioPage = () => {
   return (
     <form className='flex flex-col w-full h-screen p-3' onSubmit={userFormik.handleSubmit}>
       <div className='flex items-end justify-between pb-3'>
-        <h1 className='pl-1 text-2xl text-blue-900 '>Nuevo Usuario</h1>
+        <h1 className='pl-1 text-3xl text-blue-900 '>Nuevo Usuario</h1>
         <input className='px-10 py-1.5 rounded-lg btn-naranja' value="Guardar" type='submit' />
       </div>
       <div className='w-full h-full bg-white rounded-lg shadow-md'>
