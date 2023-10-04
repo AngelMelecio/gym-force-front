@@ -2,11 +2,12 @@ import AccessoPage from "../pages/AccessoPage";
 import PerfilPage from "../pages/PerfilPage";
 import DetailUsuarioPage from "../pages/Usuarios/DetailUsuarioPage";
 import NewUsuarioPage from "../pages/Usuarios/NewUsuarioPage";
+import UsuariosPage from "../pages/Usuarios/UsuariosPage";
 import { MyIcons } from "./Icons";
 
 export const adminRoutes = [
     {path:'/perfil', element: <PerfilPage/>},
-    {path:'/usuarios', element: <PerfilPage/>},
+    {path:'/usuarios', element: <UsuariosPage/>},
     {path:'/usuarios/0', element: <NewUsuarioPage/>},
     {path:'/usuarios/:id', element: <DetailUsuarioPage/>},
     {path:'/acceso', element: <AccessoPage/>},

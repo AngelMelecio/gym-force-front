@@ -3,6 +3,7 @@ import Inpt from '../components/inputs/Inpt'
 import { useFormik } from 'formik'
 import { useAuth } from '../context/authContext'
 import GymLogo from '../assets/GymLogoShadow.svg'
+import Rayas_g1 from '../assets/rayas_g1'
 
 const LoginPage = () => {
 
@@ -55,6 +56,7 @@ const LoginPage = () => {
             value={loading ? "Ingresando..." : "Ingresar"}
             className={`w-full text-lg py-2 mt-2 btn-naranja rounded-lg`} />
         </form>
+        
       </div>
     </div>
   )
