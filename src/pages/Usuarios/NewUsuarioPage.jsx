@@ -12,9 +12,15 @@ const NewUsuarioPage = () => {
   const [loading, setLoading] = useState(false)
 
   const userFormik = useFormik({
-    initialValues: null,
+    initialValues: {
+      rol: null,
+    },
     validate: (values) => {
       const errors = {}
+      if(values['nombre']?.length === 0)
+        errors.nombre = "Requerido"
+      if(values['apellidos']?.length === 0)
+        errors.apellidos = "Requerido"
       return errors
     },
     onSubmit: async (values) => {
@@ -30,15 +36,7 @@ const NewUsuarioPage = () => {
     }
   })
 
-  useEffect(() => {
-
-    async function set() {
-      await sleep(2000)
-      userFormik.setValues({})
-    }
-    set()
-    
-  }, [])  
+   
 
   return (
     <form className='flex flex-col w-full h-screen p-3' onSubmit={userFormik.handleSubmit}>
@@ -73,9 +71,10 @@ const NewUsuarioPage = () => {
               <Inpt name="usuario" formik={userFormik} label="Usuario" />
             </div>
             <div className="flex-grow w-full px-4 sm:w-1/2">
-              <Opts name="is_staff" formik={userFormik} label="Rol" options={[
-                { label: "Administrador", value: true },
-                { label: "Empleado", value: false },
+              <Opts name="rol" formik={userFormik} label="Rol" options={[
+                { label: "Seleccione", value: null },
+                { label: "Administrador", value: 'administrador' },
+                { label: "Empleado", value: 'empleado' },
               ]} />
             </div>
             <div className="flex-grow w-full px-4 sm:w-1/2">

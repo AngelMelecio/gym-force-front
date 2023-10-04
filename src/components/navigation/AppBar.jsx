@@ -3,10 +3,11 @@ import { adminTabs, baseTabs } from '../../constants/appRoutes'
 import { MyIcons } from '../../constants/Icons'
 import { Link, useMatch, useResolvedPath } from 'react-router-dom'
 import { useAuth } from '../../context/authContext'
+import GymLogoWhite from '../../assets/GymLogoWhite.svg'
 
 const AppBar = () => {
 
-  const {signOut} = useAuth()
+  const { signOut } = useAuth()
 
   const Tab = ({ info, ...props }) => {
     const { content, to, icon } = info
@@ -30,7 +31,9 @@ const AppBar = () => {
       <div id="side-bar" className='absolute flex flex-col w-16 h-full duration-200 ease-in-out bg-blue-600 group hover:w-56 hover:delay-300'>
         {/* AppBar Header */}
         <div className="flex flex-[0.20] w-full ">
-          G
+          <img
+            className='w-full  px-10 opacity-0 group-hover:opacity-100 group-hover:delay-[410ms] group-hover:duration-300'
+            src={GymLogoWhite} alt="" />
         </div>
         {/* Main Tabs */}
         <div className="flex flex-[0.60] w-full ">
@@ -48,8 +51,8 @@ const AppBar = () => {
           <div className="relative w-full h-full overflow-x-hidden overflow-y-scroll">
             <div className='absolute top-0 w-full pl-3'>
               <Tab info={{
-                  to: '/perfil', content: 'Perfil', icon: <MyIcons.Profile size={"24px"} />
-                }} />
+                to: '/perfil', content: 'Perfil', icon: <MyIcons.Profile size={"24px"} />
+              }} />
               <Tab
                 onClick={signOut}
                 info={{
