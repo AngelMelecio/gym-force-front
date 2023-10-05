@@ -31,7 +31,7 @@ const Opts = ({ label, name, options, formik, ...props }) => {
     return (
         <div >
             <div className="relative">
-                <label className={`absolute  ${showOpts ? 'text-blue-500' : 'text-gray-500'} bg-white px-1 pointer-events-none up ${error ? 'text-rose-400' : ''} transition-all duration-200 `}>{label}</label>
+                <label  htmlFor={name} className={`absolute  ${showOpts ? 'text-blue-500' : 'text-gray-500'} bg-white px-1 pointer-events-none up ${error ? 'text-rose-400' : ''} transition-all duration-200 `}>{label}</label>
                 <input
                     ref={inptRef}
                     id={name}
