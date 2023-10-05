@@ -10,7 +10,7 @@ export const useUsuarios = () => {
 };
 
 export const UsuariosProvider = ({ children }) => {
-    
+
     const { session } = useAuth()
     const { myAxios } = useAxios()
     const [allUsers, setAllUsers] = useState([])
@@ -19,6 +19,16 @@ export const UsuariosProvider = ({ children }) => {
         const resp = await myAxios.get(`users/${id}`)
         return resp.data
     }
+
+    async function refreshAllUsers() {
+        try {
+            const resp = await myAxios.get('users/')
+            setAllUsers(resp.data)
+        } catch (err) {
+            console.log(err)
+        }
+    }
+
     /*
     async function getUser(id) {
         let options = {
@@ -32,19 +42,6 @@ export const UsuariosProvider = ({ children }) => {
         return usuario
     }
      */
-
-    async function refreshAllUsers(){
-        let options = {
-            method: 'GET',
-            headers: {
-                "Content-Type": "application/json",
-                'Authorization': 'Bearer ' + session?.access
-            }
-        }
-        const newUsuarios = await fetchAPI('users/', options)
-        setAllUsers(newUsuarios)
-    }
-
     return (
         <UsuariosContext.Provider value={{
             getUser,

@@ -14,27 +14,77 @@ const DetailUsuarioPage = () => {
 
   const [loading, setLoading] = useState(true)
   const [fieldChanged, setFieldChanged] = useState(false)
+  const [newPassword, setNewPassword] = useState(false)
 
   const userFormik = useFormik({
-    initialValues: null,
+    initialValues: {},
     validate: (values) => {
       const errors = {}
+      if (!values.nombre) {
+        errors.nombre = 'Ingresa el nombre';
+      } else if (values.nombre.length > 25) {
+        errors.nombre = '25 caracteres o menos';
+      }
+
+      if (!values.apellidos) {
+        errors.apellidos = 'Ingresa el apellido';
+      } else if (values.apellidos.length > 50) {
+        errors.apellidos = '50 caracteres o menos';
+      }
+
+      if (!values.correo) {
+        errors.correo = 'Ingresa el correo';
+      } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.correo)) {
+        errors.correo = 'Correo invalido';
+      }
+
+      if (!values.usuario) {
+        errors.usuario = 'Ingresa un usuario';
+      } else if ((values.usuario.length < 4 || values.usuario.length > 20)) {
+        errors.usuario = 'El usuario debe tener una longitud entre 4 y 20 caracteres';
+      }
+
+      if (!values.rol) {
+        errors.rol = 'Selecciona un rol';
+      } else if (values.rol === 'Seleccione') {
+        errors.rol = 'Selecciona un rol';
+      }
+
+      if (!values.password && newPassword) {
+        errors.password = 'Ingresa una contraseña';
+      } else if (values.password?.length < 8 && newPassword) {
+        errors.password = '8 caracteres o más';
+      }
+
+      if (!values.password2 && newPassword) {
+        errors.password2 = 'Confirme la contraseña';
+      } else if (values.password !== values.password2 && newPassword) {
+        errors.password2 = 'La constraseña no coincide';
+      }
+
       return errors
     },
     onSubmit: async (values) => {
       try {
         setLoading(true)
+
+        if(!newPassword){
+          values.password = null
+          values.password2 = null
+          delete values.password
+          delete values.password2
+        }
+
         console.log(values)
 
       } catch (e) {
+        console.log('Error al guardar', e)
 
       } finally {
         setLoading(false)
       }
     }
   })
-
-
 
   useEffect(() => {
     async function load() {
@@ -97,21 +147,33 @@ const DetailUsuarioPage = () => {
             <div className="flex-grow w-full px-4 sm:w-1/2">
               <Opts
                 onKeyDown={() => setFieldChanged(true)}
-                name="is_staff" formik={userFormik} label="Rol" options={[
-                  { label: "Administrador", value: true },
-                  { label: "Encargado", value: false },
+                name="rol" formik={userFormik} label="Rol" options={[
+                  { label: "Administrador", value: "Administrador" },
+                  { label: "Encargado", value: "Encargado" },
                 ]} />
             </div>
-            <div className="flex-grow w-full px-4 sm:w-1/2">
-              <Inpt
-                onKeyDown={() => setFieldChanged(true)}
-                type="password" name="password" formik={userFormik} label="Nueva Contraseña" />
+            <div className='flex flex-row flex-grow w-full px-5 mb-6'>
+              <h2 className='text-lg font-bold text-blue-900 '>
+                Nueva contraseña
+              </h2>
+              <div className='w-10 h-10 total-center bg-slate-500'
+                onClick={() => { setNewPassword(!newPassword) }}></div>
             </div>
-            <div className="flex-grow w-full px-4 sm:w-1/2">
-              <Inpt
-                onKeyDown={() => setFieldChanged(true)}
-                type="password" name="password2" formik={userFormik} label="Confirmar Contraseña" />
-            </div>
+            {
+              newPassword &&
+              <>
+                <div className="flex-grow w-full px-4 sm:w-1/2">
+                  <Inpt
+                    onKeyDown={() => setFieldChanged(true)}
+                    type="password" name="password" formik={userFormik} label="Nueva Contraseña" />
+                </div>
+                <div className="flex-grow w-full px-4 sm:w-1/2">
+                  <Inpt
+                    onKeyDown={() => setFieldChanged(true)}
+                    type="password" name="password2" formik={userFormik} label="Confirmar Contraseña" />
+                </div>
+              </>
+            }
           </div>
         </AbsScroll>
       </div>

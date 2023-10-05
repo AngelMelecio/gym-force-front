@@ -28,12 +28,12 @@ const Modal = ({
                 <div className='flex'>
                     <button
                         onClick={onCancel}
-                        className='flex-grow font-semibold rounded-bl-lg h-14 total-center btn-neutral'>
+                        className='flex-grow font-semibold border-2 rounded-bl-lg h-14 total-center btn-neutral hover:bg-gray-200'>
                         Cancelar
                     </button>
                     <button
                         onClick={onConfirm}
-                        className='flex-grow rounded-br-lg h-14 total-center btn-naranja'>
+                        className='flex-grow rounded-br-lg h-14 total-center btn-naranja hover:bg-red-600'>
                         Confirmar
                     </button>
                 </div>

@@ -32,10 +32,9 @@ const Table = ({
 
   const navigate = useNavigate();
 
-  useEffect(() => {
-    setFilteredData(data)
-    console.log("data", data)
-  }, [])
+    useEffect(() => {
+        setFilteredData(data)
+    }, [data])
 
   const handleOptionsClick = (itemId) => {
     setSelectedItemId(itemId);
@@ -166,7 +165,8 @@ const Table = ({
                                 </button>
                                 <button onClick={(e) => {
                                   e.stopPropagation();
-                                  onDelete(item[idName], item['nombre'] + ' ' + item['apellidos'] + ' - ' + item['rol']);
+                                  onDelete([{"id":item[idName]}], item['nombre'] + ' ' + item['apellidos'] + ' - ' + item['rol']);
+                                  setDropdownOpen(false);
                                 }}
                                   className="flex flex-row justify-center w-full px-4 py-1.5 text-sm text-left hover:bg-red-600 hover:rounded-lg hover:text-white">
                                   <div className='h-full w-10 px-0.5 text-current'>
