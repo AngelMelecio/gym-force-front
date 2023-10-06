@@ -6,10 +6,13 @@ import { useFormik } from 'formik'
 import ImgInpt from '../../components/inputs/ImgInpt'
 import AbsScroll from '../../components/AbsScroll'
 import { sleep } from '../../utils/global'
+import { useUsuarios } from './hooks/UsuariosContext'
 
 const NewUsuarioPage = () => {
 
   const [loading, setLoading] = useState(false)
+
+  const {createUsuario} = useUsuarios()
 
   const userFormik = useFormik({
     initialValues: { 
@@ -20,6 +23,7 @@ const NewUsuarioPage = () => {
     },
     validate: (values) => {
       const errors = {}
+      
       if (!values.nombre) {
         errors.nombre = 'Ingresa el nombre';
       } else if (values.nombre.length > 25) {
@@ -61,6 +65,7 @@ const NewUsuarioPage = () => {
       } else if( values.password !== values.password2){
         errors.password2 = 'La constraseña no coincide';
       }
+      
 
       return errors
     },
@@ -68,7 +73,7 @@ const NewUsuarioPage = () => {
       try {
         setLoading(true)
         
-        console.log(values)
+        createUsuario(values)
 
       } catch (e) {
 
@@ -86,7 +91,10 @@ const NewUsuarioPage = () => {
       <div className='w-full h-full bg-white rounded-lg shadow-md'>
         <AbsScroll vertical loading={userFormik.values === null}>
           <div className="flex flex-wrap px-2 pt-6 sm:px-9">
-
+        
+            <div className="flex-grow w-full px-4 total-center pb-9">
+              <ImgInpt name="fotografia" formik={userFormik}  />
+            </div>
             <div className='flex-grow w-full px-5 mb-6'>
               <h2 className='text-lg font-bold text-blue-900 '>
                 Datos Personales

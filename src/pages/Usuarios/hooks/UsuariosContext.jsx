@@ -2,12 +2,20 @@ import React, { createContext, useContext, useState } from 'react';
 import { useAuth } from '../../../context/authContext';
 import { fetchAPI } from '../../../utils/fetchApiService';
 import { useAxios } from '../../../context/axiosContext';
+import { HOST } from '../../../constants/ENVs';
 
 const UsuariosContext = createContext();
 
 export const useUsuarios = () => {
     return useContext(UsuariosContext);
 };
+
+function formatUsers(users) {
+    return users.map(user => ({
+        ...user,
+        fotografia: HOST + user.fotografia
+    }))
+}
 
 export const UsuariosProvider = ({ children }) => {
 
@@ -23,7 +31,22 @@ export const UsuariosProvider = ({ children }) => {
     async function refreshAllUsers() {
         try {
             const resp = await myAxios.get('users/')
-            setAllUsers(resp.data)
+            setAllUsers(formatUsers(resp.data))
+        } catch (err) {
+            console.log(err)
+        }
+    }
+
+    async function createUsuario(user) {
+
+        let formData = new FormData()
+        Object.keys(user).forEach(key => {
+            formData.append(key, user[key])
+        })
+
+        try {
+            const resp = await myAxios.post('users/', formData)
+            return resp.data
         } catch (err) {
             console.log(err)
         }
@@ -47,6 +70,7 @@ export const UsuariosProvider = ({ children }) => {
             getUser,
             allUsers,
             refreshAllUsers,
+            createUsuario,
         }}>
             {children}
         </UsuariosContext.Provider>

@@ -43,7 +43,7 @@ const UsuariosPage = () => {
         idName="id"
         titleAttrs={['nombre', 'apellidos']}
         subTitleAtrrs={['rol', 'correo']}
-        photoAttr={'fotografia'}
+        photoAttr='fotografia'
         Info={UserStatus}
         infoAttr={'is_active'}
         data={listaUsuarios}

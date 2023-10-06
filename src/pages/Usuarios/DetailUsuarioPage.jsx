@@ -6,6 +6,7 @@ import { useParams } from 'react-router-dom'
 import AbsScroll from '../../components/AbsScroll'
 import Inpt from '../../components/inputs/Inpt'
 import Opts from '../../components/inputs/Opts'
+import ImgInpt from '../../components/inputs/ImgInpt'
 
 const DetailUsuarioPage = () => {
 
@@ -114,6 +115,11 @@ const DetailUsuarioPage = () => {
         <AbsScroll vertical loading={userFormik.values === null}>
           <div className="flex flex-wrap px-2 pt-6 sm:px-9">
 
+            <div className="flex-grow w-full px-4 total-center pb-9">
+              <ImgInpt
+                onKeyDown={() => setFieldChanged(true)}
+                name="fotografia" formik={userFormik} />
+            </div>
             <div className='flex-grow w-full px-5 mb-6'>
               <h2 className='text-lg font-bold text-blue-900 '>
                 Datos Personales
@@ -152,12 +158,11 @@ const DetailUsuarioPage = () => {
                   { label: "Encargado", value: "Encargado" },
                 ]} />
             </div>
-            <div className='flex flex-row flex-grow w-full px-5 mb-6'>
+            <div className='flex flex-row items-center flex-grow w-full px-5 mb-6'>
               <h2 className='text-lg font-bold text-blue-900 '>
                 Nueva contraseña
               </h2>
-              <div className='w-10 h-10 total-center bg-slate-500'
-                onClick={() => { setNewPassword(!newPassword) }}></div>
+              <input type="checkbox" className='ml-3 switch' onChange={(e)=>setNewPassword(e.target.checked)} />
             </div>
             {
               newPassword &&
