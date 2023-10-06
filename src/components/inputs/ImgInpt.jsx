@@ -1,6 +1,7 @@
 import React from 'react'
 import { MyIcons } from '../../constants/Icons'
 import { toUrl } from '../../utils/global'
+import { HOST } from '../../constants/ENVs'
 
 const ImgInpt = ({ formik, name, ...props }) => {
     return (
@@ -8,11 +9,13 @@ const ImgInpt = ({ formik, name, ...props }) => {
             {(toUrl(formik?.values[name])) ? (
                 <img
                     className='object-cover w-full h-full rounded-full'
-                    src={toUrl(formik?.values[name])}
+                    src={toUrl( formik?.values[name])}
                     alt='' />) : (
                 <MyIcons.Person className='text-gray-400' size="85px" />)}
             <div className='w-10 h-10 absolute -bottom-1.5 -right-1.5 '>
-                <input id={name} type="file" accept='image/*'
+                <input
+                    onChange={() => console.log('q')}
+                    id={name} type="file" accept='image/*'
                     onChange={(e) => {
                         formik?.setFieldValue(name, e.target.files[0])
                     }}

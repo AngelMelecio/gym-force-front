@@ -4,6 +4,7 @@ import Loader from './Loader'
 import { useNavigate } from "react-router-dom";
 import { toUrl } from '../utils/global'
 import AbsScroll from './AbsScroll.jsx'
+import { HOST } from '../constants/ENVs';
 
 const Table = ({
   title,
@@ -14,7 +15,7 @@ const Table = ({
   subTitleAtrrs,
   Info,
   infoAttr,
-  fotoAttr,
+  photoAttr,
   data,
   setData,
   onDelete
@@ -32,9 +33,10 @@ const Table = ({
 
   const navigate = useNavigate();
 
-    useEffect(() => {
-        setFilteredData(data)
-    }, [data])
+  useEffect(() => {
+    console.log(data)
+    setFilteredData(data)
+  }, [data])
 
   const handleOptionsClick = (itemId) => {
     setSelectedItemId(itemId);
@@ -114,10 +116,10 @@ const Table = ({
                     <div className='w-16 h-16 ml-1 mr-4 bg-gray-400 rounded-full shadow-md total-center'
                       onClick={() => navigate(`/${path}/${item[idName]}`)} >
                       {
-                        toUrl(item[fotoAttr]) ?
+                        toUrl(item[photoAttr]) !== null ?
                           <img
                             className='object-cover w-full h-full rounded-full'
-                            src={toUrl(item[fotoAttr])}
+                            src={toUrl(item[photoAttr])}
                             alt='' /> :
                           <MyIcons.Person size='30px' color='white' />
                       }
@@ -155,21 +157,21 @@ const Table = ({
                           </div>
                           {
                             isDropdownOpen && item['id'] === selectedItemId && (
-                              <div className="absolute top-0 bottom-0 right-0 bg-white rounded-lg shadow-lg w-30">
+                              <div className="absolute top-0 right-0 flex flex-col bg-white rounded-lg shadow-lg w-30">
                                 <button onClick={() => navigate(`/${path}/${item[idName]}`)}
-                                  className="w-full px-4 text-sm text-left py-1.5 hover:bg-orange-400 hover:rounded-lg hover:text-white flex flex-row justify-center pb-0.5">
-                                  <div className='h-full w-10 px-0.5 text-current'>
+                                  className="flex flex-row justify-center w-full px-4 py-2 text-sm text-left rounded-tl-lg rounded-tr-lg hover:bg-orange-400 hover:text-white ">
+                                  <div className='w-10 h-full text-current'>
                                     <MyIcons.Edit size="20px" />
                                   </div>
                                   Editar
                                 </button>
                                 <button onClick={(e) => {
                                   e.stopPropagation();
-                                  onDelete([{"id":item[idName]}], item['nombre'] + ' ' + item['apellidos'] + ' - ' + item['rol']);
+                                  onDelete([{ "id": item[idName] }], item['nombre'] + ' ' + item['apellidos'] + ' - ' + item['rol']);
                                   setDropdownOpen(false);
                                 }}
-                                  className="flex flex-row justify-center w-full px-4 py-1.5 text-sm text-left hover:bg-red-600 hover:rounded-lg hover:text-white">
-                                  <div className='h-full w-10 px-0.5 text-current'>
+                                  className="flex flex-row justify-center w-full px-4 py-2 text-sm text-left rounded-bl-lg rounded-br-lg hover:bg-red-500 hover:text-white">
+                                  <div className='w-10 h-full text-current'>
                                     <MyIcons.Trash size="20px" />
                                   </div>
                                   Elimar
