@@ -12,6 +12,7 @@ import {
 
 import {
     RiGhost2Line as Ghost,
+    RiArrowLeftSLine as Left,
 } from 'react-icons/ri'
 
 import {
@@ -77,6 +78,4 @@ export const MyIcons = {
     Close,
     Cart,
     Left,Right,
-
-    
 }
