@@ -80,5 +80,5 @@ export const MyIcons = {
     Cart,
     Left,Right,
     Calendar,
-    
+
 }

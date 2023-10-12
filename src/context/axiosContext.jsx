@@ -40,7 +40,7 @@ export const AxiosProvider = ({ children }) => {
     const myAxios = axios.create({
         baseURL: "http://localhost:8080/",
         headers: {
-            "Content-type": "application/json",
+            "Content-type": "multipart/form-data",
         },
     })
 

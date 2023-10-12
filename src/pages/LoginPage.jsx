@@ -7,7 +7,7 @@ import Rayas_g1 from '../assets/rayas_g1'
 
 const LoginPage = () => {
 
-  const { signIn } = useAuth()
+  const { signIn, notify } = useAuth()
 
   const [loading, setLoading] = useState(false)
 
@@ -26,7 +26,7 @@ const LoginPage = () => {
         setLoading(true)
         await signIn(values)
       } catch (e) {
-        console.log("Catched: ", e)
+        notify(e.message, true)
       } finally {
         setLoading(false)
       }
@@ -56,7 +56,7 @@ const LoginPage = () => {
             value={loading ? "Ingresando..." : "Ingresar"}
             className={`w-full text-lg py-2 mt-2 btn-naranja rounded-lg`} />
         </form>
-        
+
       </div>
     </div>
   )
