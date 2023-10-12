@@ -25,7 +25,6 @@ export const AuthProvider = ({ children }) => {
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(values)
         })
-        console.log("resp ",response)
         let data = await response.json()
         //console.log(data)
         if (!response.ok) {
