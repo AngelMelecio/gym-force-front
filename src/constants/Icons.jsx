@@ -1,7 +1,9 @@
 import {
     AiFillCamera as Camera,
     AiOutlinePlus as Plus,
+    AiOutlineMinus as Minus,
     AiFillEdit as Edit,
+    AiOutlineShoppingCart as Cart,
 } from 'react-icons/ai'
 
 import {
@@ -23,6 +25,8 @@ import {
     BiSolidInfoCircle as Info,
     BiChevronDown as Down,
     BiChevronUp as Up,
+    BiChevronLeft as Left,
+    BiChevronRight as Right,
 } from 'react-icons/bi'
 
 import {
@@ -65,13 +69,13 @@ export const MyIcons = {
     Exit,
     Key,
     Down, Up,
-    Camera, Plus,
+    Camera, Plus, Minus,
     Person, Lupa,
     Ghost, Active, 
     Options, Cancel,
     Trash, Edit,
     Warning,
-    Close, Left
-
-    
+    Close,
+    Cart,
+    Left,Right,
 }

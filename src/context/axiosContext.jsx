@@ -10,11 +10,11 @@ export const useAxios = () => {
 
 export const AxiosProvider = ({ children }) => {
 
+    let isRefreshing = false;
     /**
      * This could be a way to avoid unnecessary refresh token calls
      * when multiple requests are made at the same time
    
-    let isRefreshing = false;
     let failedQueue = [];
 
     const addToQueue = (request) => {
@@ -34,6 +34,7 @@ export const AxiosProvider = ({ children }) => {
     }   
     */
 
+    
     const { signOut } = useAuth()
 
     const myAxios = axios.create({
@@ -49,6 +50,7 @@ export const AxiosProvider = ({ children }) => {
      */
     myAxios.interceptors.request.use(
         async (config) => {
+            console.log( 'Theres a request:', config )
             const session = localStorage.getItem('auth')
             if (session) {
                 let acces_token = JSON.parse(session).access
@@ -58,7 +60,6 @@ export const AxiosProvider = ({ children }) => {
             return config;
         },
         (error) => {
-
             return Promise.reject(error);
         }
     )
@@ -68,18 +69,21 @@ export const AxiosProvider = ({ children }) => {
      */
     myAxios.interceptors.response.use(
         (response) => {
+            console.log('theres a response: ', response)
             return response;
         },
         async function (error) {
             const originalRequest = error.config;
             if (
                 error.response.status === 401
-                && !originalRequest._retry
                 && originalRequest.url !== 'token/refresh/'
+                && !originalRequest._retry
+                && !isRefreshing
             ) {
+                console.log('Refresh token needed')
                 originalRequest._retry = true;
-
                 try {
+                    isRefreshing = true;
                     const { access, refresh } = await refreshToken();
                     let session = JSON.parse(localStorage.getItem('auth'))
                     localStorage.setItem('auth', JSON.stringify({ ...session, access, refresh }));
@@ -93,6 +97,8 @@ export const AxiosProvider = ({ children }) => {
                 } catch (refreshTokenError) {
                     signOut()
                     return Promise.reject(refreshTokenError);
+                }finally{
+                    isRefreshing = false;
                 }
             }
             return Promise.reject(error);

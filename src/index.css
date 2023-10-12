@@ -6,7 +6,7 @@
   font-family: 'Nunito';
   src: url('./fonts/Nunito.ttf') format('truetype'),
     url('./fonts/Nunito-Italic.ttf') format('truetype');
-  font-weight: 700;
+  
   font-style: normal;
   word-wrap: break-word;
   color: #334163;
@@ -370,5 +370,98 @@ input[type="checkbox"].switch::after {
 input[type="checkbox"].switch:checked::after {
   background: #fb923c;
   left: 24px;
+
+}
+
+.ellipsis {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.ellipsis:hover::after {
+  content: attr(data-tooltip);
+  position: absolute;
+  left: 0;
+  top: 0;
+  /* Place tooltip below the element */
+  white-space: nowrap;
+  /* Keeps the tooltip text on a single line */
+  background-color: #333;
+  color: white;
+  padding: 5px 10px;
+  border-radius: 4px;
+  font-size: 12px;
+  z-index: 10;
+  pointer-events: none;
+  transform: translateY(-100%);
+}
+
+
+.minimal-button {
+  /*
+  border: 2px solid #fb923c;
+  */
+  border-radius: 8px;
+  border: 1px solid transparent;
+  transition: 150ms ease-in-out;
+}
+
+.minimal-button:hover {
+  border: 1px solid #fb923c;
+}
+
+.minimal-button:active {
+  opacity: 0.6;
+  transition: 0s;
+}
+
+.slide-right{
+  position: absolute;
+  top:0;
+  opacity: 0;
+  transform: translateX(100%);
+  animation: fromRight 1s ease-out forwards
+}
+
+@keyframes fromRight {
+  0%{
+      opacity: 0;
+      transform: translateX(100%);
+      
+    }
+    100%{
+      opacity: 1;
+      transform: translateX(0);
+    }
+}
+
+
+.calendar {
+  background-color: white;
+  padding: 10px;
+}
+
+.calendar table td{
+  height: 34px;
+  width: 34px;
+  text-align: center;
+}
+
+.calendar table th{
+  color: #1e3a8a;
+}
+
+.calendar table thead{
+  border-block: 1px solid #d1d5db;
+}
+
+.calendar table caption{
+  font-weight: 700;
+  color: #1e293b;
+}
+
+.calendar table td{
+  color: #1e293b;
 
 }
