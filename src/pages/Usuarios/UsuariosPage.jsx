@@ -7,7 +7,7 @@ import Modal from '../../components/Modal'
 import { RiContactsBookLine } from 'react-icons/ri'
 
 const UsuariosPage = () => {
-  const [loading, setLoading] = useState(true)
+  const [loading, setLoading] = useState( true )
   const [listaUsuarios, setListaUsuarios] = useState([])
   const { refreshAllUsers, allUsers } = useUsuarios()
   const [showModal, setShowModal] = useState(false)
