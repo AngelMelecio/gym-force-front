@@ -6,7 +6,7 @@ import UserStatus from '../../components/UserStatus'
 import Modal from '../../components/Modal'
 
 const UsuariosPage = () => {
-  const [loading, setLoading] = useState(true)
+  const [loading, setLoading] = useState( true )
   const [listaUsuarios, setListaUsuarios] = useState([])
   const { refreshAllUsers, allUsers, deleteUser} = useUsuarios()
   const [showModal, setShowModal] = useState(false)

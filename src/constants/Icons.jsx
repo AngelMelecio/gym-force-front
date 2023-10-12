@@ -4,6 +4,7 @@ import {
     AiOutlineMinus as Minus,
     AiFillEdit as Edit,
     AiOutlineShoppingCart as Cart,
+    
 } from 'react-icons/ai'
 
 import {
@@ -42,6 +43,7 @@ import {
 import {
     FaDoorOpen as Exit,
     FaRegTrashAlt as Trash,
+    FaCalendarAlt as Calendar,
 } from 'react-icons/fa'
 
 import {
@@ -77,4 +79,6 @@ export const MyIcons = {
     Close,
     Cart,
     Left,Right,
+    Calendar,
+
 }

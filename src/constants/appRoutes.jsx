@@ -7,6 +7,9 @@ import UsuariosPage from "../pages/Usuarios/UsuariosPage";
 import DetailClientePage from "../pages/Clientes/DetailClientePage";
 import NewClientePage from "../pages/Clientes/NewClientePage";
 import ClientesPage from "../pages/Clientes/ClientesPage";
+import DetailSuscripcionPage from "../pages/Suscripciones/DetailSuscripcionPage";
+import NewSuscripcionPage from "../pages/Suscripciones/NewSuscripcionPage";
+import SuscripcionesPage from "../pages/Suscripciones/SuscripcionesPage";
 import { MyIcons } from "./Icons";
 
 export const adminRoutes = [
@@ -20,6 +23,10 @@ export const adminRoutes = [
     {path:'/clientes', element: <ClientesPage/>},
     {path:'/clientes/0', element: <NewClientePage/>},
     {path:'/clientes/:id', element: <DetailClientePage/>},
+    //Suscripcions
+    {path:'/suscripciones', element: <SuscripcionesPage/>},
+    {path:'/suscripciones/0', element: <NewSuscripcionPage/>},
+    {path:'/suscripciones/:id', element: <DetailSuscripcionPage/>},
     
     {path:'/carrito', element: <CarritoPage/>},
 ]
@@ -28,7 +35,7 @@ export const adminTabs = [
     {to:'/acceso', content:'Acceso', icon: <MyIcons.FingerPrint size={"23px"}/> },
     {to:'/usuarios', content:'Usuarios', icon: <MyIcons.Key size={"23px"}/> },
     {to:'/clientes', content:'Clientes', icon: <MyIcons.People size={"20px"}/>},
-    {to:'/paquetes', content:'Paquetes', icon: <MyIcons.Pack size={"24px"}/> },
+    {to:'/suscripciones', content:'Suscripciones', icon: <MyIcons.Calendar size={"19px"}/> },
     {to:'/carrito', content:'Ventas', icon: <MyIcons.Cart size={"24px"}/> },
 ]
 

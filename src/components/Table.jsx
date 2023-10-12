@@ -193,7 +193,7 @@ const Table = ({
           </AbsScroll>
         </div >
       </div >
-    </div >
+    </div> 
   )
 }
 
