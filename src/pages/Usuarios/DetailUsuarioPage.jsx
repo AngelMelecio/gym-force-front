@@ -174,12 +174,13 @@ const DetailUsuarioPage = () => {
                   { label: "Inactivo", value: false },
                 ]} />
             </div>
-            <div className='flex flex-row items-center flex-grow px-5 mb-6 sm:w1/2'>
+            <div className='flex flex-row items-center flex-grow w-full px-5 mb-6 sm:w1/2'>
               <h2 className='text-lg font-bold text-blue-900 '>
                 Nueva contraseña
               </h2>
               <input type="checkbox" className='ml-3 switch' onChange={(e) => setNewPassword(e.target.checked)} />
             </div>
+            
             {
               newPassword &&
               <>
