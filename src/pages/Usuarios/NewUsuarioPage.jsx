@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import WhitePage from '../../components/WhitePage'
+import { useNavigate } from "react-router-dom";
 import Inpt from '../../components/inputs/Inpt'
 import Opts from '../../components/inputs/Opts'
 import { useFormik } from 'formik'
@@ -7,23 +8,23 @@ import ImgInpt from '../../components/inputs/ImgInpt'
 import AbsScroll from '../../components/AbsScroll'
 import { sleep } from '../../utils/global'
 import { useUsuarios } from './hooks/UsuariosContext'
+import { MyIcons } from '../../constants/Icons'
 
 const NewUsuarioPage = () => {
 
   const [loading, setLoading] = useState(false)
-
-  const {createUsuario} = useUsuarios()
+  const navigate = useNavigate();
+  const { createUser } = useUsuarios()
 
   const userFormik = useFormik({
-    initialValues: { 
+    initialValues: {
       is_active: true,
       is_staff: true,
       rol: null,
-      fotografia: null, 
     },
     validate: (values) => {
       const errors = {}
-      
+
       if (!values.nombre) {
         errors.nombre = 'Ingresa el nombre';
       } else if (values.nombre.length > 25) {
@@ -47,36 +48,36 @@ const NewUsuarioPage = () => {
       } else if ((values.usuario.length < 4 || values.usuario.length > 20)) {
         errors.usuario = 'El usuario debe tener una longitud entre 4 y 20 caracteres';
       }
-      
+
       if (!values.rol) {
         errors.rol = 'Selecciona un rol';
       } else if (values.rol === null) {
         errors.rol = 'Selecciona un rol';
       }
 
-      if(!values.password ){
+      if (!values.password) {
         errors.password = 'Ingresa una contraseña';
       } else if (values.password.length < 8) {
         errors.password = '8 caracteres o más';
       }
 
-      if(!values.password2 ){
+      if (!values.password2) {
         errors.password2 = 'Confirme la contraseña';
-      } else if( values.password !== values.password2){
+      } else if (values.password !== values.password2) {
         errors.password2 = 'La constraseña no coincide';
       }
-      
+
 
       return errors
     },
     onSubmit: async (values) => {
       try {
         setLoading(true)
-        
-        createUsuario(values)
+        await createUser(values)
+        navigate('/usuarios')
 
       } catch (e) {
-
+        
       } finally {
         setLoading(false)
       }
@@ -85,15 +86,20 @@ const NewUsuarioPage = () => {
   return (
     <form className='flex flex-col w-full h-screen p-3' onSubmit={userFormik.handleSubmit}>
       <div className='flex items-end justify-between pb-3'>
-        <h1 className='pl-1 text-3xl text-blue-900 '>Nuevo Usuario</h1>
+        <div className='flex flex-row'>
+          <button
+            onClick={() => navigate('/usuarios')}
+            className="w-10 h-10 rounded-full btn-neutral total-center"> <MyIcons.Left size="30px" color='#1e3a8a' /> </button>
+          <h1 className='pl-3 text-3xl text-blue-900 '>Nuevo Usuario</h1>
+        </div>
         <input className='px-10 py-1.5 rounded-lg btn-naranja' value="Guardar" type='submit' />
       </div>
       <div className='w-full h-full bg-white rounded-lg shadow-md'>
         <AbsScroll vertical loading={userFormik.values === null}>
           <div className="flex flex-wrap px-2 pt-6 sm:px-9">
-        
+
             <div className="flex-grow w-full px-4 total-center pb-9">
-              <ImgInpt name="fotografia" formik={userFormik}  />
+              <ImgInpt name="fotografia" formik={userFormik} />
             </div>
             <div className='flex-grow w-full px-5 mb-6'>
               <h2 className='text-lg font-bold text-blue-900 '>
@@ -120,8 +126,8 @@ const NewUsuarioPage = () => {
             <div className="flex-grow w-full px-4 sm:w-1/2">
               <Opts name="rol" formik={userFormik} label="Rol" options={[
                 { label: "Seleccione", value: null },
-                { label: "Administrador", value: 'administrador' },
-                { label: "Empleado", value: 'empleado' },
+                { label: "Administrador", value: 'Administrador' },
+                { label: "Empleado", value: 'Empleado' },
               ]} />
             </div>
             <div className="flex-grow w-full px-4 sm:w-1/2">

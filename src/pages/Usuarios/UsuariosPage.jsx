@@ -4,12 +4,11 @@ import { useEffect, useState } from 'react'
 import Table from '../../components/Table'
 import UserStatus from '../../components/UserStatus'
 import Modal from '../../components/Modal'
-import { RiContactsBookLine } from 'react-icons/ri'
 
 const UsuariosPage = () => {
   const [loading, setLoading] = useState(true)
   const [listaUsuarios, setListaUsuarios] = useState([])
-  const { refreshAllUsers, allUsers } = useUsuarios()
+  const { refreshAllUsers, allUsers, deleteUser} = useUsuarios()
   const [showModal, setShowModal] = useState(false)
   const [selectedUser, setSelectedUser] = useState(null);
   const [selectedItemId, setSelectedItemId] = useState(null);
@@ -27,10 +26,10 @@ const UsuariosPage = () => {
     setListaUsuarios(allUsers)
   }, [allUsers])
 
-  const onConfirm = (lista, element) => {
+  const onConfirm = async () => {
     setLoading(true)
-    console.log('function delete')
-    console.log('await refreshAllUsers()')
+    await deleteUser(selectedItemId)
+    refreshAllUsers()
     setLoading(false)
     setShowModal(false)
   }

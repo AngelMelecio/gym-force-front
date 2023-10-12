@@ -1,6 +1,8 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import { HOST } from '../constants/ENVs';
 import { useNavigate } from 'react-router-dom';
+import { toast, ToastContainer } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 
 const AuthContext = createContext();
 
@@ -17,6 +19,19 @@ export const AuthProvider = ({ children }) => {
         return auth ? JSON.parse(auth) : null
     });
 
+    const notify = (message, error = false) => {
+        let options = {
+          position: "bottom-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        }
+        error ? toast.error(message, options) : toast.success(message, options)
+      }
 
     const signIn = async (values) => {
         //console.log(values)
@@ -25,14 +40,16 @@ export const AuthProvider = ({ children }) => {
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(values)
         })
-        console.log("resp ",response)
+        //console.log("resp ",response)
         let data = await response.json()
         //console.log(data)
         if (!response.ok) {
             throw new Error(data.error)
+            
         }
         setSession(data)
         localStorage.setItem('auth', JSON.stringify(data))
+        notify('Bienvenido')
     }
     
     /*
@@ -58,6 +75,7 @@ export const AuthProvider = ({ children }) => {
         setSession(null)
         localStorage.removeItem('auth')
         navigate('/login')
+        notify('Hasta pronto')
     }
 
     return (
@@ -66,9 +84,11 @@ export const AuthProvider = ({ children }) => {
                 session,
                 setSession,
                 signIn,
-                signOut
+                signOut,
+                notify
             }}>
             {children}
+            <ToastContainer />
         </AuthContext.Provider>
     );
 };

@@ -34,7 +34,6 @@ const Table = ({
   const navigate = useNavigate();
 
   useEffect(() => {
-    console.log(data)
     setFilteredData(data)
   }, [data])
 
@@ -116,7 +115,8 @@ const Table = ({
                     <div className='w-16 h-16 ml-1 mr-4 bg-gray-400 rounded-full shadow-md total-center'
                       onClick={() => navigate(`/${path}/${item[idName]}`)} >
                       {
-                        toUrl(item[photoAttr]) !== null ?
+
+                        item[photoAttr] !== null ?
                           <img
                             className='object-cover w-full h-full rounded-full'
                             src={toUrl(item[photoAttr])}
@@ -167,7 +167,7 @@ const Table = ({
                                 </button>
                                 <button onClick={(e) => {
                                   e.stopPropagation();
-                                  onDelete([{ "id": item[idName] }], item['nombre'] + ' ' + item['apellidos'] + ' - ' + item['rol']);
+                                  onDelete(item[idName], item['nombre'] + ' ' + item['apellidos'] + ' - ' + item['rol']);
                                   setDropdownOpen(false);
                                 }}
                                   className="flex flex-row justify-center w-full px-4 py-2 text-sm text-left rounded-bl-lg rounded-br-lg hover:bg-red-500 hover:text-white">
