@@ -6,6 +6,8 @@ import { AuthProvider } from './context/authContext.jsx'
 import { BrowserRouter } from 'react-router-dom'
 import { UsuariosProvider } from './pages/Usuarios/hooks/UsuariosContext.jsx'
 import { AxiosProvider } from './context/axiosContext.jsx'
+import { SuscripcionesProvider } from './pages/Suscripciones/hooks/useSuscripciones.jsx'
+import { ProductosProvider } from './pages/Productos/hooks/useProductos.jsx'
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
@@ -13,7 +15,11 @@ ReactDOM.createRoot(document.getElementById('root')).render(
       <AuthProvider>
         <AxiosProvider>
           <UsuariosProvider>
-            <App />
+            <SuscripcionesProvider>
+              <ProductosProvider>
+                <App />
+              </ProductosProvider>
+            </SuscripcionesProvider>
           </UsuariosProvider>
         </AxiosProvider>
       </AuthProvider>

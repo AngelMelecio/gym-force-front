@@ -155,6 +155,31 @@ label.up {
   cursor: default;
 }
 
+.btn-trash {
+  cursor: pointer;
+  background-color: #ef4444;
+  color: white;
+  font-weight: 700;
+  border-radius: 0.5rem;
+  transition: 0.2s;
+}
+
+.btn-trash:hover {
+  background-color: rgb(181, 25, 25);
+}
+
+.btn-trash:active {
+  opacity: 0.8;
+  transition: 0s;
+}
+
+.btn-trash:disabled {
+  background-color: #f3f4f6;
+  color: #6b7280;
+  opacity: 0.8;
+  cursor: default;
+}
+
 .total-center {
   display: flex;
   justify-content: center;
@@ -464,4 +489,91 @@ input[type="checkbox"].switch:checked::after {
 .calendar table td{
   color: #1e293b;
 
+}
+
+.custom-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: center;
+}
+
+.custom-table tr {
+  height: 30px;
+  border-block: 1px solid #e2e8f0;
+  transition: 0.2s;
+  white-space: nowrap;
+}
+
+.custom-table th {
+  position: sticky;
+  background-color: white;
+  top: -1px;
+  z-index: 5;
+  height: 2.25rem;
+  color: #4b5563;
+  font-weight: 400;
+  font-size: medium;
+  /*
+  padding: ;
+  */
+}
+
+.custom-table td {
+  color: #374151;
+  font-weight: 600;
+  padding: 0 10px 0 10px;
+}
+
+.custom-table tbody tr:hover {
+  cursor: pointer;
+  background-color: #f1f5f9;
+}
+
+.custom-check {
+  height: 1.25rem;
+  width: 1.25rem;
+  appearance: none;
+  position: relative;
+  transition: 200ms;
+}
+
+.custom-check::after {
+  height: 1.25rem;
+  width: 1.25rem;
+  border-radius: 0.25rem;
+  background-color: #ffffff;
+  content: '';
+  display: inline-block;
+  border: 1px solid #d2d6dc;
+  transition: 200ms;
+  cursor: pointer;
+
+}
+
+.custom-check:checked::after {
+  background-color: #fb923c;
+  content: '';
+  display: inline-block;
+  border: 1px solid #d2d6dc;
+}
+
+.custom-check:hover::after {
+  border: 1px solid #ffb070;
+  background-color: #ffffff;
+}
+
+
+.custom-check:checked:hover::after {
+  border: 1px solid #ff9b4a;
+  background-color: #ffa55c;
+}
+
+.custom-check:checked::before {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  content: '';
+  background-color: #ffffff;
+  pointer-events: none;
+  clip-path: polygon(46% 57%, 70% 20%, 84% 30%, 52% 79%, 42% 79%, 19% 58%, 31% 43%);
 }

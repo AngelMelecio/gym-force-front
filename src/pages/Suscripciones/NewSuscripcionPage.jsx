@@ -2,10 +2,13 @@ import { useFormik } from 'formik'
 import React, { useState } from 'react'
 import Inpt from '../../components/inputs/Inpt'
 import AbsScroll from '../../components/AbsScroll'
+import { MyIcons } from '../../constants/Icons'
+import { useNavigate } from 'react-router-dom'
 
 const NewSuscripcionPage = () => {
 
   const [loading, setLoading] = useState(false)
+  const navigate = useNavigate()
 
   const susFormik = useFormik({
     initialValues: {},
@@ -28,7 +31,14 @@ const NewSuscripcionPage = () => {
   return (
     <form className='flex flex-col w-full h-screen p-3' onSubmit={susFormik.handleSubmit}>
       <div className='flex items-end justify-between pb-3'>
-        <h1 className='pl-1 text-3xl text-blue-900 '>Nuevo Usuario</h1>
+      <div className='flex'>
+          <button
+            type="button" onClick={() => navigate('/suscripciones')}
+            className='mr-3 rounded-full btn-neutral'>
+            <MyIcons.Left size="35px" className='text-gray-600' />
+          </button>
+          <h1 className='pl-1 text-3xl text-blue-900 '>Nueva Suscripción</h1>
+        </div>
         <input className='px-10 py-1.5 rounded-lg btn-naranja' value="Guardar" type='submit' />
       </div>
       <div className='w-full h-full bg-white rounded-lg shadow-md'>

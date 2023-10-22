@@ -1,5 +1,5 @@
-import React from 'react'
-import { adminTabs, baseTabs } from '../../constants/appRoutes'
+import React, { useState } from 'react'
+import { adminTabs, baseTabs, mainTabs } from '../../constants/appRoutes'
 import { MyIcons } from '../../constants/Icons'
 import { Link, useMatch, useResolvedPath } from 'react-router-dom'
 import { useAuth } from '../../context/authContext'
@@ -9,10 +9,13 @@ const AppBar = () => {
 
   const { signOut } = useAuth()
 
+  const [adminTabsVisible, setAdminTabsVisible] = useState(false)
+
   const Tab = ({ info, ...props }) => {
     const { content, to, icon } = info
+
     const resolvePath = useResolvedPath(to)
-    const isActive = useMatch({ path: resolvePath.pathname, end: false })
+    const isActive = to && useMatch({ path: resolvePath.pathname, end: false })
 
     return (
       <Link {...props} to={to} className={'tab relative flex items-center w-10 h-10 my-1 rounded-full cursor-pointer active:opacity-60  hover:bg-blue-500 duration-200 ' + (isActive ? 'bg-blue-800 hover:bg-blue-800' : '')}>
@@ -35,14 +38,33 @@ const AppBar = () => {
             className='w-full  px-10 opacity-0 group-hover:opacity-100 group-hover:delay-[410ms] group-hover:duration-300'
             src={GymLogoWhite} alt="" />
         </div>
-        {/* Main Tabs */}
+        {/* Center Tabs */}
         <div className="flex flex-[0.60] w-full ">
           <div className="relative w-full h-full overflow-x-hidden overflow-y-scroll">
             <div className='absolute top-0 w-full pl-3'>
-              {
-                adminTabs.map((tab, indx) =>
+              {// Main Tabs 
+                mainTabs.map((tab, indx) =>
                   <Tab key={"TAB_" + indx} info={tab} />
-                )}
+                )
+              }
+              {/* Show / hide Tab */}
+              <Tab
+                onClick={() => setAdminTabsVisible(p => !p)}
+                info={{
+                  to: null,
+                  content: "Administración",
+                  icon: adminTabsVisible ?
+                    <MyIcons.Down size="28px" /> :
+                    <MyIcons.Right size="28px" />
+                }} />
+              { /* Admin Tabs*/
+                adminTabsVisible &&
+                <div className='duration-200 group-hover:pl-3 group-hover:delay-300 '>
+                  {adminTabs.map((tab, indx) =>
+                    <Tab key={"TAB_" + indx} info={tab} />
+                  )}
+                </div>
+              }
             </div>
           </div>
         </div>
@@ -51,12 +73,12 @@ const AppBar = () => {
           <div className="relative w-full h-full overflow-x-hidden overflow-y-scroll">
             <div className='absolute top-0 w-full pl-3'>
               <Tab info={{
-                to: '/perfil', content: 'Perfil', icon: <MyIcons.Profile size={"24px"} />
+                to: '/perfil', content: 'Perfil', icon: <MyIcons.Profile size={"21px"} />
               }} />
               <Tab
                 onClick={signOut}
                 info={{
-                  to: '/exit', content: 'Cerrar Sesión', icon: <MyIcons.Exit size={"23px"} />
+                  to: '/exit', content: 'Cerrar Sesión', icon: <MyIcons.Exit size={"20px"} />
                 }} />
 
             </div>
