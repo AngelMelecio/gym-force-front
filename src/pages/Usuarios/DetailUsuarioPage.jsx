@@ -7,11 +7,15 @@ import AbsScroll from '../../components/AbsScroll'
 import Inpt from '../../components/inputs/Inpt'
 import Opts from '../../components/inputs/Opts'
 import ImgInpt from '../../components/inputs/ImgInpt'
+import { MyIcons } from '../../constants/Icons'
+import { useNavigate } from "react-router-dom";
+
 
 const DetailUsuarioPage = () => {
 
   let { id } = useParams()
-  const { getUser } = useUsuarios()
+  const { getUser, updateUser } = useUsuarios()
+  const navigate = useNavigate();
 
   const [loading, setLoading] = useState(true)
   const [fieldChanged, setFieldChanged] = useState(false)
@@ -69,18 +73,17 @@ const DetailUsuarioPage = () => {
       try {
         setLoading(true)
 
-        if(!newPassword){
+        if (!newPassword) {
           values.password = null
           values.password2 = null
           delete values.password
           delete values.password2
         }
-
-        console.log(values)
+        await updateUser(values, newPassword)
+        navigate('/usuarios')
 
       } catch (e) {
-        console.log('Error al guardar', e)
-
+        //console.log('Error al guardar', e)
       } finally {
         setLoading(false)
       }
@@ -94,7 +97,7 @@ const DetailUsuarioPage = () => {
         const usuario = await getUser(id)
         userFormik.setValues(usuario)
       } catch (e) {
-        console.log('Error al traer detalles', e)
+        //console.log('Error al traer detalles', e)
       } finally {
         setLoading(false)
       }
@@ -106,7 +109,12 @@ const DetailUsuarioPage = () => {
   return (
     <form className='flex flex-col w-full h-screen p-3' onSubmit={userFormik.handleSubmit}>
       <div className='flex items-end justify-between pb-3'>
-        <h1 className='pl-1 text-2xl text-blue-900 '>Detalles del Usuario</h1>
+        <div className='flex flex-row'>
+          <button
+            onClick={() => navigate('/usuarios')}
+            className="w-10 h-10 rounded-full btn-neutral total-center"> <MyIcons.Left size="30px" color='#1e3a8a' /> </button>
+          <h1 className='pl-3 text-3xl text-blue-900 '>Detalles del Usuario</h1>
+        </div>
         <input
           disabled={!fieldChanged}
           className='px-10 py-1.5 rounded-lg btn-naranja' value="Guardar" type='submit' />
@@ -117,7 +125,7 @@ const DetailUsuarioPage = () => {
 
             <div className="flex-grow w-full px-4 total-center pb-9">
               <ImgInpt
-                onKeyDown={() => setFieldChanged(true)}
+                selecting={setFieldChanged}
                 name="fotografia" formik={userFormik} />
             </div>
             <div className='flex-grow w-full px-5 mb-6'>
@@ -155,15 +163,24 @@ const DetailUsuarioPage = () => {
                 onKeyDown={() => setFieldChanged(true)}
                 name="rol" formik={userFormik} label="Rol" options={[
                   { label: "Administrador", value: "Administrador" },
-                  { label: "Encargado", value: "Encargado" },
+                  { label: "Empleado", value: "Empleado" },
                 ]} />
             </div>
-            <div className='flex flex-row items-center flex-grow w-full px-5 mb-6'>
+            <div className="flex-grow w-full px-4 sm:w-1/2">
+              <Opts
+                onKeyDown={() => setFieldChanged(true)}
+                name="is_active" formik={userFormik} label="Activo" options={[
+                  { label: "Activo", value: true },
+                  { label: "Inactivo", value: false },
+                ]} />
+            </div>
+            <div className='flex flex-row items-center flex-grow w-full px-5 mb-6 sm:w1/2'>
               <h2 className='text-lg font-bold text-blue-900 '>
                 Nueva contraseña
               </h2>
-              <input type="checkbox" className='ml-3 switch' onChange={(e)=>setNewPassword(e.target.checked)} />
+              <input type="checkbox" className='ml-3 switch' onChange={(e) => setNewPassword(e.target.checked)} />
             </div>
+            
             {
               newPassword &&
               <>

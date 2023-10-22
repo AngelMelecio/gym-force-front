@@ -82,10 +82,6 @@ export const MyIcons = {
     Cart,
     Left,Right,
     Calendar,
-<<<<<<< Updated upstream
-    
-=======
     Tag,
     Filter
->>>>>>> Stashed changes
 }
