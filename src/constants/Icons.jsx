@@ -3,7 +3,7 @@ import {
     AiOutlinePlus as Plus,
     AiOutlineMinus as Minus,
     AiFillEdit as Edit,
-    AiOutlineShoppingCart as Cart,
+
     
 } from 'react-icons/ai'
 
@@ -27,13 +27,14 @@ import {
     BiChevronUp as Up,
     BiChevronLeft as Left,
     BiChevronRight as Right,
+    BiSolidCartAlt as Cart,
 } from 'react-icons/bi'
 
 import {
     BsFillBarChartFill as Chart,
     BsFillPeopleFill as People,
     BsFillCheckCircleFill as Active,
-
+    BsFilter as Filter,
 } from 'react-icons/bs'
 
 import {
@@ -50,6 +51,7 @@ import {
     IoMdPerson as Person,
     IoIosWarning as Warning,
     IoMdClose as Close,
+    IoMdPricetags as Tag
 } from 'react-icons/io'
 
 import {
@@ -80,5 +82,10 @@ export const MyIcons = {
     Cart,
     Left,Right,
     Calendar,
+<<<<<<< Updated upstream
     
+=======
+    Tag,
+    Filter
+>>>>>>> Stashed changes
 }

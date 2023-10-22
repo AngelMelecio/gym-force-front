@@ -7,36 +7,40 @@ import SpinBtn from '../../components/Card/SpinBtn'
 import Card from '../../components/Card/Card'
 import { MyIcons } from '../../constants/Icons'
 import SearchBar from '../../components/SearchBar'
+import { useSuscripciones } from '../Suscripciones/hooks/useSuscripciones'
+import { useProductos } from '../Productos/hooks/useProductos'
 
-const dumyP = [
-  { id: 1, nombre: 'Gym Regular', duracion: 30, precio: 350, tipo: 'paquete', isSelected: false },
-  { id: 2, nombre: 'Spin Regular', duracion: 30, precio: 390, tipo: 'paquete', isSelected: false },
-  { id: 3, nombre: 'Gym + Spin', duracion: 30, precio: 535, tipo: 'paquete', isSelected: false },
-  { id: 4, nombre: 'Gym + Spin + Fun', duracion: 30, precio: 635, tipo: 'paquete', isSelected: false },
-  { id: 5, nombre: 'Gym Visita', duracion: 1, precio: 50, tipo: 'paquete', isSelected: false },
-  { id: 6, nombre: 'Spin Visita', duracion: 1, precio: 40, tipo: 'paquete', isSelected: false },
-
-  { id: 7, nombre: 'Agua Ciel 1L', precio: 15, tipo: 'producto', cantidad: 0 },
-  { id: 8, nombre: 'Proteina BirdMan 750g', precio: 1350, tipo: 'producto', cantidad: 0 },
-  { id: 9, nombre: 'Barra Vainilla', precio: 55, tipo: 'producto', cantidad: 0 },
-]
 
 const CarritoPage = () => {
 
-  const [productos, setProductos] = useState([])
+  const [articulos, setArticulos] = useState([])
   const [selectedType, setSelectedType] = useState('paquete')
   const [searchText, setSearchText] = useState('')
 
+  const [loading, setLoading] = useState(true)
+
+  const { getAll: getSubs } = useSuscripciones()
+  const { getAll: getProductos } = useProductos()
+
   useEffect(() => {
     async function fetch() {
-      await sleep(2000)
-      setProductos(dumyP)
+      try {
+        setLoading(true)
+        let subs = await getSubs()
+        let productos = await getProductos()
+        //console.log('subs:', subs, '\nproductos:', productos)
+        setArticulos([...subs, ...productos])
+      } catch (e) {
+        console.log('Hubo un error:', e)
+      } finally {
+        setLoading(false)
+      }
     }
     fetch()
   }, [])
 
   const handleSelect = (id) => {
-    setProductos(prev =>
+    setArticulos(prev =>
       prev.map(p =>
         p.id === id ?
           { ...p, isSelected: !p.isSelected }
@@ -45,11 +49,11 @@ const CarritoPage = () => {
     )
   }
   const handleAdd = (id) => {
-    setProductos(productos.map(p => p.id === id ? { ...p, cantidad: p.cantidad + 1 } : p))
+    setArticulos(articulos.map(p => p.id === id ? { ...p, cantidad: p.cantidad + 1 } : p))
   }
   const handleSubstract = (id) => {
-    if (productos.find(p => p.id === id).cantidad === 0) return
-    setProductos(productos.map(p => p.id === id ? { ...p, cantidad: p.cantidad - 1 } : p))
+    if (articulos.find(p => p.id === id).cantidad === 0) return
+    setArticulos(articulos.map(p => p.id === id ? { ...p, cantidad: p.cantidad - 1 } : p))
   }
 
   return (
@@ -70,16 +74,16 @@ const CarritoPage = () => {
       <div className='flex w-full h-full '>
         {/* Productos */}
         <div className='flex-grow sm:flex-[0.65] '>
-          <AbsScroll vertical loading={!productos.length}>
+          <AbsScroll vertical loading={loading}>
             <div className="flex flex-wrap w-full pt-2 pl-2">
               <div className='flex justify-end w-full py-2 pr-2'>
                 <SearchBar text={searchText} setText={setSearchText} />
               </div>
-              {productos
+              {articulos
                 .filter(p => p.tipo === selectedType)
                 .filter(p => p.nombre.toLowerCase().includes(searchText.toLowerCase()))
                 .map((p, i) =>
-                  <div key={i} className='w-1/2 p-2'>
+                  <div key={`ART_${i}`} className='w-1/2 p-2'>
                     <Card
                       title={p.nombre}
                       subtitle={`$${p.precio} ${p.tipo === 'paquete' ? ' / ' + p.duracion + ' días' : ''}`}
@@ -109,50 +113,54 @@ const CarritoPage = () => {
               <h1 className='p-4 text-lg text-blue-900'>Carrito</h1>
               <table className='w-full'>
                 <tbody>
-                  {productos.filter(p => p.tipo === 'paquete' && p.isSelected).map((p, i) =>
-                    <tr className='h-10 ' >
-                      <td className='text-sm text-start'>
-                        <div className='relative flex flex-col py-2 pl-4'>
-                          <p data-tooltip={p.nombre} className='text-base text-blue-900 ellipsis'> {p.nombre} </p>
-                          <p className='text-sm font-[200]'> $ {p.precio}.00 </p>
-                        </div>
-                      </td>
-                      <td >
-                        <div className='flex items-center justify-end'>
-                          <button
-                            onClick={() => handleSelect(p.id)}
-                            className='w-8 h-8 text-gray-800 duration-200 rounded-full total-center hover:text-white hover:bg-red-500 full active:opacity-70 active:duration-0'>
-                            <MyIcons.Trash />
-                          </button>
-                        </div>
-                      </td>
-                    </tr>)
+                  {// Paquete Seleccionado 
+                    articulos.filter(p => p.tipo === 'paquete' && p.isSelected).map((p, i) =>
+                      <tr key={`CARR_${i}`} className='h-10 ' >
+                        <td className='text-sm text-start'>
+                          <div className='relative flex flex-col py-2 pl-4'>
+                            <p data-tooltip={p.nombre} className='text-base text-blue-900 ellipsis'> {p.nombre} </p>
+                            <p className='text-sm font-[200]'> $ {p.precio}.00 </p>
+                          </div>
+                        </td>
+                        <td >
+                          <div className='flex items-center justify-end'>
+                            <button
+                              onClick={() => handleSelect(p.id)}
+                              className='w-8 h-8 text-gray-800 duration-200 rounded-full total-center hover:text-white hover:bg-red-500 full active:opacity-70 active:duration-0'>
+                              <MyIcons.Trash />
+                            </button>
+                          </div>
+                        </td>
+                      </tr>)
                   }
-                  {productos.filter(p => p.tipo === 'producto' && p.cantidad).map((p, i) =>
-                    <tr className='h-10 '>
-                      <td className='text-sm text-start'>
-                        <div className='relative flex flex-col py-2 pl-4'>
-                          <p data-tooltip={p.nombre} className='text-base text-blue-900 ellipsis'>{p.nombre}</p>
-                          <p className='text-sm font-[200]'>$ {p.precio * p.cantidad}.00</p>
-                        </div>
+                  {// Productos Seleccionados
+                    articulos.filter(p => p.tipo === 'producto' && p.cantidad).map((p, i) =>
+                      <tr
+                        key={`PROD_${i}`}
+                        className='h-10 '>
+                        <td className='text-sm text-start'>
+                          <div className='relative flex flex-col py-2 pl-4'>
+                            <p data-tooltip={p.nombre} className='text-base text-blue-900 ellipsis'>{p.nombre}</p>
+                            <p className='text-sm font-[200]'>$ {p.precio * p.cantidad}.00</p>
+                          </div>
 
-                      </td>
-                      <td >
-                        <div className="flex items-center justify-end">
-                          <SpinBtn
-                            small
-                            cantidad={p.cantidad}
-                            onAdd={() => handleAdd(p.id)}
-                            onSubstract={() => handleSubstract(p.id)}
-                          />
-                        </div>
-                      </td>
-                    </tr>)
+                        </td>
+                        <td >
+                          <div className="flex items-center justify-end">
+                            <SpinBtn
+                              small
+                              cantidad={p.cantidad}
+                              onAdd={() => handleAdd(p.id)}
+                              onSubstract={() => handleSubstract(p.id)}
+                            />
+                          </div>
+                        </td>
+                      </tr>)
                   }
                 </tbody>
               </table>
             </AbsScroll >
-            {productos.some(p => {
+            {articulos.some(p => {
               if (p.tipo === 'producto')
                 return p.cantidad > 0
               return p.isSelected
@@ -163,10 +171,10 @@ const CarritoPage = () => {
                   Total :
                 </p>
                 <p className='text-[1.5rem] text-orange-400 pb-5'>
-                   ${productos.reduce((acum, p) => {
+                  ${articulos.reduce((acum, p) => {
                     if (p.tipo === 'paquete') return acum + p.isSelected * p.precio
                     return acum + p.cantidad * p.precio
-                  }, 0).toFixed(2) }
+                  }, 0).toFixed(2)}
                 </p>
                 <button className='h-10 rounded-full btn-naranja'>
                   Realizar Venta
