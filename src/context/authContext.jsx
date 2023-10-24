@@ -13,7 +13,7 @@ export const useAuth = () => {
 export const AuthProvider = ({ children }) => {
 
     const navigate = useNavigate()
-    
+
     const [session, setSession] = useState(() => {
         let auth = localStorage.getItem('auth')
         return auth ? JSON.parse(auth) : null
@@ -21,17 +21,17 @@ export const AuthProvider = ({ children }) => {
 
     const notify = (message, error = false) => {
         let options = {
-          position: "bottom-right",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "light",
+            position: "bottom-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
         }
         error ? toast.error(message, options) : toast.success(message, options)
-      }
+    }
 
     const signIn = async (values) => {
         //console.log(values)
@@ -44,13 +44,13 @@ export const AuthProvider = ({ children }) => {
         //console.log(data)
         if (!response.ok) {
             throw new Error(data.error)
-            
+
         }
         setSession(data)
         localStorage.setItem('auth', JSON.stringify(data))
         notify('Bienvenido')
     }
-    
+
     /*
     const refreshToken = async () => {
         const response = await fetch(HOST + '/token/refresh/', {

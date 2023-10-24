@@ -11,7 +11,7 @@ import { MyIcons } from '../../constants/Icons'
 import { useNavigate } from "react-router-dom";
 
 
-const DetailUsuarioPage = () => {
+const DetailUsuario = () => {
 
   let { id } = useParams()
   const { getUser, updateUser } = useUsuarios()
@@ -160,19 +160,19 @@ const DetailUsuarioPage = () => {
             </div>
             <div className="flex-grow w-full px-4 sm:w-1/2">
               <Opts
-                onKeyDown={() => setFieldChanged(true)}
                 name="rol" formik={userFormik} label="Rol" options={[
                   { label: "Administrador", value: "Administrador" },
                   { label: "Empleado", value: "Empleado" },
-                ]} />
+                ]}
+                selecting={setFieldChanged} />
             </div>
             <div className="flex-grow w-full px-4 sm:w-1/2">
               <Opts
-                onKeyDown={() => setFieldChanged(true)}
                 name="is_active" formik={userFormik} label="Activo" options={[
                   { label: "Activo", value: true },
                   { label: "Inactivo", value: false },
-                ]} />
+                ]}
+                selecting={setFieldChanged} />
             </div>
             <div className='flex flex-row items-center flex-grow w-full px-5 mb-6 sm:w1/2'>
               <h2 className='text-lg font-bold text-blue-900 '>
@@ -180,7 +180,7 @@ const DetailUsuarioPage = () => {
               </h2>
               <input type="checkbox" className='ml-3 switch' onChange={(e) => setNewPassword(e.target.checked)} />
             </div>
-            
+
             {
               newPassword &&
               <>
@@ -203,4 +203,4 @@ const DetailUsuarioPage = () => {
   )
 }
 
-export default DetailUsuarioPage
+export default DetailUsuario

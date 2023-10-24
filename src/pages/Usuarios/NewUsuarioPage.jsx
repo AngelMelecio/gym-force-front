@@ -10,7 +10,7 @@ import { sleep } from '../../utils/global'
 import { useUsuarios } from './hooks/UsuariosContext'
 import { MyIcons } from '../../constants/Icons'
 
-const NewUsuarioPage = () => {
+const NewUsuario = () => {
 
   const [loading, setLoading] = useState(false)
   const navigate = useNavigate();
@@ -143,4 +143,4 @@ const NewUsuarioPage = () => {
   )
 }
 
-export default NewUsuarioPage
+export default NewUsuario
