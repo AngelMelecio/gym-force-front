@@ -6,10 +6,18 @@
   font-family: 'Nunito';
   src: url('./fonts/Nunito.ttf') format('truetype'),
     url('./fonts/Nunito-Italic.ttf') format('truetype');
-  
+
   font-style: normal;
   word-wrap: break-word;
   color: #334163;
+}
+
+@font-face {
+  font-family: 'lsd';
+  src: url('./fonts/digital.ttf') format('truetype');
+
+  font-style: normal;
+  word-wrap: break-word;
 }
 
 
@@ -22,11 +30,14 @@
 
 :root {
   font-family: 'Nunito';
-
 }
 
 #root {
   position: relative;
+}
+
+.display {
+  font-family: 'lsd';
 }
 
 #side-bar ::-webkit-scrollbar {
@@ -441,24 +452,25 @@ input[type="checkbox"].switch:checked::after {
   transition: 0s;
 }
 
-.slide-right{
+.slide-right {
   position: absolute;
-  top:0;
+  top: 0;
   opacity: 0;
   transform: translateX(100%);
   animation: fromRight 1s ease-out forwards
 }
 
 @keyframes fromRight {
-  0%{
-      opacity: 0;
-      transform: translateX(100%);
-      
-    }
-    100%{
-      opacity: 1;
-      transform: translateX(0);
-    }
+  0% {
+    opacity: 0;
+    transform: translateX(100%);
+
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
 }
 
 
@@ -467,26 +479,26 @@ input[type="checkbox"].switch:checked::after {
   padding: 10px;
 }
 
-.calendar table td{
+.calendar table td {
   height: 34px;
   width: 34px;
   text-align: center;
 }
 
-.calendar table th{
+.calendar table th {
   color: #1e3a8a;
 }
 
-.calendar table thead{
+.calendar table thead {
   border-block: 1px solid #d1d5db;
 }
 
-.calendar table caption{
+.calendar table caption {
   font-weight: 700;
   color: #1e293b;
 }
 
-.calendar table td{
+.calendar table td {
   color: #1e293b;
 
 }
@@ -576,4 +588,26 @@ input[type="checkbox"].switch:checked::after {
   background-color: #ffffff;
   pointer-events: none;
   clip-path: polygon(46% 57%, 70% 20%, 84% 30%, 52% 79%, 42% 79%, 19% 58%, 31% 43%);
+}
+
+input[type="password"].pin {
+  height: 7rem;
+  font-size: 4rem;
+  transition: 0.2s;
+  background-color: transparent;
+  caret-color: transparent;
+  color: #1f2937;
+  font-weight: 700;
+  font-family: 'robotoCondensed';
+}
+
+input[type="password"]:disabled {
+  opacity: 20%;
+  transition: opacity 1s ease-out;
+}
+
+
+
+input[type="password"].pin:focus {
+  outline: none;
 }

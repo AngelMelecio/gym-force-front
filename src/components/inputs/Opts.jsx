@@ -13,7 +13,7 @@ const Opts = ({ label, name, options, formik, selecting ,...props }) => {
     useEffect(() => {
         setError(formik?.errors[name])
         setTouched(formik?.touched[name])
-    }, [formik.errors[name], formik.touched[name]])
+    }, [formik?.errors[name], formik?.touched[name]])
     
 
     const handleOptClick = (e, option) => {
@@ -36,7 +36,7 @@ const Opts = ({ label, name, options, formik, selecting ,...props }) => {
                     ref={inptRef}
                     id={name}
                     readOnly
-                    value={options.find(o => o.value === formik?.values[name])?.label || "" }
+                    value={options?.find(o => o.value === formik?.values[name])?.label || "" }
                     onChange={handleInptChange}
                     onBlur={(e) => { setShowOpts(false); formik?.handleBlur(e) }}
                     onFocus={() => setShowOpts(true)}

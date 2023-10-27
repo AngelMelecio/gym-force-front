@@ -1,4 +1,4 @@
-import AccessoPage from "../pages/AccessoPage";
+import AccessoPage from "../pages/Acceso/AccessoPage";
 import CarritoPage from "../pages/Carrito/CarritoPage";
 import PerfilPage from "../pages/PerfilPage";
 import DetailUsuarioPage from "../pages/Usuarios/DetailUsuarioPage";

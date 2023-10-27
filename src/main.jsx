@@ -9,6 +9,8 @@ import { AxiosProvider } from './context/axiosContext.jsx'
 import { SuscripcionesProvider } from './pages/Suscripciones/hooks/useSuscripciones.jsx'
 import { ProductosProvider } from './pages/Productos/hooks/useProductos.jsx'
 import { ClientesProvider } from './pages/Clientes/hooks/useClientes.jsx'
+import { AccesoProvider } from './pages/Acceso/hooks/useAcceso.jsx'
+
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     <BrowserRouter>
@@ -18,7 +20,9 @@ ReactDOM.createRoot(document.getElementById('root')).render(
             <SuscripcionesProvider>
               <ProductosProvider>
                 <ClientesProvider>
-                  <App />
+                  <AccesoProvider>
+                    <App />
+                  </AccesoProvider>
                 </ClientesProvider>
               </ProductosProvider>
             </SuscripcionesProvider>

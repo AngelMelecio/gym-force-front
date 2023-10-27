@@ -9,10 +9,13 @@ import { MyIcons } from '../../constants/Icons'
 import SearchBar from '../../components/SearchBar'
 import { useSuscripciones } from '../Suscripciones/hooks/useSuscripciones'
 import { useProductos } from '../Productos/hooks/useProductos'
-
+import ClientSelector from '../../components/inputs/ClientSelector'
+import { useClientes } from '../Clientes/hooks/useClientes'
 
 const CarritoPage = () => {
 
+  const [client, setClient] = useState(null)
+  const [clients, setClients] = useState([])
   const [articulos, setArticulos] = useState([])
   const [selectedType, setSelectedType] = useState('paquete')
   const [searchText, setSearchText] = useState('')
@@ -21,22 +24,36 @@ const CarritoPage = () => {
 
   const { getAll: getSubs } = useSuscripciones()
   const { getAll: getProductos } = useProductos()
+  const { getAll: getClients } = useClientes()
+
+  async function fetchArticles() {
+    try {
+      setLoading(p => ({ ...p, articles: true }))
+      let subs = await getSubs()
+      let prodcuts = await getProductos()
+      setArticulos([...prodcuts, ...subs])
+    } catch (e) {
+      console.log('Error al cargar Articulos:', e)
+    } finally {
+      setLoading(p => ({ ...p, articles: false }))
+    }
+  }
+
+  async function fetchClients() {
+    try {
+      setLoading(p => ({ ...p, clientes: true }))
+      let clientes = await getClients()
+      setClients(clientes)
+    } catch (e) {
+      console.log('Error al cargar clientes:', e)
+    } finally {
+      setLoading(p => ({ ...p, clientes: false }))
+    }
+  }
 
   useEffect(() => {
-    async function fetch() {
-      try {
-        setLoading(true)
-        let subs = await getSubs()
-        let productos = await getProductos()
-        //console.log('subs:', subs, '\nproductos:', productos)
-        setArticulos([...subs, ...productos])
-      } catch (e) {
-        console.log('Hubo un error:', e)
-      } finally {
-        setLoading(false)
-      }
-    }
-    fetch()
+    fetchArticles()
+    fetchClients()
   }, [])
 
   const handleSelect = (id) => {
@@ -58,23 +75,37 @@ const CarritoPage = () => {
 
   return (
     <div className='flex flex-col w-full h-screen p-3'>
-      <div className='bg-gray-300'>
-        <div className='flex'>
-          {[{ option: 'paquete', label: 'Paquetes' },
-          { option: 'producto', label: 'Productos' }].map((c, i) =>
-            <button
-              key={"CAT_" + i}
-              type='button'
-              onClick={() => setSelectedType(c.option)}
-              className={`px-5 py-2 border-b-2  ${selectedType === c.option ? 'border-b-blue-500 text-blue-600' : 'border-b-transparent text-gray-600'}`} >
-              {c.label}
-            </button>)}
+      <div className=''>
+        <div className='flex items-center justify-between '>
+          <div className='flex w-2/3 border-b-2 border-b-slate-300'>
+            { // Tabs
+              [{ option: 'paquete', label: 'Paquetes' },
+              { option: 'producto', label: 'Productos' }].map((c, i) =>
+                <button
+                  key={"CAT_" + i}
+                  type='button'
+                  onClick={() => setSelectedType(c.option)}
+                  className={`px-5 py-2 border-b-2 font-semibold ${selectedType === c.option ? 'border-b-blue-500 text-blue-600' : 'border-b-transparent text-gray-600'}`} >
+                  {c.label}
+                </button>)}
+          </div>
+          <div>
+            <ClientSelector
+              name="cliente"
+              client={client}
+              setClient={setClient}
+              placeholder="Seleccione Cliente"
+              options={clients?.map(c => (
+                { label: c.nombre, value: c.idCliente }
+              ))}
+            />
+          </div>
         </div>
       </div>
       <div className='flex w-full h-full '>
         {/* Productos */}
         <div className='flex-grow sm:flex-[0.65] '>
-          <AbsScroll vertical loading={loading}>
+          <AbsScroll vertical loading={loading.articles}>
             <div className="flex flex-wrap w-full pt-2 pl-2">
               <div className='flex justify-end w-full py-2 pr-2'>
                 <SearchBar text={searchText} setText={setSearchText} />

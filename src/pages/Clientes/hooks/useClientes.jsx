@@ -9,15 +9,15 @@ export const useClientes = () => {
     return useContext(ClientesContext);
 };
 
-
 function formatClientes(clientes) {
     return clientes.map(cliente => ({
         ...cliente,
         fotografia: cliente.fotografia !== null ? HOST + cliente.fotografia : cliente.fotografia
     }))
 }
-export const ClientesProvider = ({ children }) => {
 
+export const ClientesProvider = ({ children }) => {
+    
     const { session, notify } = useAuth()
     const { myAxios } = useAxios()
     const [allClientes, setAllClientes] = useState([])
