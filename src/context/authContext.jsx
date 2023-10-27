@@ -48,7 +48,7 @@ export const AuthProvider = ({ children }) => {
         }
         setSession(data)
         localStorage.setItem('auth', JSON.stringify(data))
-        notify('Bienvenido')
+        notify('Bienvenido '+data.usuario.nombre)
     }
 
     /*

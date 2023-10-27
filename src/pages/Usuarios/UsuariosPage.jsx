@@ -16,7 +16,7 @@ const UsuariosPage = () => {
   useEffect(() => {
     async function load() {
       setLoading(true)
-      refreshAllUsers()
+      await refreshAllUsers()
       setLoading(false)
     }
     load()
@@ -29,7 +29,7 @@ const UsuariosPage = () => {
   const onConfirm = async () => {
     setLoading(true)
     await deleteUser(selectedItemId)
-    refreshAllUsers()
+    await refreshAllUsers()
     setLoading(false)
     setShowModal(false)
   }
@@ -59,7 +59,7 @@ const UsuariosPage = () => {
         <Modal
           onCancel={() => setShowModal(false)}
           onClose={() => setShowModal(false)}
-          onConfirm={() => onConfirm()}
+          onConfirm={onConfirm()}
           title='Eliminar usuario'
           info={`¿Estás seguro que deseas eliminar a ${selectedUser}?`}
         />
