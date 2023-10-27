@@ -1,27 +1,104 @@
 import React, { useEffect, useRef, useState } from 'react'
 import AbsScroll from '../../components/AbsScroll'
 import Calendar from '../../components/Calendar/Calendar'
+import { useParams } from 'react-router-dom'
+import { useClientes } from './hooks/useClientes'
+import { useNavigate } from 'react-router-dom'
+import { MyIcons } from '../../constants/Icons'
+import { toUrl } from '../../utils/global'
+import { useFormik } from 'formik'
+import ImgInpt from '../../components/inputs/ImgInpt'
+import FrmClienteUP from './FrmClientesUP'
+
 
 const DetailClientePage = () => {
-
+  {/* Screen */ }
   const windowRef = useRef(null)
   const [windowHeight, setWindowHeight] = useState(windowRef.current?.clientHeight)
   const [isWindowBottom, setIsWindowBottom] = useState(false)
 
+  {/* Tabs y lógica */ }
   const [selectedTab, setSelectedTab] = useState('informacion')
+  const [loading, setLoading] = useState(true)
 
+  {/* Datos y formik */ }
+  const { getCliente, updateCliente } = useClientes()
+  const [fieldChanged, setFieldChanged] = useState(false)
+  const navigate = useNavigate()
+  const formikRef = useRef();
+  let { id } = useParams()
+  async function load() {
+    try {
+      setLoading(true)
+      const cliente = await getCliente(id)
+      userFormik.setValues(cliente)
+    } catch (e) {
+      console.log(e)
+    } finally {
+      setLoading(false)
+    }
+  }
+  const userFormik = useFormik({
+    initialValues: {},
+    validate: (values) => {
+      const errors = {}
+
+      if (!values.nombre) {
+        errors.nombre = 'Ingresa el nombre';
+      } else if (values.nombre.length > 25) {
+        errors.nombre = '25 caracteres o menos';
+      }
+
+      if (!values.apellidos) {
+        errors.apellidos = 'Ingresa el apellido';
+      } else if (values.apellidos.length > 50) {
+        errors.apellidos = '50 caracteres o menos';
+      }
+
+      return errors
+    },
+    onSubmit: async (values) => {
+      try {
+        setLoading(true)
+        await updateCliente(values)
+        load()
+      } catch (e) {
+
+      } finally {
+        setLoading(false)
+        setFieldChanged(false)
+      }
+    }
+  })
+
+  {/* Effects */ }
+  useEffect(() => { load() }, [])
   useEffect(() => {
-    //console.log(windowRef.current?.clientHeight)
     setWindowHeight(windowRef.current?.clientHeight)
   }, [windowRef])
+  useEffect(() => {
+    formikRef.current = userFormik;
+  }, [userFormik]);
 
 
   return (
     <div className='flex flex-col w-full h-screen p-3'>
-
-      <h1 className="pb-4 text-3xl font-bold text-blue-900">
-        Detalle de Cliente
-      </h1>
+      <div className='flex items-end justify-between pb-3'>
+        <div className='flex flex-row'>
+          <button
+            onClick={() => navigate('/clientes')}
+            className="w-10 h-10 rounded-full btn-neutral total-center"> <MyIcons.Left size="30px" color='#1e3a8a' /> </button>
+          <h1 className="pl-3 text-3xl font-bold text-blue-900">
+            Detalle de Cliente
+          </h1>
+        </div>
+        <div className='pb-4'>
+          <input
+            className={!fieldChanged ? 'hidden' : 'px-10 py-1.5 rounded-lg btn-naranja'}
+            value="Guardar" type='submit'
+            onClick={() => formikRef.current.submitForm()} />
+        </div>
+      </div>
       <div
         ref={windowRef}
         className='w-full h-full bg-white rounded-lg shadow-lg'>
@@ -29,14 +106,24 @@ const DetailClientePage = () => {
           onBottomReached={() => console.log('bottom')}
           setBottom={isWindowBottom}
           vertical>
-          <div className='flex p-3 bg-rose-200' >
-            <div>
-              Imagen
-            </div>
-            <div>
-              <p>Nombre</p>
-              <p>Plan actual</p>
-              <p>Vence en...</p>
+          <div className='flex p-3 bg-white rounded-t-lg shadow-md' >
+            <div className='flex flex-row w-full h-full'>
+              <div className='flex w-[123px] h-full'>
+                <ImgInpt name="fotografia"
+                  selecting={setFieldChanged}
+                  formik={userFormik} />
+              </div>
+              <div className='flex flex-col w-full h-[123px] mx-3.5 justify-center'>
+                <p className='pb-0.5 text-3xl font-extrabold text-blue-900'>
+                  {userFormik.values?.nombre + ' ' + userFormik.values?.apellidos}
+                </p>
+                <p className='pb-1 text-xl font-semibold text-gray-700'>
+                  Suscripción activa
+                </p >
+                <p className='text-lg font-semibold text-gray-700'>
+                  Vence en x días
+                </p >
+              </div>
             </div>
           </div>
           <div
@@ -58,13 +145,14 @@ const DetailClientePage = () => {
             {/* Selected Tab */}
             <div className='w-full h-full '>
               {selectedTab === 'informacion' && <div className='appear'>
-                Info
+                <h2 className='px-6 py-5 mt-4 text-xl text-blue-900'>Datos personales</h2>
+                {!loading && <FrmClienteUP userFormik={userFormik} setFieldChanged={setFieldChanged} />}
               </div>}
               {selectedTab === 'subscripciones' && <div className='appear'>
-                Subs
+                <h2 className='px-6 py-5 mt-4 text-xl text-blue-900'>Suscripción activa e historial</h2>
               </div>}
               {selectedTab === 'actividad' && <div className='flex flex-col h-full appear'>
-                <h2 className='px-6 py-5 mt-4 text-xl text-blue-900'>Actividad del cliente</h2>
+                <h2 className='px-6 py-5 mt-4 text-xl text-blue-900'>Actividad y asistencia</h2>
                 <Calendar />
               </div>}
             </div>

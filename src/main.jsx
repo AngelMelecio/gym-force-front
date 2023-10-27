@@ -8,7 +8,7 @@ import { UsuariosProvider } from './pages/Usuarios/hooks/UsuariosContext.jsx'
 import { AxiosProvider } from './context/axiosContext.jsx'
 import { SuscripcionesProvider } from './pages/Suscripciones/hooks/useSuscripciones.jsx'
 import { ProductosProvider } from './pages/Productos/hooks/useProductos.jsx'
-
+import { ClientesProvider } from './pages/Clientes/hooks/useClientes.jsx'
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     <BrowserRouter>
@@ -17,7 +17,9 @@ ReactDOM.createRoot(document.getElementById('root')).render(
           <UsuariosProvider>
             <SuscripcionesProvider>
               <ProductosProvider>
-                <App />
+                <ClientesProvider>
+                  <App />
+                </ClientesProvider>
               </ProductosProvider>
             </SuscripcionesProvider>
           </UsuariosProvider>

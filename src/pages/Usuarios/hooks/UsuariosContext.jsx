@@ -1,6 +1,5 @@
 import React, { createContext, useContext, useState } from 'react';
 import { useAuth } from '../../../context/authContext';
-import { fetchAPI } from '../../../utils/fetchApiService';
 import { useAxios } from '../../../context/axiosContext';
 import { HOST } from '../../../constants/ENVs';
 
@@ -13,8 +12,7 @@ export const useUsuarios = () => {
 function formatUsers(users) {
     return users.map(user => ({
         ...user,
-        fotografia: user.fotografia !== null ? HOST + user.fotografia : user.fotografia
-    }))
+        fotografia: user.fotografia !== null ? HOST + user.fotografia : user.fotografia    }))
 }
 
 export const UsuariosProvider = ({ children }) => {
@@ -26,7 +24,7 @@ export const UsuariosProvider = ({ children }) => {
 
     async function getUser(id) {
         const resp = await myAxios.get(API_USUARIOS_URL + id + '/')
-        return resp.data
+        return formatUsers([resp.data])[0]
     }
 
     async function refreshAllUsers() {
