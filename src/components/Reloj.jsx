@@ -17,19 +17,19 @@ const Reloj = () => {
             clearInterval(intervalo);
         };
     }, []);
-    
+
     const fecha = new Date();
 
     const dia = fecha.getDate();
-    const mes = meses[fecha.getMonth()];
+    const mes = fecha.getMonth() + 1;
     const año = fecha.getFullYear();
 
     return (
-        <div className='flex-col total-center'>
-            <h1 className='text-[3rem] tracking-[0.3rem] text-gray-600'>{horaActual}</h1>
-            <p className='text-[1.7rem] text-gray-600'>
-             {dia} - {mes} - {año}   
+        <div className='flex-col mt-6 total-center'>
+            <p className='translate-y-[0.5rem] tracking-widest text-[1.5rem] text-gray-600'>
+                {dia} / {mes} / {año}
             </p>
+            <h1 className='display text-[4rem] tracking-[0.3rem] text-gray-600'>{horaActual}</h1>
         </div>
     );
 }
