@@ -137,6 +137,11 @@ label.up {
   background-color: #f3f4f6;
 }
 
+.btn-neutral:disabled {
+  background-color: white;
+  cursor: default;
+}
+
 .btn-neutral:active {
   opacity: 0.8;
   transition: 0s;
@@ -428,6 +433,7 @@ input[type="checkbox"].switch:checked::after {
   padding: 5px 10px;
   border-radius: 4px;
   font-size: 12px;
+  font-weight: 500;
   z-index: 10;
   pointer-events: none;
   transform: translateY(-100%);

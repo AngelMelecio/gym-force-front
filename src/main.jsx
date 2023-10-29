@@ -10,6 +10,7 @@ import { SuscripcionesProvider } from './pages/Suscripciones/hooks/useSuscripcio
 import { ProductosProvider } from './pages/Productos/hooks/useProductos.jsx'
 import { ClientesProvider } from './pages/Clientes/hooks/useClientes.jsx'
 import { AccesoProvider } from './pages/Acceso/hooks/useAcceso.jsx'
+import { CarritoProvider } from './pages/Carrito/hooks/CarritoContext.jsx'
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
@@ -21,7 +22,9 @@ ReactDOM.createRoot(document.getElementById('root')).render(
               <ProductosProvider>
                 <ClientesProvider>
                   <AccesoProvider>
-                    <App />
+                    <CarritoProvider>
+                      <App />
+                    </CarritoProvider>
                   </AccesoProvider>
                 </ClientesProvider>
               </ProductosProvider>

@@ -35,6 +35,7 @@ import {
     BsFillPeopleFill as People,
     BsFillCheckCircleFill as Active,
     BsFilter as Filter,
+    BsFillCartCheckFill as CartCheck,
 } from 'react-icons/bs'
 
 import {
@@ -83,5 +84,6 @@ export const MyIcons = {
     Left,Right,
     Calendar,
     Tag,
-    Filter
+    Filter,
+    CartCheck,
 }

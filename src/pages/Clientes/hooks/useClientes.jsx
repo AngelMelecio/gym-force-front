@@ -17,20 +17,26 @@ function formatClientes(clientes) {
 }
 
 export const ClientesProvider = ({ children }) => {
-    
+
     const { session, notify } = useAuth()
     const { myAxios } = useAxios()
     const [allClientes, setAllClientes] = useState([])
     const API_CLIENTES_URL = 'api/clientes/'
 
     async function getCliente(id) {
-        try{
-            const cliente = await myAxios.get(API_CLIENTES_URL + id )
+        try {
+            const cliente = await myAxios.get(API_CLIENTES_URL + id)
             return formatClientes([cliente.data])[0]
-        }catch(err){
+        } catch (err) {
             console.log(err)
             notify("Ocurrió un error al tratar de obtener el cliente", true);
         }
+    }
+
+    async function getAll() {
+        const clientes = await myAxios.get(API_CLIENTES_URL)
+        return formatClientes(clientes.data)
+
     }
 
     async function refreshAllClientes() {
@@ -42,7 +48,7 @@ export const ClientesProvider = ({ children }) => {
             notify("Ocurrió un error al tratar de obtener los registros", true);
         }
     }
-    
+
     async function createCliente(cliente) {
         let formData = new FormData()
         Object.keys(cliente).forEach(key => {
@@ -51,7 +57,7 @@ export const ClientesProvider = ({ children }) => {
         try {
             const resp = await myAxios.post(API_CLIENTES_URL, formData)
             notify(resp.data.message)
-            notify("PIN de acceso: "+resp.data.pin)
+            notify("PIN de acceso: " + resp.data.pin)
         } catch (err) {
             notify("No fue posible registrar el cliente", true);
         }
@@ -82,13 +88,13 @@ export const ClientesProvider = ({ children }) => {
 
     return (
         <ClientesContext.Provider value={{
-            getCliente,
+            getCliente, getAll,
             allClientes,
             refreshAllClientes,
             createCliente,
             deleteCliente,
             updateCliente
-            
+
         }}>
             {children}
         </ClientesContext.Provider>

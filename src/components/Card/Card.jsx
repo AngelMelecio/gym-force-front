@@ -7,7 +7,7 @@ const Card = ({ title, subtitle, controls }) => {
         <div className='relative flex flex-col'>
           <p
             data-tooltip={title}
-            className=' text-lg font-[900] text-blue-900 ellipsis  '>
+            className=' text-lg font-[800] text-blue-900 ellipsis  '>
             {title}
           </p>
           <p className='text-sm font-light text-gray-700'>{subtitle}</p>

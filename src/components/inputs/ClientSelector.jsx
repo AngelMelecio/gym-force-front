@@ -16,7 +16,7 @@ const ClientSelector = ({ label, name, options, client, setClient, selecting, ..
         if (client === option) return
         let newText = options.find(o => o.value === option).label
         setText(newText)
-        setError(!options.some(o => o.label.trim().toLowerCase()
+        setError(!options.some(o => o.label?.trim().toLowerCase()
             === newText.trim().toLowerCase()))
         setClient(option)
         selecting && selecting(option)
@@ -25,9 +25,8 @@ const ClientSelector = ({ label, name, options, client, setClient, selecting, ..
     const handleInptChange = (e) => {
         let newText = e.target.value
         setText(newText)
-        setError(!options.some(o => o.label.trim().toLowerCase()
-            === newText.trim().toLowerCase()))
-        setClient(options.find(o => o.label.trim().toLowerCase()
+        setError( !options.some(o => o.label?.trim().toLowerCase().includes(newText.trim().toLowerCase())) )
+        setClient(options.find(o => o.label?.trim().toLowerCase()
             === newText.trim().toLowerCase().value))
     }
 
@@ -44,15 +43,15 @@ const ClientSelector = ({ label, name, options, client, setClient, selecting, ..
                     value={text}
                     onChange={handleInptChange}
                     onBlur={(e) => { setShowOpts(false) }}
-                    onFocus={() => setShowOpts(true)}
-                    className={`cursor-pointer w-full pr-4 pl-14 h-10 text-lg border-[2.1px] rounded-full outline-none  duration-200 font-semibold appearance-none ${error ? 'border-rose-400 text-red-500' : text !== "" ? 'text-blue-800 border-blue-500' : 'border-gray-300 hover:border-blue-500 focus:border-blue-500'}  `}
+                    onFocus={(e) => {setShowOpts(true); e.target.select()} }
+                    className={`cursor-pointer w-full pr-4 pl-14 h-10 text-lg border-2 rounded-full outline-none  duration-200 font-medium appearance-none ${error ? 'border-rose-400 text-red-500' : text !== "" ? 'text-blue-800 border-blue-500' : 'border-gray-300 hover:border-blue-500 focus:border-blue-500'}  `}
                     {...props}
                 />
                 {
                     showOpts &&
                     <ul className="absolute z-10 w-full mt-1 duration-200 bg-white border border-gray-200 divide-y divide-gray-100 rounded-md shadow-md top-full">
                         {options?.filter(o =>
-                            o.label.trim().toLowerCase()
+                            o.label?.trim().toLowerCase()
                                 .includes(text.trim().toLowerCase()))
                             .map((option, index) => (
                                 <li

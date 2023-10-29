@@ -14,15 +14,13 @@ const SearchBar = ({ value, setValue }) => {
         searchRef?.current?.focus()
     }
 
-    
-
     return (
         <div
             id="searchbar"
             className="relative flex items-center w-80">
             <input
                 id='search-input'
-                className='w-full h-full py-1 pl-3 pr-10 outline-none rounded-2xl bg-slate-200'
+                className='w-full h-full py-1 pl-3 pr-10 outline-none rounded-2xl bg-slate-100'
                 ref={searchRef}
                 onChange={(e) => { setValue(e.target.value) }}
                 value={value}
