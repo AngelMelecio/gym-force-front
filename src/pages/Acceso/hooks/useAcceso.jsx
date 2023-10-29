@@ -16,7 +16,6 @@ export const AccesoProvider = ({ children }) => {
       let response = await myAxios.post('api/registros/', values)
       let { nombre, apellidos } = response.data.registro.idVenta.idCliente
       let { fechaFin } = response.data.registro
-      
       return ({message:`Bienvenido ${nombre} ${apellidos}, tu paquete vence: ${fechaFin}`})
 
     } catch (e) {
@@ -37,9 +36,6 @@ export const AccesoProvider = ({ children }) => {
         throw new Error("Error de conexión");
       }
     }
-
-
-
   }
 
   return (

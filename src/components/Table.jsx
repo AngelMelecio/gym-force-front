@@ -64,7 +64,7 @@ const Table = ({
   }
 
   return (
-    <div className="relative flex w-full h-screen bg-slate-100">
+    <div className="relative flex w-full h-screen bg-neutral-100">
       <div id="page" className="relative flex flex-col w-full h-full p-4 ">
         <h1 className="pb-4 text-3xl font-bold text-blue-900">{title}</h1>
         <div className="flex flex-col h-full bg-white rounded-lg shadow-lg ">
@@ -84,7 +84,7 @@ const Table = ({
                 className="relative flex items-center w-80">
                 <input
                   id='search-input'
-                  className='w-full h-full py-1 pl-3 pr-10 outline-none rounded-2xl bg-slate-200'
+                  className='w-full h-full py-1 pl-3 pr-10 outline-none rounded-2xl bg-slate-100'
                   ref={searchRef}
                   onChange={(e) => {
                     setSearchText(e.target.value)

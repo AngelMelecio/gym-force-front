@@ -34,7 +34,7 @@ const LoginPage = () => {
   })
 
   return (
-    <div className='flex flex-col items-center justify-center h-screen bg-slate-200'>
+    <div className='flex flex-col items-center justify-center h-screen bg-neutral-100'>
       <div className='total-center z-20 relative appear w-[230px] h-[150px]'>
         <img className='absolute w-full h-full -bottom-14' src={GymLogo} alt="" />
       </div>
