@@ -29,6 +29,12 @@ export const ProductosProvider = ({ children }) => {
         return formatProductos([resp.data])[0]
     }
 
+    async function getAll() {
+        const resp = await myAxios.get(API_PRODUCTOS_URL)
+        return formatProductos(resp.data)
+
+    }
+
     async function refreshAllProductos() {
         try {
             const resp = await myAxios.get(API_PRODUCTOS_URL)
@@ -80,7 +86,7 @@ export const ProductosProvider = ({ children }) => {
 
     return (
         <ProductosContext.Provider value={{
-            getProducto,
+            getProducto, getAll,
             allProductos,
             refreshAllProductos,
             createProducto,
