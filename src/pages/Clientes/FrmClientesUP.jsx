@@ -5,7 +5,7 @@ import Inpt from '../../components/inputs/Inpt'
 const FrmClienteUP = ({ userFormik, setFieldChanged }) => {
 
     return (
-        <form className='flex flex-col w-full h-screen' onSubmit={userFormik.handleSubmit}>
+        <form className='flex flex-col w-full ' onSubmit={userFormik.handleSubmit}>
 
             <div className="flex flex-wrap pt-6 sm:px-9">
                 <div className="flex-grow w-full px-4 sm:w-1/2">

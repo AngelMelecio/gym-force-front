@@ -106,7 +106,8 @@ const DetailClientePage = () => {
           onBottomReached={() => console.log('bottom')}
           setBottom={isWindowBottom}
           vertical>
-          <div className='flex p-3 bg-white rounded-t-lg shadow-md' >
+
+          <div className='flex p-3 pb-4 bg-white rounded-t-lg shadow-md' >
             <div className='flex flex-row w-full h-full'>
               <div className='flex w-[123px] h-full'>
                 <ImgInpt name="fotografia"
@@ -126,11 +127,12 @@ const DetailClientePage = () => {
               </div>
             </div>
           </div>
+
           <div
             className='flex flex-col'
             style={{ height: windowHeight }}>
             {/* Tabs */}
-            <div className='flex flex-row h-12'>
+            <div className='flex flex-row h-12 mt-1 border-b-2'>
               {[{ option: 'informacion', label: 'Información' },
               { option: 'subscripciones', label: 'Subscripciones' },
               { option: 'actividad', label: 'Actividad' }].map((c, i) =>
@@ -138,15 +140,15 @@ const DetailClientePage = () => {
                   key={`tb_${i}`}
                   type='button'
                   onClick={() => setSelectedTab(c.option)}
-                  className={`px-5 py-2 border-b-2 font-bold  ${selectedTab === c.option ? 'border-b-blue-500 text-blue-600' : 'border-b-transparent text-gray-600'} duration-150`} >
+                  className={`px-5 py-2 border-b-2 font-bold  ${selectedTab === c.option ? 'border-b-blue-500 text-blue-600 bg-blue-50' : 'border-b-transparent text-gray-600'} duration-150`} >
                   {c.label}
                 </button>)}
             </div>
             {/* Selected Tab */}
             <div className='w-full h-full '>
               {selectedTab === 'informacion' && <div className='appear'>
-                <h2 className='px-6 py-5 mt-4 text-xl text-blue-900'>Datos personales</h2>
-                {!loading && <FrmClienteUP userFormik={userFormik} setFieldChanged={setFieldChanged} />}
+                <h2 className='px-6 py-5 mt-4 text-xl text-blue-900'>Datos de la cuenta</h2>
+                <FrmClienteUP userFormik={userFormik} setFieldChanged={setFieldChanged} />
               </div>}
               {selectedTab === 'subscripciones' && <div className='appear'>
                 <h2 className='px-6 py-5 mt-4 text-xl text-blue-900'>Suscripción activa e historial</h2>
