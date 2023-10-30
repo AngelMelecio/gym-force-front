@@ -14,6 +14,7 @@ import { useClientes } from '../Clientes/hooks/useClientes'
 import Modal from '../../components/Modal'
 import { useAuth } from '../../context/authContext'
 import { useCarrito } from './hooks/CarritoContext'
+import Ticket from './components/Ticket'
 
 const CarritoPage = () => {
 
@@ -31,6 +32,8 @@ const CarritoPage = () => {
   const [selectedType, setSelectedType] = useState('paquete')
   const [searchText, setSearchText] = useState('')
   const [showModal, setShowModal] = useState(false)
+  const [showTicket, setShowTicket] = useState(false)
+  const [ticketData, setTicketData] = useState({})
   const [loading, setLoading] = useState(true)
 
 
@@ -89,7 +92,18 @@ const CarritoPage = () => {
       let scrpt = articulos.filter(a => a.tipo === 'paquete' && a.isSelected)
         .map(s => ({ idSuscripcion: s.idSuscripcion }))[0]
 
-      purchase({ productos: prdcs || [], suscripcion: scrpt || null })
+
+      let data = await purchase({
+        productos: prdcs || [],
+        suscripcion: scrpt || null,
+        cliente: client || null,
+        usuario: session.usuario?.id || null
+      })
+      setArticulos(p => p.map(a => a.tipo === 'producto' ?
+        ({ ...a, cantidad: 0 }) : ({ ...a, isSelected: false })))
+      
+      setTicketData(data)
+      setShowTicket(true)
 
     } catch (e) {
       notify(e.message, true)
@@ -257,6 +271,13 @@ const CarritoPage = () => {
           onCancel={() => setShowModal(false)}
           onConfirm={handleRealizarVenta}
           loading={loading.venta}
+        />
+      }
+      { showTicket &&
+        <Ticket
+          title={"Venta realizada con éxito"}
+          data={ticketData}
+          onConfirm={()=>setShowTicket(false)}
         />
 
       }

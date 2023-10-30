@@ -563,7 +563,7 @@ input[type="checkbox"].switch:checked::after {
   content: '';
   display: inline-block;
   border: 1px solid #d2d6dc;
-  transition: 200ms;
+  transition: 50ms;
   cursor: pointer;
 
 }
