@@ -13,8 +13,9 @@ export const CarritoProvider = ({ children }) => {
 
     async function purchase(values) {
         try{
-            console.log(values)
-            myAxios.post('api/ventas/', values)
+            let response = await myAxios.post('api/ventas/', values)
+            return response.data
+
         }catch(e){
             if( e.respose )
             {

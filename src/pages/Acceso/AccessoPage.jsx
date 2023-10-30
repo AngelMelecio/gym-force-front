@@ -22,6 +22,7 @@ const AccessoPage = () => {
   const handleRegister = async (value) => {
     try {
       setLoading(true)
+      
       let { message } = await register({
         pin: value,
         idUser: session.usuario.id
