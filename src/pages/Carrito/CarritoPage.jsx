@@ -19,51 +19,50 @@ import { useParams } from 'react-router-dom'
 
 const CarritoPage = () => {
 
+  // Params
+  const { idCliente, idSuscripcion } = useParams()
+
+  // Hook functions
   const { notify } = useAuth()
   const { purchase } = useCarrito()
   const { session } = useAuth()
-
   const { getAll: getSubs } = useSuscripciones()
   const { getAll: getProductos } = useProductos()
-  const { getAll: getClientes } = useClientes()
 
+  // Objects
   const [client, setClient] = useState(null)
-  const [clients, setClients] = useState([])
   const [articulos, setArticulos] = useState([])
+  const [ticketData, setTicketData] = useState({})
+
+  // Controls
   const [selectedType, setSelectedType] = useState('producto')
   const [searchText, setSearchText] = useState('')
   const [showModal, setShowModal] = useState(false)
   const [showTicket, setShowTicket] = useState(false)
-  const [ticketData, setTicketData] = useState({})
   const [loading, setLoading] = useState(true)
-  const { idCliente, idSuscripcion } = useParams()
 
   useEffect(() => {
-    if (idCliente && !idSuscripcion) {
-      console.log('nueva suscripcion')
+    if (idCliente) {
       setClient(parseInt(idCliente))
       setSelectedType('paquete')
-    } else if (idCliente && idSuscripcion) {
-      console.log('renovar suscripcion')
     }
-  }, [idCliente, idSuscripcion])
+  }, [idCliente])
 
   useEffect(() => {
     fetchArticles()
-    fetchClients()
   }, [])
-  
-  useEffect(() => {
-    if (client) {
-      console.log('cliente seleccionado:', client)
-    }
-  }, [client])
 
   async function fetchArticles() {
     try {
       setLoading(p => ({ ...p, articles: true }))
       let subs = await getSubs()
       let prodcuts = await getProductos()
+
+      // Selecting params suscription
+      if (idSuscripcion) {
+        subs = subs.map(s => s.idSuscripcion === parseInt(idSuscripcion) ? { ...s, isSelected: true } : s)
+      }
+
       setArticulos([...prodcuts, ...subs])
     } catch (e) {
       console.log('Error al cargar Articulos:', e)
@@ -72,17 +71,7 @@ const CarritoPage = () => {
     }
   }
 
-  async function fetchClients() {
-    try {
-      setLoading(p => ({ ...p, clientes: true }))
-      let clientes = await getClientes()
-      setClients(clientes)
-    } catch (e) {
-      console.log('Error al cargar clientes:', e)
-    } finally {
-      setLoading(p => ({ ...p, clientes: false }))
-    }
-  }
+
 
   const handleSelect = (id) => {
     setArticulos(prev =>
@@ -106,11 +95,11 @@ const CarritoPage = () => {
   const handleRealizarVenta = async () => {
     try {
       setLoading(p => ({ ...p, venta: true }))
+
       let prdcs = articulos.filter(a => a.type === 'producto' && a.cantidad)
         .map(p => ({ idProducto: p.idProducto, cantidad: p.cantidad }))
       let scrpt = articulos.filter(a => a.type === 'paquete' && a.isSelected)
         .map(s => ({ idSuscripcion: s.idSuscripcion }))[0]
-
 
       let data = await purchase({
         productos: prdcs || [],
@@ -118,11 +107,13 @@ const CarritoPage = () => {
         cliente: client || null,
         usuario: session.usuario?.id || null
       })
+
       setArticulos(p => p.map(a => a.type === 'producto' ?
         ({ ...a, cantidad: 0 }) : ({ ...a, isSelected: false })))
 
       setTicketData(data)
       setShowTicket(true)
+      setClient(null)
 
     } catch (e) {
       notify(e.message, true)
@@ -144,7 +135,7 @@ const CarritoPage = () => {
       <div className='flex flex-col w-full h-screen p-3 bg-neutral-100'>
         {/* Header */}
         <div className='flex items-center justify-between '>
-          <div className='flex w-2/3 border-b-2 border-b-slate-300'>
+          <div className='flex flex-[0.65] border-b-2 border-b-slate-300'>
             { // Tabs
               [{ option: 'producto', label: 'Productos' },
               { option: 'paquete', label: 'Paquetes' }].map((c, i) =>
@@ -156,15 +147,12 @@ const CarritoPage = () => {
                   {c.label}
                 </button>)}
           </div>
-          <div>
+          <div className='flex flex-[0.35]'>
             <ClientSelector
               name="cliente"
               client={client}
               setClient={setClient}
               placeholder="Seleccione Cliente"
-              options={clients?.map(c => (
-                { label: c.nombre, value: c.idCliente }
-              ))}
             />
           </div>
         </div>
@@ -199,10 +187,8 @@ const CarritoPage = () => {
                           : `$${p.precio}` + ' - ' + ' Unidades disponibles: ' + p.inventario}
                         tooltip={
                           (p.type === 'paquete' ?
-                            (p.descripcion !== null ? p.descripcion : p.tipo + ' ' + p.modalidad)
-                            :
+                            (p.descripcion !== null ? p.descripcion : p.tipo + ' ' + p.modalidad) :
                             (p.descripcion !== null ? p.descripcion : p.nombre))
-
                         }
                         controls={
                           p.type === 'paquete' ?
@@ -235,7 +221,7 @@ const CarritoPage = () => {
                         <tr key={`CARR_${i}`} className='h-10 ' >
                           <td className='text-sm text-start'>
                             <div className='relative flex flex-col py-2 pl-4'>
-                              <p data-tooltip={p.descripcion !== '' ? p.descripcion : (p.tipo + ' ' + p.modalidad)} className='text-base text-blue-900 ellipsis'> {p.tipo + ' ' + p.modalidad} </p>
+                              <p data-tooltip={p.descripcion !== null ? p.descripcion : (p.tipo + ' ' + p.modalidad)} className='text-base text-blue-900 ellipsis'> {p.tipo + ' ' + p.modalidad} </p>
                               <p className='text-sm font-[200]'> $ {p.precio}.00 </p>
                             </div>
                           </td>
