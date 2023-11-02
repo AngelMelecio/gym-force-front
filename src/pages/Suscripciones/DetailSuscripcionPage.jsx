@@ -1,6 +1,7 @@
 import { useFormik } from 'formik'
 import React, { useEffect, useState } from 'react'
 import Inpt from '../../components/inputs/Inpt'
+import Opts from '../../components/inputs/Opts'
 import AbsScroll from '../../components/AbsScroll'
 import { useNavigate, useParams } from 'react-router-dom'
 import { useSuscripciones } from './hooks/useSuscripciones'
@@ -8,26 +9,51 @@ import { MyIcons } from '../../constants/Icons'
 
 const DetailSuscripcionPage = () => {
 
-  const [loading, setLoading] = useState(false)
-
   const navigate = useNavigate()
   let { id } = useParams()
-  const { getOne } = useSuscripciones()
+  const { getSuscripcion, updateSuscripcion } = useSuscripciones()
 
-  const [someChange, setSomeChange] = useState(false)
+  const [loading, setLoading] = useState(false)
+  const [fieldChanged, setFieldChanged] = useState(false)
 
-  const susFormik = useFormik({
+  const userFormik = useFormik({
     initialValues: {},
     validate: (values) => {
       const errors = {}
+      if(!values.tipo) {
+        errors.tipo = 'Selecciona un tipo';
+      } else if (values.tipo === null) {
+        errors.tipo = 'Selecciona un tipo';
+      }
+
+      if (!values.modalidad) {
+        errors.modalidad = 'Selecciona una modalidad';
+      } else if (values.modalidad === null) {
+        errors.modalidad = 'Selecciona una modalidad';
+      }
+
+      if (!values.precio) {
+        errors.precio = 'Ingresa el precio';
+      } else if (values.precio < 0) {
+        errors.precio = 'El precio debe ser mayor a 0';
+      }
+
+      if (!values.duracion) {
+        errors.duracion = 'Ingresa la duración';
+      } else if (values.duracion < 0) {
+        errors.duracion = 'La duración debe ser mayor a 0';
+      } else if (values.duracion % 1 !== 0) {
+        errors.duracion = 'La duración debe ser un número entero';
+      }
       return errors
     },
     onSubmit: async (values) => {
       try {
         setLoading(true)
-
+        await updateSuscripcion(values)
+        navigate('/suscripciones')
       } catch (e) {
-
+        console.log(e)
       } finally {
         setLoading(false)
       }
@@ -38,8 +64,8 @@ const DetailSuscripcionPage = () => {
     async function fetch() {
       try {
         setLoading(true)
-        let suscripcion = await getOne(id)
-        susFormik.setValues(suscripcion)
+        const suscripcion = await getSuscripcion(id)
+        userFormik.setValues(suscripcion)
       } catch (e) {
         console.error('Error al cargar detalles', e)
       } finally {
@@ -47,10 +73,10 @@ const DetailSuscripcionPage = () => {
       }
     }
     fetch()
-  }, [id])
+  }, [])
 
   return (
-    <form className='flex flex-col w-full h-screen p-3' onSubmit={susFormik.handleSubmit}>
+    <form className='flex flex-col w-full h-screen p-3' onSubmit={userFormik.handleSubmit}>
       <div className='flex items-end justify-between pb-3'>
         <div className='flex'>
           <button
@@ -61,7 +87,7 @@ const DetailSuscripcionPage = () => {
           <h1 className='pl-1 text-3xl text-blue-900 '>Detalles de la Suscripción</h1>
         </div>
         <input
-          disabled={!someChange}
+          disabled={!fieldChanged}
           className='px-10 py-1.5 rounded-lg btn-naranja'
           value="Guardar"
           type='submit' />
@@ -75,29 +101,48 @@ const DetailSuscripcionPage = () => {
               </h2>
             </div>
             <div className="flex-grow w-full px-4 sm:w-1/2">
-              <Inpt
-                onKeyDown={() => setSomeChange(true)}
-                name="nombre" formik={susFormik} label="Nombre" />
+              <Opts name="tipo" formik={userFormik} label="Tipo" options={[
+                { label: "Seleccione", value: null },
+                { label: "Visita", value: 'Visita' },
+                { label: "Semana", value: 'Semana' },
+                { label: "Mensualidad", value: 'Mensualidad' },
+                { label: "Trimestre", value: 'Trimestre' },
+                { label: "Semestre", value: 'Semestre' },
+                { label: "Anualidad", value: 'Anualidad' },
+              ]}
+                selecting={setFieldChanged} />
             </div>
             <div className="flex-grow w-full px-4 sm:w-1/2">
-              <Inpt
-                onKeyDown={() => setSomeChange(true)}
-                name="categoria" formik={susFormik} label="Categoria" />
+              <Opts name="modalidad" formik={userFormik} label="Modalidad" options={[
+                { label: "Seleccione", value: null },
+                { label: "Gym", value: 'Gym' },
+                { label: "Spin", value: 'Spin' },
+                { label: "Yoga", value: 'Yoga' },
+                { label: "Gym + Spin", value: 'Gym + Spin' },
+                { label: "Gym + Yoga", value: 'Gym + Yoga' },
+                { label: "Gym + Spin + Yoga", value: 'Gym + Spin + Yoga' },
+              ]}
+                selecting={setFieldChanged}
+              />
             </div>
             <div className="flex-grow w-full px-4 sm:w-full">
               <Inpt
-                onKeyDown={() => setSomeChange(true)}
-                name="descripcion" formik={susFormik} label="Descripción" />
+                onKeyDown={() => setFieldChanged(true)}
+                name="descripcion" formik={userFormik} label="Descripción" />
             </div>
             <div className="flex-grow w-full px-4 sm:w-1/2">
               <Inpt
-                onKeyDown={() => setSomeChange(true)}
-                name="precio" formik={susFormik} label="Precio" />
+                onKeyDown={() => setFieldChanged(true)}
+                name="precio" formik={userFormik}
+                type="number" step={0.1}
+                label="Precio (MXN)" />
             </div>
             <div className="flex-grow w-full px-4 sm:w-1/2">
               <Inpt
-                onKeyDown={() => setSomeChange(true)}
-                name="duracion" formik={susFormik} label="Duración" />
+                onKeyDown={() => setFieldChanged(true)}
+                name="duracion" formik={userFormik}
+                type="number" step={1}
+                label="Duración (días)" />
             </div>
 
           </div>

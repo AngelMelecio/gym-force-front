@@ -10,6 +10,15 @@ const ClientSelector = ({ label, name, options, client, setClient, selecting, ..
 
     const inptRef = useRef(null)
 
+    useEffect(() => {
+        if (options && options.length > 0) {
+            let newText = options.find(o => o.value === client).label
+            setText(newText)
+            setError(!options.some(o => o.label?.trim().toLowerCase()
+                === newText.trim().toLowerCase()))
+        }
+    }, [options])
+
     const handleOptClick = (e, option) => {
         e.preventDefault()
         inptRef.current.blur()
@@ -25,7 +34,7 @@ const ClientSelector = ({ label, name, options, client, setClient, selecting, ..
     const handleInptChange = (e) => {
         let newText = e.target.value
         setText(newText)
-        setError( !options.some(o => o.label?.trim().toLowerCase().includes(newText.trim().toLowerCase())) )
+        setError(!options.some(o => o.label?.trim().toLowerCase().includes(newText.trim().toLowerCase())))
         setClient(options.find(o => o.label?.trim().toLowerCase()
             === newText.trim().toLowerCase().value))
     }
@@ -43,7 +52,7 @@ const ClientSelector = ({ label, name, options, client, setClient, selecting, ..
                     value={text}
                     onChange={handleInptChange}
                     onBlur={(e) => { setShowOpts(false) }}
-                    onFocus={(e) => {setShowOpts(true); e.target.select()} }
+                    onFocus={(e) => { setShowOpts(true); e.target.select() }}
                     className={`cursor-pointer w-full pr-4 pl-14 h-10 text-lg border-2 rounded-full outline-none  duration-200 font-medium appearance-none ${error ? 'border-rose-400 text-red-500' : text !== "" ? 'text-blue-800 border-blue-500' : 'border-gray-300 hover:border-blue-500 focus:border-blue-500'}  `}
                     {...props}
                 />

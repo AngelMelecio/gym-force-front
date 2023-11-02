@@ -55,11 +55,13 @@ export const ClientesProvider = ({ children }) => {
             formData.append(key, cliente[key])
         })
         try {
-            const resp = await myAxios.post(API_CLIENTES_URL, formData)
-            notify(resp.data.message)
-            notify("PIN de acceso: " + resp.data.pin)
+            const { data } = await myAxios.post(API_CLIENTES_URL, formData);
+            const { message, idCliente } = data;
+            notify(message)
+            return { idCliente }
         } catch (err) {
             notify("No fue posible registrar el cliente", true);
+            return null
         }
     }
 

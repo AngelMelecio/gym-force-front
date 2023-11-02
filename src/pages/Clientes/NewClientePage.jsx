@@ -9,6 +9,7 @@ import AbsScroll from '../../components/AbsScroll'
 import { sleep } from '../../utils/global'
 import { useClientes } from './hooks/useClientes'
 import { MyIcons } from '../../constants/Icons'
+import { IoMdCloseCircle } from 'react-icons/io';
 
 const NewClientePage = () => {
 
@@ -37,9 +38,8 @@ const NewClientePage = () => {
     onSubmit: async (values) => {
       try {
         setLoading(true)
-        await createCliente(values)
-        navigate('/clientes')
-
+        const {idCliente} = await createCliente(values)
+        navigate('/clientes/created/'+`${idCliente}`)
       } catch (e) {
         
       } finally {

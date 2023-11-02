@@ -1,12 +1,12 @@
 import React from 'react'
 
-const Card = ({ title, subtitle, controls }) => {
+const Card = ({ title, subtitle, controls, tooltip }) => {
   return (
     <div className='flex flex-col p-3 bg-white rounded-lg shadow-md'>
       <div className='flex flex-col justify-between'>
         <div className='relative flex flex-col'>
           <p
-            data-tooltip={title}
+            data-tooltip={tooltip}
             className=' text-lg font-[800] text-blue-900 ellipsis  '>
             {title}
           </p>
