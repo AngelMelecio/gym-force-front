@@ -8,11 +8,11 @@ export const useProductos = () => {
     return useContext(ProductosContext);
 };
 
-function formatProductos(materiales) {
-    return materiales.map(p => ({
+function formatProductos(productos) {
+    return productos.map(p => ({
         ...p,
         id: `producto_${p.idProducto}`,
-        tipo: 'producto',
+        type: 'producto',
         cantidad: 0,
     }))
 }

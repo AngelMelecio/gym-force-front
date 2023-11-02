@@ -123,7 +123,7 @@ const Table = ({
                         <MyIcons.Person size='30px' color='white' />}
                     </div>
                     <div className='flex flex-col flex-grow'>
-                      <div className='flex flex-col md:flex-row'>
+                      <div className='flex flex-col lg:flex-row'>
                         {titleAttrs?.map((atr, j) =>
                           <p key={'tittle' + j} className='px-1 text-xl font-extrabold text-blue-900'>
                             {item[atr]}

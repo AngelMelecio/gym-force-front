@@ -26,6 +26,7 @@ export const adminRoutes = [
     { path: '/clientes', element: <ClientesPage /> },
     { path: '/clientes/0', element: <NewClientePage /> },
     { path: '/clientes/:id', element: <DetailClientePage /> },
+    { path: '/clientes/created/:idCliente', element: <ClientesPage /> },
     //Productos
     { path: '/productos/', element: <ProductosPage /> },
     { path: '/productos/0', element: <NewProductoPage /> },
@@ -35,17 +36,21 @@ export const adminRoutes = [
     { path: '/suscripciones/0', element: <NewSuscripcionPage /> },
     { path: '/suscripciones/:id', element: <DetailSuscripcionPage /> },
 
-
+    //Carrito
     { path: '/carrito', element: <CarritoPage /> },
+    { path: '/carrito/:idCliente', element: <CarritoPage /> }, //nueva suscripcion
+    { path: '/carrito/:idCliente/:idSuscripcion', element: <CarritoPage /> }, //renovar o pagar suscripcion
+
+    
 ]
 
-export const mainTabs =[
+export const mainTabs = [
     { to: '/acceso', content: 'Acceso', icon: <MyIcons.FingerPrint size={"20px"} /> },
     { to: '/carrito', content: 'Ventas', icon: <MyIcons.Cart size={"21px"} /> },
 ]
 
 export const adminTabs = [
-    
+
     { to: '/clientes', content: 'Clientes', icon: <MyIcons.People size={"18px"} /> },
     { to: '/suscripciones', content: 'Suscripciones', icon: <MyIcons.Calendar size={"16px"} /> },
     { to: '/productos', content: 'Productos', icon: <MyIcons.Tag size={"20px"} /> },

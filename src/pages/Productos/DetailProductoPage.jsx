@@ -109,13 +109,13 @@ const DetailProductoPage = () => {
               <Inpt
                 onKeyDown={() => setFieldChanged(true)}
                 name="precio" formik={userFormik}
-                label="Precio" type="number" step={0.1} />
+                label="Precio (MXN)" type="number" step={0.1} />
             </div>
             <div className="flex-grow w-full px-4 sm:w-1/2">
               <Inpt
                 onKeyDown={() => setFieldChanged(true)}
                 name="inventario" formik={userFormik}
-                label="Inventario" type="number" step={1} />
+                label="Inventario (unidades)" type="number" step={1} />
             </div>
 
           </div>

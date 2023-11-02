@@ -117,7 +117,7 @@ const Crud = ({
                             type="checkbox" />
                         </div>
                       </td>
-                      {columns?.map((col, j) => <td key={`TD_${i}_${j}`} onClick={() => navigate(`/${path}/${item[idName]}`)}>
+                      {columns?.map((col, j) => <td className='' key={`TD_${i}_${j}`} onClick={() => navigate(`/${path}/${item[idName]}`)}>
                         {item[col.atribute]}
                       </td>)
                       }

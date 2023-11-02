@@ -13,9 +13,15 @@ const ProductosPage = () => {
 
   useEffect(() => {
     async function load() {
-      setLoading(true)
-      refreshAllProductos()
-      setLoading(false)
+      try {
+        setLoading(true)
+        await refreshAllProductos()
+        setLoading(false)
+      } catch (e) {
+        console.error("Error al cargar datos", e)
+      } finally {
+        setLoading(false)
+      }
     }
     load()
   }, [])
@@ -43,8 +49,8 @@ const ProductosPage = () => {
           { label: "ID", atribute: "idProducto" },
           { label: "Nombre", atribute: "nombre" },
           { label: "Descripción", atribute: "descripcion" },
-          { label: "Precio", atribute: "precio" },
-          { label: "Invetario", atribute: "inventario" },
+          { label: "Precio (MXN)", atribute: "precio" },
+          { label: "Invetario (Unidades)", atribute: "inventario" },
         ]}
         data={listaProductos}
         setData={setListaProductos}
