@@ -50,7 +50,7 @@ export const AxiosProvider = ({ children }) => {
      */
     myAxios.interceptors.request.use(
         async (config) => {
-            console.log('Theres a request:', config)
+            //console.log('Theres a request:', config)
 
             /**
              * Try to get the token from the local storage
@@ -86,7 +86,7 @@ export const AxiosProvider = ({ children }) => {
      */
     myAxios.interceptors.response.use(
         (response) => {
-            console.log('theres a response: ', response)
+            //console.log('theres a response: ', response)
             return response;
         },
         async function (error) {

@@ -107,15 +107,17 @@ const DetailClientePage = () => {
           setBottom={isWindowBottom}
           vertical>
 
-          <div className='flex p-3 pb-4 bg-white rounded-t-lg shadow-md' >
+          <div className='flex p-10 bg-white border-b rounded-t-lg pt-7' >
             <div className='flex flex-row w-full h-full'>
-              <div className='flex w-[123px] h-full'>
-                <ImgInpt name="fotografia"
-                  selecting={setFieldChanged}
-                  formik={userFormik} />
-              </div>
-              <div className='flex flex-col w-full h-[123px] mx-3.5 justify-center'>
-                <p className='pb-0.5 text-3xl font-extrabold text-blue-900'>
+              {/*
+               */}
+               <div className='flex w-[123px] h-full'>
+                 <ImgInpt name="fotografia"
+                   selecting={setFieldChanged}
+                   formik={userFormik} />
+               </div>
+              <div className='flex flex-col justify-center w-full ml-10'>
+                <p className='pb-1 text-3xl font-extrabold text-blue-900'>
                   {userFormik.values?.nombre + ' ' + userFormik.values?.apellidos}
                 </p>
                 <p className='pb-1 text-xl font-semibold text-gray-700'>
@@ -132,7 +134,7 @@ const DetailClientePage = () => {
             className='flex flex-col'
             style={{ height: windowHeight }}>
             {/* Tabs */}
-            <div className='flex flex-row h-12 mt-1 border-b-2'>
+            <div className='flex flex-row h-12 border-b-2'>
               {[{ option: 'informacion', label: 'Información' },
               { option: 'subscripciones', label: 'Subscripciones' },
               { option: 'actividad', label: 'Actividad' }].map((c, i) =>
