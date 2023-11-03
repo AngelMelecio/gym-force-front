@@ -142,7 +142,7 @@ const Table = ({
                   </div>
                   <div className='flex items-center px-4 md:w-1/2'>
                     <div className='flex justify-center flex-grow w-full'>
-                      {Info !== null || Info !== undefined && Info(item[infoAttr])}
+                      {Info(item[infoAttr])}
                     </div>
                   </div>
                 </div>

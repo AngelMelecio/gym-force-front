@@ -14,7 +14,7 @@ const Modal = ({
 
     return (
         <div className='absolute z-20 w-full h-screen appear gray-trans total-center'>
-            <div className='w-full mx-5 bg-white rounded-lg shadow-md sm:mx-28 md:mx-48 emerge'>
+            <div className='w-1/2 mx-5 bg-white rounded-lg shadow-md sm:mx-28 md:mx-48 emerge'>
                 <button
                     disabled={loading}
                     onClick={onClose}
@@ -25,9 +25,19 @@ const Modal = ({
                     {image}
                 </div>
                 <div className='px-5 pb-10'>
-                    <h3 className='text-2xl font-extrabold text-center text-blue-950'>{title}</h3>
-                    <h3 className='text-lg text-center text-gray-600'>{info}</h3>
+                    <h3 className='pb-5 text-2xl font-extrabold text-center text-blue-950'>{title}</h3>
+                    {
+                        info.split('\n').map((item, i, array) => (
+                            <React.Fragment key={i}>
+                                <h3 className='text-lg text-center text-gray-600'>
+                                    {item}
+                                    {i !== array.length - 1 && <br />}
+                                </h3>
+                            </React.Fragment>
+                        ))
+                    }
                 </div>
+
                 <div className='flex'>
                     <button
                         disabled={loading}
