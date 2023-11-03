@@ -196,6 +196,7 @@ const CarritoPage = () => {
                               isSelected={p.isSelected}
                               onSelect={() => handleSelect(p.id)} />
                             :
+                            p.inventario !== 0 &&
                             <SpinBtn
                               cantidad={p.cantidad}
                               onAdd={() => handleAdd(p.id)}
@@ -295,7 +296,10 @@ const CarritoPage = () => {
           info={`Haz clic en "confirmar" para realizar la venta`}
           onClose={() => setShowModal(false)}
           onCancel={() => setShowModal(false)}
-          onConfirm={handleRealizarVenta}
+          onConfirm={() => {
+            handleRealizarVenta();
+            fetchArticles();
+          }}
           loading={loading.venta}
         />
       }

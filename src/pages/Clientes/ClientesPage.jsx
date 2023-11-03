@@ -45,6 +45,7 @@ const ClientesPage = () => {
 
   useEffect(() => {
     setListaClientes(allClientes)
+    console.log(allClientes)
   }, [allClientes])
 
   const onConfirm = async () => {
@@ -72,6 +73,8 @@ const ClientesPage = () => {
         photoAttr='fotografia'
         data={listaClientes}
         setData={setListaClientes}
+        Info={Vigencia}
+        infoAttr='diferencia_dias'
         onDelete={(lista, element) => {
           setSelectedCliente(element);
           setSelectedItemId(lista);
@@ -96,7 +99,7 @@ const ClientesPage = () => {
           onClose={() => setShowModalCliente(false)}
           onConfirm={onConfirmCliente}
           title="Vender y asignar Suscripción"
-          info={`El PIN de acceso de: ${objCliente?.nombre} ${objCliente?.apellidos} es: ${objCliente?.pin}. ¿Deseas asignar una nueva suscripción?`}
+          info={`El PIN de acceso de ${objCliente?.nombre} ${objCliente?.apellidos} es: ${objCliente?.pin}.\n¿Deseas asignar una nueva suscripción?`}
         />
       }
     </>
