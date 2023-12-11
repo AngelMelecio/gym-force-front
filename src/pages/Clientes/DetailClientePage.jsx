@@ -9,6 +9,7 @@ import { toUrl } from '../../utils/global'
 import { useFormik } from 'formik'
 import ImgInpt from '../../components/inputs/ImgInpt'
 import FrmClienteUP from './FrmClientesUP'
+import Actividad from './components/Actividad'
 
 
 const DetailClientePage = () => {
@@ -111,11 +112,11 @@ const DetailClientePage = () => {
             <div className='flex flex-row w-full h-full'>
               {/*
                */}
-               <div className='flex w-[123px] h-full'>
-                 <ImgInpt name="fotografia"
-                   selecting={setFieldChanged}
-                   formik={userFormik} />
-               </div>
+              <div className='flex w-[123px] h-full'>
+                <ImgInpt name="fotografia"
+                  selecting={setFieldChanged}
+                  formik={userFormik} />
+              </div>
               <div className='flex flex-col justify-center w-full ml-10'>
                 <p className='pb-1 text-3xl font-extrabold text-blue-900'>
                   {userFormik.values?.nombre + ' ' + userFormik.values?.apellidos}
@@ -157,7 +158,9 @@ const DetailClientePage = () => {
               </div>}
               {selectedTab === 'actividad' && <div className='flex flex-col h-full appear'>
                 <h2 className='px-6 py-5 mt-4 text-xl text-blue-900'>Actividad y asistencia</h2>
-                <Calendar />
+                <Actividad
+                  cliente={id}
+                />
               </div>}
             </div>
           </div>
