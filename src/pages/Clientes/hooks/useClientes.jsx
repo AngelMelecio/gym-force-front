@@ -22,6 +22,7 @@ export const ClientesProvider = ({ children }) => {
     const { myAxios } = useAxios()
     const [allClientes, setAllClientes] = useState([])
     const API_CLIENTES_URL = 'api/clientes/'
+    const API_REGISTROS_URL = 'api/registros/'
 
     async function getCliente(id) {
         try {
@@ -88,6 +89,15 @@ export const ClientesProvider = ({ children }) => {
         }
     }
 
+    async function getRegistros(id) {
+        try{
+            const registros = await myAxios.get(`${API_REGISTROS_URL}${id}` )
+            return registros.data
+        }catch(e){
+            notify("No fue posible obtener los registros", true);
+        }
+    }
+
     return (
         <ClientesContext.Provider value={{
             getCliente, getAll,
@@ -95,7 +105,8 @@ export const ClientesProvider = ({ children }) => {
             refreshAllClientes,
             createCliente,
             deleteCliente,
-            updateCliente
+            updateCliente,
+            getRegistros
 
         }}>
             {children}

@@ -11,7 +11,7 @@ import ImgInpt from '../../components/inputs/ImgInpt'
 import FrmClienteUP from './FrmClientesUP'
 import Vigencia from '../../components/Vigencia'
 import Report from '../../components/Report'
-
+import Actividad from './components/Actividad'
 
 const DetailClientePage = () => {
   {/* Screen */ }
@@ -196,7 +196,9 @@ const DetailClientePage = () => {
               }
               {selectedTab === 'actividad' && <div className='flex flex-col h-full appear'>
                 <h2 className='px-6 py-5 mt-4 text-xl text-blue-900'>Actividad y asistencia</h2>
-                <Calendar />
+                <Actividad
+                  cliente={id}
+                />
               </div>}
             </div>
           </div>
