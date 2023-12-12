@@ -63,8 +63,11 @@ import {
     RxCross2 as Cancel,
 } from 'react-icons/rx'
 
+import { IoTime as Clock} from "react-icons/io5";
+import { FaCircle as Circle } from "react-icons/fa";
+
 export const MyIcons = {
-    FingerPrint,
+    FingerPrint, Circle,Clock,
     Pack,
     Chart,
     People,

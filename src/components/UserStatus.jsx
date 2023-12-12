@@ -1,9 +1,9 @@
 import React from 'react'
 import { MyIcons } from '../constants/Icons'
 
-const UserStatus = (state) => {
+const UserStatus = ({prop}) => {
     return (
-        state ?
+        prop ?
             <div className='flex flex-row items-center'>
                 <MyIcons.Active className="ml-2 text-sm text-emerald-500" />
                 <p className='px-1 font-semibold text-gray-700 text-clip'>Activo</p>

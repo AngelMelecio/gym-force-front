@@ -1,41 +1,39 @@
-import React, { useState } from 'react'
-const Vigencia = (ms) => {
-    console.log(ms);
+import React from 'react'
+import { MyIcons } from '../constants/Icons'
 
-    switch (Number(ms)) {
-        case (ms < 3600000):
-            return (
-                <div>{
+const Vigencia = ({ prop }) => {
+    let colorClass;
+    let message;
 
-                    Math.floor(ms / 60000) + " minutos"
-                }</div>
-            )
-        case (ms < 86400000):
-            return (
-                <div>{
-
-                    Math.floor(ms / 3600000) + " horas"
-                }</div>
-            )
-        case (ms < 2592000000):
-            return (
-                <div>{
-
-                    Math.floor(ms / 86400000) + " dias"
-                }</div>
-            )
-        case (ms < 31536000000):
-            return (
-                <div>{
-
-                    Math.floor(ms / 2592000000) + " meses"
-                }</div>
-            )
-
-
+    if (prop > 10) {
+        colorClass = "text-green-500";
+        message = "Vigente, " + prop + " días restantes"
+    } else if (prop >= 6 && prop <= 10) {
+        colorClass = "text-yellow-400";
+        message = "Por vencer, " + prop + " días restantes"
+    } else if (prop >= 2 && prop <= 5) {
+        colorClass = "text-orange-400";
+        message = "Por vencer, " + prop + " días restantes"
+    } else if (prop === 1) {
+        colorClass = "text-red-500";
+        message = "Vence mañana"
+    } else if (prop === 0) {
+        message = "Vence hoy"
+        colorClass = "text-red-500";
+    } else if (prop < 0) {
+        message = "Venció hace " + Math.abs(prop) + " días"
+        colorClass = "text-red-500";
+    } else if (prop === null) {
+        message = "No hay suscripciones activas"
+        colorClass = "text-gray-500";
     }
 
-
-
+    return (
+        <div className='flex flex-row items-center'>
+            <MyIcons.Clock className={`h-5 w-5 ${colorClass}`} />
+            <p className='px-1 font-semibold text-gray-700 text-clip'>{message}</p>
+        </div>
+    )
 }
-export default Vigencia
+
+export default Vigencia;

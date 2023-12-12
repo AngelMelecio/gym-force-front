@@ -56,7 +56,7 @@ const Table = ({
     if (val) val = val.trim().toLowerCase()
     let elements = [...data]
     let newElements = [...elements].filter(e => {
-      return Object.keys(e).some(key => 
+      return Object.keys(e).some(key =>
         e[key] !== null ? e[key].toString().toLowerCase().includes(val) : ''
       )
     })
@@ -109,12 +109,12 @@ const Table = ({
             {filteredData?.map((item, i) =>
               <div
                 key={item[idName]}
-                className='flex flex-row items-center justify-between w-full px-5 py-3 duration-100 hover:shadow-md hover:cursor-pointer'>
+                className='flex flex-row items-center justify-between w-full px-5 py-3 duration-100 hover:bg-slate-100 hover:cursor-pointer'>
                 <div
                   onClick={() => navigate(`/${path}/${item[idName]}`)}
                   className="flex flex-col justify-between flex-grow w-1/2 md:flex-row">
                   <div className='flex flex-row items-center flex-grow'>
-                    <div className='w-16 h-16 mr-5 bg-gray-200 rounded-full shadow-md total-center'>
+                    <div className='w-16 h-16 mr-5 bg-gray-200 rounded-full shadow-lg total-center'>
                       {toUrl(item[photoAttr]) !== null ?
                         <img
                           className='object-cover w-full h-full rounded-full'
@@ -142,7 +142,9 @@ const Table = ({
                   </div>
                   <div className='flex items-center px-4 md:w-1/2'>
                     <div className='flex justify-center flex-grow w-full'>
-                      {Info(item[infoAttr])}
+                      <div className='flex justify-center w-full md:justify-start'>
+                        {Info({ prop: item[infoAttr] })}
+                      </div>
                     </div>
                   </div>
                 </div>
