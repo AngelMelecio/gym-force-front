@@ -14,10 +14,12 @@ import { MyIcons } from "./Icons";
 import ProductosPage from "../pages/Productos/ProductosPage";
 import NewProductoPage from "../pages/Productos/NewProductoPage";
 import DetailProductoPage from "../pages/Productos/DetailProductoPage";
+import TestPage from "../pages/TestPage/TestPage";
 
 export const adminRoutes = [
     { path: '/acceso', element: <AccessoPage /> },
     { path: '/perfil', element: <PerfilPage /> },
+    //{ path: '/test', element: <TestPage/> },
     //Usuarios
     { path: '/usuarios', element: <UsuariosPage /> },
     { path: '/usuarios/0', element: <NewUsuarioPage /> },

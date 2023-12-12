@@ -9,8 +9,9 @@ import { toUrl } from '../../utils/global'
 import { useFormik } from 'formik'
 import ImgInpt from '../../components/inputs/ImgInpt'
 import FrmClienteUP from './FrmClientesUP'
+import Vigencia from '../../components/Vigencia'
+import Report from '../../components/Report'
 import Actividad from './components/Actividad'
-
 
 const DetailClientePage = () => {
   {/* Screen */ }
@@ -79,6 +80,7 @@ const DetailClientePage = () => {
   }, [windowRef])
   useEffect(() => {
     formikRef.current = userFormik;
+    console.table(userFormik.values)
   }, [userFormik]);
 
 
@@ -122,11 +124,11 @@ const DetailClientePage = () => {
                   {userFormik.values?.nombre + ' ' + userFormik.values?.apellidos}
                 </p>
                 <p className='pb-1 text-xl font-semibold text-gray-700'>
-                  Suscripción activa
+                  {userFormik.values?.suscripcion}
                 </p >
-                <p className='text-lg font-semibold text-gray-700'>
-                  Vence en x días
-                </p >
+                <div className='flex w-full'>
+                  <Vigencia prop={userFormik.values?.diferencia_dias} />
+                </div>
               </div>
             </div>
           </div>
@@ -149,13 +151,49 @@ const DetailClientePage = () => {
             </div>
             {/* Selected Tab */}
             <div className='w-full h-full '>
-              {selectedTab === 'informacion' && <div className='appear'>
-                <h2 className='px-6 py-5 mt-4 text-xl text-blue-900'>Datos de la cuenta</h2>
-                <FrmClienteUP userFormik={userFormik} setFieldChanged={setFieldChanged} />
-              </div>}
-              {selectedTab === 'subscripciones' && <div className='appear'>
-                <h2 className='px-6 py-5 mt-4 text-xl text-blue-900'>Suscripción activa e historial</h2>
-              </div>}
+              {
+                selectedTab === 'informacion' && <div className='appear'>
+                  <h2 className='px-6 py-5 mt-4 text-xl text-blue-900'>Datos de la cuenta</h2>
+                  <FrmClienteUP userFormik={userFormik} setFieldChanged={setFieldChanged} />
+                </div>
+              }
+              {
+                selectedTab === 'subscripciones' && <div className='appear'>
+                  <div className='flex flex-row justify-between w-full px-6 py-5 my-4'>
+                    <h2 className='text-xl text-blue-900'>Historial de suscripciones</h2>
+                    {
+                      userFormik.values?.diferencia_dias < 5 &&
+                      <button
+                        onClick={() => navigate('/carrito/' + userFormik.values?.idCliente + '/' + userFormik.values?.historico_suscripciones?.[0]?.id_suscripcion)}
+                        className='px-4 py-2 text-white rounded-lg btn-naranja'>
+                        {'Vender y asignar suscripción'}
+                      </button>
+                    }
+                  </div>
+                  {/* List with report format of subscriptions*/}
+                  <Report
+                    className='appear'
+                    columns={[
+                      { label: "Suscripción", attribute: "nombre_suscripcion" },
+                      { label: "Fecha de inicio", attribute: "fecha_inicio", render: (item) => new Date(item.fecha_inicio).toLocaleDateString('es-ES') },
+                      { label: "Fecha de término", attribute: "fecha_fin", render: (item) => new Date(item.fecha_fin).toLocaleDateString('es-ES') }
+                    ]}
+                    data={userFormik.values?.historico_suscripciones}
+                    renderFunctionColumn={(item, i) => (
+                      <div className='flex justify-center w-full text-lg font-semibold text-gray-500'>
+                        {
+                          (i === 0) ? (userFormik.values?.diferencia_dias > 0) ?
+                            <button className='px-4 py-1 m-1 text-white rounded-lg btn-naranja '
+                              onClick={() => navigate('/carrito/' + userFormik.values?.idCliente)} >
+                              Aplazar
+                            </button>
+                            : 'Vencido' : 'Vencido'
+                        }
+                      </div>
+                    )}
+                  />
+                </div>
+              }
               {selectedTab === 'actividad' && <div className='flex flex-col h-full appear'>
                 <h2 className='px-6 py-5 mt-4 text-xl text-blue-900'>Actividad y asistencia</h2>
                 <Actividad
