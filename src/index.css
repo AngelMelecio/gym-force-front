@@ -617,3 +617,11 @@ input[type="password"]:disabled {
 input[type="password"].pin:focus {
   outline: none;
 }
+
+/* Añade esto en tu archivo CSS global o en un módulo CSS */
+.react-calendar__tile--active,
+.react-calendar__tile--active:enabled,
+.react-calendar__tile--active:hover {
+  background: rgb(51, 90, 196) !important; /* Color de fondo para la fecha seleccionada */
+  color: #fff !important; /* Color del texto para la fecha seleccionada */
+}

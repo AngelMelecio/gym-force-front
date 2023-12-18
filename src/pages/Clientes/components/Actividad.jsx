@@ -56,7 +56,7 @@ const Actividad = ({ cliente }) => {
     // format registros of the current month and the next one
 
     let currentMonth = registros.filter(r => {
-      let date = new Date(r.fecha)
+      let date = new Date(r.fecha);
       return date.getMonth() === month && date.getFullYear() === year
     }).reduce((acc, curr) => ({
       ...acc,

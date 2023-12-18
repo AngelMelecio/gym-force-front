@@ -9,11 +9,19 @@ const Modal = ({
     onConfirm,
     onClose,
     isDelete,
-    loading
+    loading,
+    functionalComponent,
 }) => {
 
+    const renderComponent = () => {
+        if (functionalComponent) {
+            return React.createElement(functionalComponent)
+        }
+        return null
+    }
+
     return (
-        <div className='absolute z-20 w-full h-screen appear gray-trans total-center'>
+        <div className='absolute w-full h-screen z-200 appear gray-trans total-center'>
             <div className='w-1/2 mx-5 bg-white rounded-lg shadow-md sm:mx-28 md:mx-48 emerge'>
                 <button
                     disabled={loading}
@@ -26,8 +34,8 @@ const Modal = ({
                 </div>
                 <div className='px-5 pb-10'>
                     <h3 className='pb-5 text-2xl font-extrabold text-center text-blue-950'>{title}</h3>
-                    {
-                        info.split('\n').map((item, i, array) => (
+                    {   
+                        info && info.split('\n').map((item, i, array) => (
                             <React.Fragment key={i}>
                                 <h3 className='text-lg text-center text-gray-600'>
                                     {item}
@@ -35,6 +43,11 @@ const Modal = ({
                                 </h3>
                             </React.Fragment>
                         ))
+                    }
+                    {
+                        <div className='pb-5 total-center'>
+                            {renderComponent()}
+                        </div>
                     }
                 </div>
 

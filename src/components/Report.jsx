@@ -3,9 +3,9 @@ import React from 'react';
 const SuscripcionesList = ({ columns, data, renderFunctionColumn }) => {
     return (
 
-        <div className='flex flex-col items-center justify-center w-full h-full px-6'>
+        <div className='flex flex-col items-center w-full h-full px-6'>
             {/* Encabezado de la tabla */}
-            <div className='flex flex-row justify-between w-full h-full border-b-2'>
+            <div className='flex flex-row justify-between w-full border-b-2'>
                 {columns.map((column, i) => (
                     <div key={`header_${i}`} className='w-full mx-1 my-2 text-xl font-bold text-center text-blue-900'>
                         {column.label}
