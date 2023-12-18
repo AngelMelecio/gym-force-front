@@ -65,6 +65,8 @@ import {
 
 import { IoTime as Clock} from "react-icons/io5";
 import { FaCircle as Circle } from "react-icons/fa";
+import { TbReport as Report } from "react-icons/tb";
+
 
 export const MyIcons = {
     FingerPrint, Circle,Clock,
@@ -88,5 +90,5 @@ export const MyIcons = {
     Calendar,
     Tag,
     Filter,
-    CartCheck,
+    CartCheck,Report
 }

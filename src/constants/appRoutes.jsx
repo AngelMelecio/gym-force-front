@@ -14,12 +14,11 @@ import { MyIcons } from "./Icons";
 import ProductosPage from "../pages/Productos/ProductosPage";
 import NewProductoPage from "../pages/Productos/NewProductoPage";
 import DetailProductoPage from "../pages/Productos/DetailProductoPage";
-import TestPage from "../pages/TestPage/TestPage";
+import ReportesPage from "../pages/Reportes/ReportesPage";
 
 export const adminRoutes = [
     { path: '/acceso', element: <AccessoPage /> },
     { path: '/perfil', element: <PerfilPage /> },
-    //{ path: '/test', element: <TestPage/> },
     //Usuarios
     { path: '/usuarios', element: <UsuariosPage /> },
     { path: '/usuarios/0', element: <NewUsuarioPage /> },
@@ -37,12 +36,13 @@ export const adminRoutes = [
     { path: '/suscripciones', element: <SuscripcionesPage /> },
     { path: '/suscripciones/0', element: <NewSuscripcionPage /> },
     { path: '/suscripciones/:id', element: <DetailSuscripcionPage /> },
-
     //Carrito
     { path: '/carrito', element: <CarritoPage /> },
     { path: '/carrito/:idCliente', element: <CarritoPage /> }, //nueva suscripcion
     { path: '/carrito/:idCliente/:idSuscripcion', element: <CarritoPage /> }, //renovar o pagar suscripcion
-
+    //Rerportes
+    { path: '/reportes', element: <ReportesPage /> },
+    
     
 ]
 
@@ -57,6 +57,7 @@ export const adminTabs = [
     { to: '/suscripciones', content: 'Suscripciones', icon: <MyIcons.Calendar size={"16px"} /> },
     { to: '/productos', content: 'Productos', icon: <MyIcons.Tag size={"20px"} /> },
     { to: '/usuarios', content: 'Usuarios', icon: <MyIcons.Key size={"20px"} /> },
+    { to: '/reportes', content: 'Reportes', icon: <MyIcons.Report size={"24px"} /> },
 ]
 
 export const baseTabs = [

@@ -23,6 +23,7 @@ export const SuscripcionesProvider = ({ children }) => {
     const [allSuscripciones, setAllSuscripciones] = useState([])
     const API_SUSCRIPCIONES_URL = 'api/suscripciones/'
 
+
     async function getSuscripcion(id) {
         const resp = await myAxios.get(API_SUSCRIPCIONES_URL + id)
         return formatSuscripciones([resp.data])[0]
@@ -82,6 +83,20 @@ export const SuscripcionesProvider = ({ children }) => {
         }
     }
 
+    async function aplazarDetalleSuscripcion(id, ff) {
+        let formData = new FormData();
+        formData.append('fechaFin', ff);
+    
+        try {
+            const resp = await myAxios.put('api/detalleSuscripcionNft/' + id, formData);
+            notify(resp.data.message);
+        } catch (err) {
+            console.log(err);
+            notify("No fue posible actualizar la suscripcion", true);
+        }
+    }
+    
+
     
 
     return (
@@ -93,6 +108,7 @@ export const SuscripcionesProvider = ({ children }) => {
                 createSuscripcion,
                 deleteSuscripcion,
                 updateSuscripcion,
+                aplazarDetalleSuscripcion,
             }}>
             {children}
         </SuscripcionesContext.Provider>
