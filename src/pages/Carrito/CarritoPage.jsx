@@ -114,6 +114,7 @@ const CarritoPage = () => {
       setTicketData(data)
       setShowTicket(true)
       setClient(null)
+      fetchArticles()
 
     } catch (e) {
       notify(e.message, true)

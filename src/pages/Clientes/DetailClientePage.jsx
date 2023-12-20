@@ -213,21 +213,25 @@ const DetailClientePage = () => {
                     <Report
                       className='appear'
                       columns={[
-                        { label: "Suscripción", attribute: "nombre_suscripcion" },
+                        { label: "Suscripción", attribute: "nombre_suscripcion" , onclick: (item) => navigate('/carrito/' + userFormik.values?.idCliente + '/' + item.id_suscripcion)},
                         { label: "Fecha de inicio", attribute: "fecha_inicio", render: (item) => new Date(item.fecha_inicio).toLocaleDateString('es-ES') },
                         { label: "Fecha de término", attribute: "fecha_fin", render: (item) => new Date(item.fecha_fin).toLocaleDateString('es-ES') }
                       ]}
                       data={userFormik.values?.historico_suscripciones}
                       renderFunctionColumn={(item, i) => (
-                        <div className='relative flex justify-center w-full text-lg font-semibold text-gray-500'>
+                        <div className='relative flex flex-row justify-center w-full text-lg font-semibold text-gray-500'>
                           {
                             (i === 0) ? (userFormik.values?.diferencia_dias > 0) ?
                               <button className='px-4 py-1 m-1 text-white rounded-lg btn-naranja '
                                 onClick={() => handleclickAplazar(item)} >
                                 Aplazar
                               </button>
-                              : 'Vencido' : 'Vencido'
+                              : 'Vencido' : 'Vencido'                            
                           }
+                          <button className='px-4 py-1 m-1 text-white rounded-lg btn-naranja' 
+                            onClick={() => alert(JSON.stringify(item))}>
+                            Ver historial
+                          </button>
                         </div>
                       )}
                     />
@@ -265,6 +269,7 @@ const DetailClientePage = () => {
         />
 
       }
+      
     </>
   )
 }

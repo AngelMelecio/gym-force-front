@@ -79,7 +79,7 @@ const ReportesPage = () => {
                         <div className='flex p-4 bg-white border-b-2 rounded-t-lg pt-7' >
                             <div className='flex flex-col w-full h-28'>
                                 <form className='flex flex-row ' onSubmit={userFormik.handleSubmit}>
-                                    <div className="flex flex-wrap">
+                                    <div className="flex flex-wrap w-full">
                                         <div className='flex flex-row justify-between w-full px-2 mb-8'>
                                             <h2 className='text-xl font-bold text-blue-900 '>
                                                 Datos del reporte
