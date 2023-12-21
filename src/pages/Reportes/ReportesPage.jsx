@@ -5,6 +5,8 @@ import Report from '../../components/Report'
 import 'react-calendar/dist/Calendar.css'
 import Inpt from '../../components/inputs/Inpt'
 import Opts from '../../components/inputs/Opts'
+import Modal from '../../components/Modal'
+import { useReportes } from './hooks/useReportes'
 
 const ReportesPage = () => {
 
@@ -13,6 +15,17 @@ const ReportesPage = () => {
     const [isWindowBottom, setIsWindowBottom] = useState(false)
     const [loading, setLoading] = useState(false)
     const [ready, setReady] = useState(false)
+    const [ventas, setVentas] = useState(false)
+    const [showModal, setShowModal] = useState(false)
+    const [dataModal, setDataModal] = useState([])
+    const [data, setData] = useState([]) 
+    const { getVentas } = useReportes()
+
+    const handleclick = (details) => {
+        console.log(details)
+        setDataModal(details)
+        setShowModal(true)
+    }
     {/* Datos y formik */ }
     const [fieldChanged, setFieldChanged] = useState(false)
     const formikRef = useRef();
@@ -40,6 +53,18 @@ const ReportesPage = () => {
         onSubmit: async (values) => {
             try {
                 console.log(values)
+
+                if (values.tipo === 'Ventas') {
+                    const ventas = await getVentas({ fecha_inicio: values.fechaInicio, fecha_final: values.fechaFin })
+                    setData(ventas)
+                    setVentas(true)
+                } else {
+                    const asistencia = await getVentas({ fecha_inicio: values.fechaInicio, fecha_final: values.fechaFin })
+                    setData(asistencia)
+                    setVentas(false)
+                }
+                setLoading(true)
+                setReady(true)
 
             } catch (e) {
                 //console.log('Error al guardar', e)
@@ -81,7 +106,7 @@ const ReportesPage = () => {
                                 <form className='flex flex-row ' onSubmit={userFormik.handleSubmit}>
                                     <div className="flex flex-wrap w-full">
                                         <div className='flex flex-row justify-between w-full px-2 mb-8'>
-                                            <h2 className='text-xl font-bold text-blue-900 '>
+                                            <h2 className='text-2xl font-bold text-blue-900 '>
                                                 Datos del reporte
                                             </h2>
 
@@ -118,20 +143,41 @@ const ReportesPage = () => {
                         </div>
                         {/* Contenido */}
                         <div className='flex flex-col w-full h-full' style={{ height: windowHeight }}>
-                            {ready &&
+                            <h1 className='my-4 text-2xl font-bold text-center text-blue-900'>
+                                {ready ? userFormik.values.tipo === 'Ventas' ? 'Reporte de ventas' : 'Reporte de asistencia' : null}
+                            </h1>
+                            {ready && ventas &&
                                 <Report
                                     className='appear'
                                     columns={[
-                                        { label: "Suscripción", attribute: "nombre_suscripcion" },
-                                        { label: "Fecha de inicio", attribute: "fecha_inicio", render: (item) => new Date(item.fecha_inicio).toLocaleDateString('es-ES') },
-                                        { label: "Fecha de término", attribute: "fecha_fin", render: (item) => new Date(item.fecha_fin).toLocaleDateString('es-ES') }
+                                        { label: "Vendedor", attribute: "nombre_usuario" },
+                                        { label: "Fecha de venta", attribute: "fecha", render: (item) => new Date(item.fecha).toLocaleDateString('es-ES') },
+                                        { label: "Total", attribute: "total" },
+                                        { label: "Cliente", attribute: "nombre_cliente" }
                                     ]}
-                                    data={[
-                                        { id: 1, nombre_suscripcion: 'Suscripción 1', fecha_inicio: '2021-05-01', fecha_fin: '2021-05-30' },
-                                        { id: 2, nombre_suscripcion: 'Suscripción 2', fecha_inicio: '2021-05-01', fecha_fin: '2021-05-30' },
-                                        { id: 3, nombre_suscripcion: 'Suscripción 3', fecha_inicio: '2021-05-01', fecha_fin: '2021-05-30' },
-                                        { id: 4, nombre_suscripcion: 'Suscripción 4', fecha_inicio: '2021-05-01', fecha_fin: '2021-05-30' }
+                                    data={data}
+                                    renderFunctionColumn={(item, i) => (
+                                        <div className='relative flex flex-row justify-center w-full text-lg font-semibold text-gray-500'>
+
+                                            <button className='px-4 py-1 m-1 text-white rounded-lg btn-naranja '
+                                                onClick={() => handleclick(item.detalles)} >
+                                                Detalles
+                                            </button>
+
+                                        </div>
+                                    )}
+                                />
+                            }
+                            {ready && !ventas &&
+                                <Report
+                                    className='appear'
+                                    columns={[
+                                        { label: "Mostrador", attribute: "nombre_usuario" },
+                                        { label: "Cliente", attribute: "nombre_cliente" },
+                                        { label: "Fecha y hora de entrada", attribute: "fecha",render: (item) => new Date(item.fecha).toLocaleDateString('es-ES') }
+            
                                     ]}
+                                    data={data}
                                 />
                             }
 
@@ -139,6 +185,28 @@ const ReportesPage = () => {
                     </AbsScroll>
                 </div>
             </div>
+            {
+                showModal &&
+                <Modal
+                    className='w-full appear'
+                    title="Detalles de venta"
+                    onConfirm={() => setShowModal(false)}
+                    onClose={() => setShowModal(false)}
+                    functionalComponent={() =>
+                        <Report
+                            className='w-full appear'
+                            columns={[
+                                { label: "Tipo", attribute: "tipo" },
+                                { label: "Nombre", attribute: "nombre" },
+                                { label: "Cantidad", attribute: "cantidad" },
+                                { label: "Precio unitario", attribute: "precio_unitario" },
+                                { label: "Importe", attribute: "importe" }
+                            ]}
+                            data={dataModal}
+                        />
+                    }
+                />
+            }
 
         </>
 
