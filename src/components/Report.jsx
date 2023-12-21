@@ -16,9 +16,9 @@ const SuscripcionesList = ({ columns, data, renderFunctionColumn }) => {
 
             {/* Filas de datos */}
             {data.map((item, i) => (
-                <div key={`row_${i}`} className='flex flex-row items-center justify-between w-full h-12 border-b-2 cursor-pointer hover:bg-slate-100'>
+                <div key={`row_${i}`} className='flex flex-row items-center justify-between w-full h-auto border-b-2 cursor-pointer hover:bg-slate-100'>
                     {columns.map((column, j) => (
-                        <div key={`data_${i}_${j}`} className='w-full mx-1 text-lg font-semibold text-center text-gray-600'>
+                        <div key={`data_${i}_${j}`} className='w-full mx-1 text-base font-semibold text-center text-gray-600'>
                             {column.render ? column.render(item) : item[column.attribute]}
                         </div>
                     ))}

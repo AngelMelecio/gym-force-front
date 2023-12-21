@@ -23,6 +23,7 @@ const DetailClientePage = () => {
   const [initialDate, setInitialDate] = useState(null)
   const [selectedDate, setSelectedDate] = useState(null)
   const [showModal, setShowModal] = useState(false)
+  const [showModalAsistencia, setShowModalAsistencia] = useState(false)
   const [objHistory, setObjHistory] = useState(null)
   const { aplazarDetalleSuscripcion } = useSuscripciones()
   const onConfirm = async () => {
@@ -213,7 +214,7 @@ const DetailClientePage = () => {
                     <Report
                       className='appear'
                       columns={[
-                        { label: "Suscripción", attribute: "nombre_suscripcion" , onclick: (item) => navigate('/carrito/' + userFormik.values?.idCliente + '/' + item.id_suscripcion)},
+                        { label: "Suscripción", attribute: "nombre_suscripcion", onclick: (item) => navigate('/carrito/' + userFormik.values?.idCliente + '/' + item.id_suscripcion) },
                         { label: "Fecha de inicio", attribute: "fecha_inicio", render: (item) => new Date(item.fecha_inicio).toLocaleDateString('es-ES') },
                         { label: "Fecha de término", attribute: "fecha_fin", render: (item) => new Date(item.fecha_fin).toLocaleDateString('es-ES') }
                       ]}
@@ -226,10 +227,10 @@ const DetailClientePage = () => {
                                 onClick={() => handleclickAplazar(item)} >
                                 Aplazar
                               </button>
-                              : 'Vencido' : 'Vencido'                            
+                              : null : null
                           }
-                          <button className='px-4 py-1 m-1 text-white rounded-lg btn-naranja' 
-                            onClick={() => alert(JSON.stringify(item))}>
+                          <button className='px-4 py-1 m-1 text-white rounded-lg btn-naranja'
+                            onClick={() => setShowModalAsistencia(true)}>
                             Ver historial
                           </button>
                         </div>
@@ -262,14 +263,31 @@ const DetailClientePage = () => {
               minDate={initialDate}
               onChange={setSelectedDate}
               locale='es-ES'
-              className='w-full mt-5 border-2 border-gray-300 rounded-lg shadow-md bg-slate-50' 
+              className='w-full mt-5 border-2 border-gray-300 rounded-lg shadow-md bg-slate-50'
               value={selectedDate}
             />
           }
         />
 
       }
-      
+      {
+
+        showModalAsistencia &&
+        <Modal
+          onCancel={() => setShowModalAsistencia(false)}
+          onClose={() => setShowModalAsistencia(false)}
+          onConfirm={() => setShowModalAsistencia(false)}
+          title="Asistencia de la suscripción"
+          info={"Dias de asistencia durante la suscipcion seleccionada"}
+          functionalComponent={() =>
+            <>
+              <h1 className='px-6 py-5 mt-4 text-xl text-blue-900'>Aqui va un calendario con la asistencia del individuo</h1>
+            </>
+          }
+        />
+      }
+
+
     </>
   )
 }
