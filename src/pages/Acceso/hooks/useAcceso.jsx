@@ -1,5 +1,8 @@
 import React, { createContext, useContext, useState } from 'react';
 import { useAxios } from '../../../context/axiosContext';
+import { HOST } from '../../../constants/ENVs';
+import { getColor } from '../../../constants/getColors';
+import { nuevaFecha } from '../../../constants/nuevaFecha';
 
 const AccesoContext = createContext();
 
@@ -14,27 +17,24 @@ export const AccesoProvider = ({ children }) => {
   async function register(values) {
     try {
       let response = await myAxios.post('api/registros/', values)
-      let { nombre, apellidos } = response.data.registro.idVenta.idCliente
+      let { nombre, apellidos, fotografia } = response.data.registro.idVenta.idCliente
       let { fechaFin } = response.data.registro
-      return ({message:`Bienvenido ${nombre} ${apellidos}, tu paquete vence: ${fechaFin}`})
+
+      fechaFin = nuevaFecha(fechaFin)
+
+      let diasRestantes = Math.floor((fechaFin - new Date()) / (1000 * 60 * 60 * 24))
+
+      let { color, background, info } = getColor(diasRestantes)
+      return ({
+        image: HOST + fotografia,
+        message: `Bienvenido ${nombre} ${apellidos}`,
+        info,
+        background,
+        color
+      })
 
     } catch (e) {
-      if (e.response) {
-        switch (e.response.status) {
-          case 400:
-            throw new Error("Formato de PIN incorrecto");
-          case 404:
-            throw new Error("Cliente no encontrado");
-          case 409:
-            throw new Error("Suscripción Vencida");
-          default:
-            throw new Error("Algo salió mal");
-        }
-      }
-      else {
-        console.log(e)
-        throw new Error("Error de conexión");
-      }
+      throw e
     }
   }
 

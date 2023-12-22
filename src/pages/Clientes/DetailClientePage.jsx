@@ -20,12 +20,14 @@ import { set } from 'date-fns'
 
 const DetailClientePage = () => {
   {/* Logic to new end date */ }
+
   const [initialDate, setInitialDate] = useState(null)
   const [selectedDate, setSelectedDate] = useState(null)
   const [showModal, setShowModal] = useState(false)
   const [showModalAsistencia, setShowModalAsistencia] = useState(false)
   const [objHistory, setObjHistory] = useState(null)
   const { aplazarDetalleSuscripcion } = useSuscripciones()
+
   const onConfirm = async () => {
     setShowModal(false)
     try {
@@ -41,12 +43,21 @@ const DetailClientePage = () => {
       setLoading(false)
     }
   }
+
   const handleclickAplazar = async (objHistory) => {
     setInitialDate(new Date(objHistory.fecha_fin))
     setSelectedDate(new Date(objHistory.fecha_fin))
     setShowModal(true)
     setObjHistory(objHistory)
     console.log(objHistory)
+  }
+
+  const [objActividad, setObjActividad] = useState(null)
+  const [showActividadModal, setShowActividadModal] = useState(false)
+  const handleShowActividad = (item) => {
+    console.log(item)
+    setObjActividad(item)
+    setShowActividadModal(true)
   }
 
   useEffect(() => {
@@ -123,7 +134,6 @@ const DetailClientePage = () => {
 
   return (
     <>
-
       <div className='relative flex flex-col w-full h-screen m-3'>
         <div className='flex items-end justify-between pb-3'>
           <div className='flex flex-row'>
@@ -177,15 +187,15 @@ const DetailClientePage = () => {
               {/* Tabs */}
               <div className='flex flex-row h-12 border-b-2'>
                 {[{ option: 'informacion', label: 'Información' },
-                { option: 'subscripciones', label: 'Subscripciones' },
-                { option: 'actividad', label: 'Actividad' }].map((c, i) =>
-                  <button
-                    key={`tb_${i}`}
-                    type='button'
-                    onClick={() => setSelectedTab(c.option)}
-                    className={`px-5 py-2 border-b-2 font-bold  ${selectedTab === c.option ? 'border-b-blue-500 text-blue-600 bg-blue-50' : 'border-b-transparent text-gray-600'} duration-150`} >
-                    {c.label}
-                  </button>)}
+                { option: 'subscripciones', label: 'Subscripciones' }]
+                  .map((c, i) =>
+                    <button
+                      key={`tb_${i}`}
+                      type='button'
+                      onClick={() => setSelectedTab(c.option)}
+                      className={`px-5 py-2 border-b-2 font-bold  ${selectedTab === c.option ? 'border-b-blue-500 text-blue-600 bg-blue-50' : 'border-b-transparent text-gray-600'} duration-150`} >
+                      {c.label}
+                    </button>)}
               </div>
               {/* Selected Tab */}
               <div className='w-full h-full '>
@@ -231,20 +241,15 @@ const DetailClientePage = () => {
                           }
                           <button className='px-4 py-1 m-1 text-white rounded-lg btn-naranja'
                             onClick={() => setShowModalAsistencia(true)}>
-                            Ver historial
+                            Historial
                           </button>
                         </div>
                       )}
                     />
                   </div>
                 }
-                {/* Actividad y asistencia */}
-                {selectedTab === 'actividad' && <div className='flex flex-col h-full appear'>
-                  <h2 className='px-6 py-5 mt-4 text-xl text-blue-900'>Actividad y asistencia</h2>
-                  <Actividad
-                    cliente={id}
-                  />
-                </div>}
+
+
               </div>
             </div>
           </AbsScroll>
@@ -271,23 +276,21 @@ const DetailClientePage = () => {
 
       }
       {
-
-        showModalAsistencia &&
+        showActividadModal &&
         <Modal
-          onCancel={() => setShowModalAsistencia(false)}
-          onClose={() => setShowModalAsistencia(false)}
-          onConfirm={() => setShowModalAsistencia(false)}
-          title="Asistencia de la suscripción"
-          info={"Dias de asistencia durante la suscipcion seleccionada"}
+          onClose={() => setShowActividadModal(false)}
+          onConfirm={() => setShowActividadModal(false)}
+          title="Historial de asistencia"
+          info={`${objActividad?.nombre_suscripcion}`}
           functionalComponent={() =>
-            <>
-              <h1 className='px-6 py-5 mt-4 text-xl text-blue-900'>Aqui va un calendario con la asistencia del individuo</h1>
-            </>
-          }
+            <Actividad
+              cliente={id}
+              suscripcion={objActividad?.id_detalle_suscripcion}
+              fechaInicio={objActividad?.fecha_inicio}
+              fechaFin={objActividad?.fecha_fin}
+            />}
         />
       }
-
-
     </>
   )
 }

@@ -226,7 +226,7 @@ label.up {
 }
 
 .appear {
-  animation: appear 0.5s ease-out;
+  animation: appear 0.5s ease-out ;
 }
 
 @keyframes appear {
@@ -235,10 +235,37 @@ label.up {
   }
 
   100% {
-    opacity: 1;
+    opacity: 100%;
   }
 }
 
+.appear-75 {
+  animation: appear_75 0.5s ease-out forwards;
+}
+
+@keyframes appear_75 {
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 75%;
+  }
+}
+
+.grow {
+  animation: grow 5s linear forwards;
+}
+
+@keyframes grow {
+  0% {
+    width: 100%;
+  }
+
+  100% {
+    width: 0%;
+  }
+}
 
 .animate-slide>div {
   animation: slide 1.6s ease-in-out infinite;
@@ -597,8 +624,9 @@ input[type="checkbox"].switch:checked::after {
 }
 
 input[type="password"].pin {
-  height: 7rem;
-  font-size: 4rem;
+  height: 50%;
+  width: 60%;
+  font-size: 6rem;
   transition: 0.2s;
   background-color: transparent;
   caret-color: transparent;
@@ -622,6 +650,8 @@ input[type="password"].pin:focus {
 .react-calendar__tile--active,
 .react-calendar__tile--active:enabled,
 .react-calendar__tile--active:hover {
-  background: rgb(51, 90, 196) !important; /* Color de fondo para la fecha seleccionada */
-  color: #fff !important; /* Color del texto para la fecha seleccionada */
+  background: rgb(51, 90, 196) !important;
+  /* Color de fondo para la fecha seleccionada */
+  color: #fff !important;
+  /* Color del texto para la fecha seleccionada */
 }

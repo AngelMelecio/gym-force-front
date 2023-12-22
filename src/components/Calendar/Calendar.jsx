@@ -12,7 +12,13 @@ const DAYS = [
 
 ]
 
-const Calendar = ({ month, year, monthName, registros }) => {
+const Calendar = ({
+  month,
+  year,
+  monthName,
+  registros,
+  markedDays
+}) => {
 
   const mapDays = (mth, yr) => {
 
@@ -67,11 +73,13 @@ const Calendar = ({ month, year, monthName, registros }) => {
                   key={`day1_${j}`}
                 >
                   <p data-tooltip={registros[day]}
-                    className={`h-full total-center w-full
+                    className={
+                      `h-full total-center w-full
                       ${registros[day] ? 'ellipsis ' : ''}
+                      ${markedDays[day] ? 'font-bold text-gray-700' : 'text-gray-400 '}
                     `}
                   >
-                    {day}
+                    {day} 
                   </p>
                 </td>)}
             </tr>)}
