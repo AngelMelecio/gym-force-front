@@ -7,11 +7,11 @@ const SuscripcionesList = ({ columns, data, renderFunctionColumn }) => {
             {/* Encabezado de la tabla */}
             <div className='flex flex-row justify-between w-full border-b-2'>
                 {columns.map((column, i) => (
-                    <div key={`header_${i}`} className='w-full mx-1 my-2 text-xl font-bold text-center text-blue-900'>
+                    <div key={`header_${i}`} className='w-full mx-1 my-2 text-base font-semibold text-center text-blue-900'>
                         {column.label}
                     </div>
                 ))}
-                {renderFunctionColumn && <div className='w-full mx-1 my-2 text-xl font-bold text-center text-blue-900'>{'Opciones'}</div>}
+                {renderFunctionColumn && <div className='w-full mx-1 my-2 text-base font-semibold text-center text-blue-900'>{'Opciones'}</div>}
             </div>
 
             {/* Filas de datos */}

@@ -89,9 +89,9 @@ export const ClientesProvider = ({ children }) => {
         }
     }
 
-    async function getRegistros(id) {
+    async function getRegistros({cliente, suscripcion}) {
         try{
-            const registros = await myAxios.get(`${API_REGISTROS_URL}${id}` )
+            const registros = await myAxios.get(`${API_REGISTROS_URL}${cliente}/${suscripcion}` )
             return registros.data
         }catch(e){
             notify("No fue posible obtener los registros", true);

@@ -5,6 +5,7 @@ import YearPicker from '../../../components/Calendar/YearPicker'
 import Calendar from '../../../components/Calendar/Calendar'
 import { MyIcons } from '../../../constants/Icons'
 import AbsScroll from '../../../components/AbsScroll'
+import { nuevaFecha } from '../../../constants/nuevaFecha'
 
 const MONTHS = [
   { id: 0, label: 'Ene', name: 'Enero' },
@@ -22,13 +23,20 @@ const MONTHS = [
 ]
 
 
-const Actividad = ({ cliente }) => {
+const Actividad = ({
+  cliente,
+  suscripcion,
+  fechaInicio,
+  fechaFin,
+}) => {
 
   const { getRegistros } = useClientes()
 
   const [registros, setRegistros] = useState([])
   const [currentMonthRegistros, setCurrentMonthRegistros] = useState([{}])
   const [nextMonthRegistros, setNextMonthRegistros] = useState([{}])
+  const [currentMonthDays, setCurrentMonthDays] = useState([{}])
+  const [nextMonthDays, setNextMonthDays] = useState([{}])
   const [year, setYear] = useState(new Date().getFullYear())
   const [month, setMonth] = useState(Number(new Date().getMonth()))
 
@@ -38,7 +46,8 @@ const Actividad = ({ cliente }) => {
   async function fetchRegistros() {
     try {
       setLoading(true)
-      const registros = await getRegistros(cliente)
+      const registros = await getRegistros({ cliente, suscripcion })
+
       setRegistros(registros)
     } catch (e) {
       console.log('Error al cargar registros:', e)
@@ -56,27 +65,55 @@ const Actividad = ({ cliente }) => {
     // format registros of the current month and the next one
 
     let currentMonth = registros.filter(r => {
-      let date = new Date(r.fecha);
+      let date = nuevaFecha(r.fecha);
       return date.getMonth() === month && date.getFullYear() === year
-    }).reduce((acc, curr) => ({
-      ...acc,
-      [new Date(curr.fecha).getDate()]: true
-    }), {})
+    }).reduce((acc, curr) => {
+      let d = new Date(curr.fecha)
+      let hour = `${d.getHours()}:${d.getMinutes()}:${d.getSeconds()}`
+      return ({
+        ...acc,
+        [nuevaFecha(curr.fecha).getDate()]: hour
+      })
+    }, {})
 
     let nextMonth = registros.filter(r => {
-      let date = new Date(r.fecha)
+      let date = nuevaFecha(r.fecha);
       return date.getMonth() === (month + 1) % 12 && date.getFullYear() === year + (month === 11 ? 1 : 0)
-    }).reduce((acc, curr) => ({
-      ...acc,
-      [new Date(curr.fecha).getDate()]: true
-    }), {})
+    }).reduce((acc, curr) => {
+      let d = new Date(curr.fecha)
+      let hour = `${d.getHours()}:${d.getMinutes()}:${d.getSeconds()}`
+      return ({
+        ...acc,
+        [nuevaFecha(curr.fecha).getDate()]: hour
+      })
+    }, {})
 
     setCurrentMonthRegistros(currentMonth)
     setNextMonthRegistros(nextMonth)
 
-    console.log(currentMonthRegistros, nextMonthRegistros)
-
   }, [month, year, registros])
+
+  useEffect(() => {
+    //console.log(fechaInicio, fechaFin)
+    let inicio = nuevaFecha(fechaInicio)
+    let fin = nuevaFecha(fechaFin)
+
+    let monthDays = {}
+    let nextMonthDays = {}
+    while (inicio < fin) {
+
+      if (inicio.getMonth() === month && inicio.getFullYear() === year) {
+        monthDays[inicio.getDate()] = true
+      }
+      if (inicio.getMonth() === (month + 1) % 12 && inicio.getFullYear() === year + (month === 11 ? 1 : 0)) {
+        nextMonthDays[inicio.getDate()] = true
+      }
+      inicio.setDate(inicio.getDate() + 1)
+    }
+    setCurrentMonthDays(monthDays)
+    setNextMonthDays(nextMonthDays)
+
+  }, [fechaInicio, fechaFin, month, year])
 
   const handleBackMonth = () => {
     if (month === 0) {
@@ -128,24 +165,26 @@ const Actividad = ({ cliente }) => {
         </div>
       </div>
 
-      <AbsScroll loading={loading}>
-        <div className='flex w-full h-full total-center'>
 
-          <Calendar
-            monthName={MONTHS[month].name}
-            month={month}
-            year={year}
-            registros={currentMonthRegistros}
-          />
-          <Calendar
-            monthName={MONTHS[(month + 1) % 12].name}
-            month={month + 1}
-            year={year}
-            registros={nextMonthRegistros}
-          />
+      <div className='flex w-full h-full total-center'>
 
-        </div>
-      </AbsScroll>
+        <Calendar
+          monthName={MONTHS[month].name}
+          month={month}
+          year={year}
+          registros={currentMonthRegistros}
+          markedDays={currentMonthDays}
+        />
+        <Calendar
+          monthName={MONTHS[(month + 1) % 12].name}
+          month={month + 1}
+          year={year}
+          registros={nextMonthRegistros}
+          markedDays={nextMonthDays}
+        />
+
+      </div>
+
     </div>
 
   )

@@ -12,9 +12,7 @@ const YearPicker = ({ year, setYear }) => {
     return years
   })
 
-
   return (
-
     <div className='relative h-full'>
       <div className='flex w-16 h-full'>
         <input
