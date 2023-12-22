@@ -24,6 +24,7 @@ const DetailClientePage = () => {
   const [initialDate, setInitialDate] = useState(null)
   const [selectedDate, setSelectedDate] = useState(null)
   const [showModal, setShowModal] = useState(false)
+  const [showModalAsistencia, setShowModalAsistencia] = useState(false)
   const [objHistory, setObjHistory] = useState(null)
   const { aplazarDetalleSuscripcion } = useSuscripciones()
 
@@ -236,10 +237,10 @@ const DetailClientePage = () => {
                                 onClick={() => handleclickAplazar(item)} >
                                 Aplazar
                               </button>
-                              : 'Vencido' : 'Vencido'
+                              : null : null
                           }
                           <button className='px-4 py-1 m-1 text-white rounded-lg btn-naranja'
-                            onClick={() => handleShowActividad(item)}>
+                            onClick={() => setShowModalAsistencia(true)}>
                             Historial
                           </button>
                         </div>
