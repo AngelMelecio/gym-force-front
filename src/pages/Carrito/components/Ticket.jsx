@@ -29,18 +29,24 @@ const Ticket = ({ title, data, onConfirm }) => {
               </tr>
             </thead>
             <tbody className='text-lg font-semibold text-gray-700'>
-              {data.detallesSuscripcion?.map((dtll, i) => <tr key={`DTLL_S_${i}`}>
+              {data.detallesSuscripcion?.map((dtll, i) => <tr key={`DTLL_S_${i}`} className='border-b-2'>
                 <td> 1 </td>
                 <td> {dtll.nombreSuscripcion} </td>
                 <td> ${(Number(dtll.precio)).toFixed(2)} </td>
                 <td> ${(Number(dtll.precio)).toFixed(2)} </td>
               </tr>)}
-              {data.detallesVenta?.map((dtll, i) => <tr key={`DTLL_${i}`}>
+              {data.detallesVenta?.map((dtll, i) => <tr key={`DTLL_${i}`} className='border-b-2'>
                 <td> {dtll.cantidad} </td>
                 <td> {dtll.nombreProducto} </td>
                 <td> {dtll.precioVenta} </td>
                 <td> ${(Number(dtll.cantidad) * Number(dtll.precioVenta)).toFixed(2)} </td>
               </tr>)}
+              <tr className='text-xl font-bold text-blue-950 '>
+                <td></td>
+                <td></td>
+                <td>Total:</td>
+                <td>${(Number(data.total)).toFixed(2)}</td>
+              </tr>
             </tbody>
           </table>
         </div>
