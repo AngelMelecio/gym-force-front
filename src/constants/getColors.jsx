@@ -5,12 +5,15 @@ export function getColor(diasRestantes) {
     if (diasRestantes > 10) {
         color = "text-green-500";
         background = "bg-green-500";
+        info = "Vigente, " + diasRestantes + " días restantes"
     } else if (diasRestantes >= 6 && diasRestantes <= 10) {
         color = "text-yellow-400";
         background = "bg-yellow-400";
+        info = "Por vencer, " + diasRestantes + " días restantes"
     } else if (diasRestantes >= 2 && diasRestantes <= 5) {
         color = "text-orange-400";
         background = "bg-orange-400";
+        info = "Por vencer, " + diasRestantes + " días restantes"
     } else if (diasRestantes === 1) {
         color = "text-orange-500";
         background = "bg-orange-500";
@@ -19,10 +22,14 @@ export function getColor(diasRestantes) {
         color = "text-orange-500";
         background = "bg-orange-500";
         info = "Vence hoy"
+    } else if (diasRestantes < 0) {
+        color = "text-red-500";
+        background = "bg-red-500";
+        info = "Vencido hace " + Math.abs(diasRestantes) + " días"
     } else if (diasRestantes === null) {
         color = "text-gray-500";
         background = "bg-gray-500";
-        info = "Sin fecha de vencimiento"
+        info = "No hay historial de suscripciones"
     }
     return { color, background, info };
 }

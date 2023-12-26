@@ -19,8 +19,8 @@ const NewProductoPage = () => {
 
       if (!values.nombre) {
         errors.nombre = 'Ingresa el nombre';
-      } else if (values.nombre.length > 25) {
-        errors.nombre = '25 caracteres o menos';
+      } else if (values.nombre.length > 100) {
+        errors.nombre = '100 caracteres o menos';
       }
 
       if (!values.precio) {

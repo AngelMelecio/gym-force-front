@@ -5,18 +5,16 @@ import { useClientes } from './hooks/useClientes'
 import { useSuscripciones } from '../Suscripciones/hooks/useSuscripciones'
 import { useNavigate } from 'react-router-dom'
 import { MyIcons } from '../../constants/Icons'
-import { toUrl } from '../../utils/global'
 import { useFormik } from 'formik'
 import ImgInpt from '../../components/inputs/ImgInpt'
 import FrmClienteUP from './FrmClientesUP'
 import Vigencia from '../../components/Vigencia'
 import Report from '../../components/Report'
 import Actividad from './components/Actividad'
-import Calendar from '../../components/Calendar/Calendar'
 import CalendarToModal from 'react-calendar'
 import 'react-calendar/dist/Calendar.css'
 import Modal from '../../components/Modal'
-import { set } from 'date-fns'
+import { nuevaFecha } from '../../constants/nuevaFecha'
 
 const DetailClientePage = () => {
   {/* Logic to new end date */ }
@@ -24,7 +22,6 @@ const DetailClientePage = () => {
   const [initialDate, setInitialDate] = useState(null)
   const [selectedDate, setSelectedDate] = useState(null)
   const [showModal, setShowModal] = useState(false)
-  const [showModalAsistencia, setShowModalAsistencia] = useState(false)
   const [objHistory, setObjHistory] = useState(null)
   const { aplazarDetalleSuscripcion } = useSuscripciones()
 
@@ -240,7 +237,7 @@ const DetailClientePage = () => {
                               : null : null
                           }
                           <button className='px-4 py-1 m-1 text-white rounded-lg btn-naranja'
-                            onClick={() => setShowModalAsistencia(true)}>
+                            onClick={() => handleShowActividad(item)}>
                             Historial
                           </button>
                         </div>

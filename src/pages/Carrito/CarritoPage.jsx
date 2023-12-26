@@ -83,8 +83,8 @@ const CarritoPage = () => {
     )
   }
   const handleAdd = (id) => {
-    //const producto = articulos.find(p => p.id === id)
-    //if (producto.cantidad === producto.inventario) return
+    const producto = articulos.find(p => p.id === id)
+    if (producto.cantidad === producto.inventario) return
     setArticulos(articulos.map(p => p.id === id ? { ...p, cantidad: p.cantidad + 1 } : p))
   }
   const handleSubstract = (id) => {
