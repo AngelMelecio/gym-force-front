@@ -52,6 +52,7 @@ const NewClientePage = () => {
       <div className='flex items-end justify-between pb-3'>
         <div className='flex flex-row'>
           <button
+            type="button"
             onClick={() => navigate('/clientes')}
             className="w-10 h-10 rounded-full btn-neutral total-center"> <MyIcons.Left size="30px" color='#1e3a8a' /> </button>
           <h1 className='pl-3 text-3xl text-blue-900 '>Nuevo Cliente</h1>

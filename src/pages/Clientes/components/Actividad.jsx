@@ -22,7 +22,6 @@ const MONTHS = [
   { id: 11, label: 'Dic', name: 'Diciembre' },
 ]
 
-
 const Actividad = ({
   cliente,
   suscripcion,
@@ -94,13 +93,12 @@ const Actividad = ({
   }, [month, year, registros])
 
   useEffect(() => {
-    //console.log(fechaInicio, fechaFin)
     let inicio = nuevaFecha(fechaInicio)
     let fin = nuevaFecha(fechaFin)
 
     let monthDays = {}
     let nextMonthDays = {}
-    while (inicio < fin) {
+    while (inicio <= fin) {
 
       if (inicio.getMonth() === month && inicio.getFullYear() === year) {
         monthDays[inicio.getDate()] = true
