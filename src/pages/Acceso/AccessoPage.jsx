@@ -9,6 +9,8 @@ import Rayas_g2 from '../../assets/rayas_g2'
 import { sleep } from '../../utils/global'
 import { useAcceso } from './hooks/useAcceso'
 import { useAuth } from '../../context/authContext'
+import StatusModal from './components/StatusModal'
+import ClientSelector from '../../components/inputs/ClientSelector'
 
 
 const AccessoPage = () => {
@@ -17,10 +19,11 @@ const AccessoPage = () => {
 
   const [showModal, setShowModal] = useState(false)
   const [loading, setLoading] = useState(false)
+  const [status, setStatus] = useState(null)
+  const [cliente, setCliente] = useState(null)
+
   const { session } = useAuth()
   const { register } = useAcceso()
-
-  const [status, setStatus] = useState(null)
 
   const handleShowStatus = async (data) => {
     setStatus(data)
@@ -28,12 +31,19 @@ const AccessoPage = () => {
     setStatus(null)
   }
 
-  const handleRegister = async (value) => {
+  const handleRegister = async ({ pin = null, idCliente = null }) => {
     try {
       setLoading(true)
 
-      let { image, message, info, background, color } = await register({
-        pin: value,
+      let {
+        image,
+        message,
+        info,
+        background,
+        color
+      } = await register({
+        pin: pin,
+        idCliente: idCliente,
         idUser: session.usuario.id
       })
       handleShowStatus({
@@ -47,7 +57,7 @@ const AccessoPage = () => {
       if (e.response) {
         let { message } = e.response.data
         handleShowStatus({
-          message: message,
+          message,
           background: "bg-red-500",
           color: "text-red-500"
         })
@@ -58,6 +68,7 @@ const AccessoPage = () => {
     }
     finally {
       setLoading(false)
+      setCliente(null)
       pinRef.current.value = ""
       await sleep(120)
       pinRef.current?.focus()
@@ -67,100 +78,59 @@ const AccessoPage = () => {
   const handlePinChange = (e) => {
     let value = e.target.value
     if (value.length === 3) {
-      handleRegister(value)
+      handleRegister({ pin: value })
     }
   }
 
   return (
     <>
-      <div className={`flex flex-col w-full h-screen relative`}>
-        <div className='flex flex-col w-full total-center'>
-          {/*
-          <img style={{ width: '70%', maxWidth: '250px' }} src={GymLogoShadow} alt="" />
-          */}
+      <div className={`total-center w-full h-screen relative`}>
+
+        <div className='absolute flex flex-col w-full pointer-events-none total-center top-8'>
           <Reloj />
         </div>
 
 
-        {status ? <div className={`total-center appear absolute ${status.background} w-full h-full shadow-[inset_0px_0px_54px_-3px_rgba(0,0,0,0.75)]`}>
-          <div className="relative leading-[1.2] bg-white h-[80vh] w-[80vw] rounded-lg shadow-lg emerge flex flex-col items-center justify-center">
-            <div className='total-center'>
-              {status.image &&
-                <img className='object-cover w-40 h-40 rounded-full shadow-lg' src={status.image} alt="" />}
-            </div>
-            <p className={`font-[robotoCondensed] text-[5vw] font-extrabold ${status.color}`}>
-              {status.message}
-            </p>
-            <p className='font-[robotoCondensed] text-[3vw] font-semibold text-gray-700'>
-              {status.info && status.info}
-            </p>
-            {/* Timer */}
-            <div className={`absolute bottom-0 left-0 h-2 ${status.background} grow`}>
-            </div>
-          </div>
-        </div> :
-          <div className='relative flex-1 w-full total-center'>
-            <input
-              ref={pinRef}
-              disabled={loading}
-              autoFocus={true}
-              onBlur={e => e.target.focus()}
-              onChange={handlePinChange}
-              type="password"
-              placeholder="Ingresa tu PIN"
-              className='text-center pin emerge drop-shadow-lg' />
-          </div>
-        }
-
-        {/* status ?
-          <div className='absolute w-full h-full appear'>
-            <div className={`absolute w-full h-full opacity-75 ${status && status.color}`}>
-            </div>
-            <div className=' absolute w-full h-full font-[robotoCondensed] text-center font-semibold total-center'>
-              <div className='w-2/3 bg-white rounded-lg shadow-lg h-4/5 '>
-                <div className='total-center'>
-                  {status.image &&
-                    <img className='object-cover w-40 h-40 rounded-full shadow-lg' src={status.image} alt="" />}
-                </div>
-                <p className='text-[4rem] drop-shadow-lg'>
-                  {status.message}
-                </p>
-                <p className='text-[2.2rem] drop-shadow-lg'>
-                  {status.info && status.info}
-                </p>
-              </div>
-            </div>
-          </div>
+        {status ?
+          <StatusModal data={status} />
           :
-          <div className='relative flex-1 w-full total-center'>
+          <>
             <input
               ref={pinRef}
               disabled={loading}
               autoFocus={true}
-              onBlur={e => e.target.focus()}
+              //onBlur={e => e.target.focus()}
               onChange={handlePinChange}
               type="password"
               placeholder="Ingresa tu PIN"
-              className='text-center pin emerge drop-shadow-lg' />
-
-            
-          </div>
-        */}
-
+              className='w-full h-full text-center placeholder-gray-300 pin focus:placeholder-gray-400' />
+            <div className='absolute flex flex-col h-24 mt-4 bottom-36'>
+              <ClientSelector
+                client={cliente}
+                setClient={setCliente}
+                name="cliente"
+                placeholder="Buscar cliente"
+              />
+              {cliente &&
+                <button
+                  type="button"
+                  onClick={() => handleRegister({ idCliente: cliente })}
+                  className='w-full h-10 mt-3 text-lg font-semibold rounded-full emerge btn-naranja'>Ingresar</button>}
+            </div>
+          </>
+        }
+        {
+          showModal &&
+          <Modal
+            image={<MyIcons.Warning size="50px" style={{ color: '#fcd34d' }} />}
+            title="Seguro de eliminar?"
+            info="Se eliminará el registro de forma permanente"
+            onCancel={() => setShowModal(false)}
+            onConfirm={() => setShowModal(false)}
+            onClose={() => setShowModal(false)}
+          />
+        }
       </div>
-
-      {
-        showModal &&
-        <Modal
-          image={<MyIcons.Warning size="50px" style={{ color: '#fcd34d' }} />}
-          title="Seguro de eliminar?"
-          info="Se eliminará el registro de forma permanente"
-          onCancel={() => setShowModal(false)}
-          onConfirm={() => setShowModal(false)}
-          onClose={() => setShowModal(false)}
-        />
-      }
-
     </>
   )
 }
