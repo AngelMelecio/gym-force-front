@@ -59,7 +59,7 @@ const UsuariosPage = () => {
         <Modal
           onCancel={() => setShowModal(false)}
           onClose={() => setShowModal(false)}
-          onConfirm={onConfirm()}
+          onConfirm={onConfirm}
           title='Eliminar usuario'
           info={`¿Estás seguro que deseas eliminar a ${selectedUser}?`}
         />

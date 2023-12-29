@@ -42,18 +42,31 @@ export const adminRoutes = [
     { path: '/carrito/:idCliente/:idSuscripcion', element: <CarritoPage /> }, //renovar o pagar suscripcion
     //Rerportes
     { path: '/reportes', element: <ReportesPage /> },
-    
-    
 ]
 
-export const mainTabs = [
+export const employeeRoutes = [
+    { path: '/acceso', element: <AccessoPage /> },
+    { path: '/perfil', element: <PerfilPage /> },
+    //Clientes
+    { path: '/clientes', element: <ClientesPage /> },
+    { path: '/clientes/0', element: <NewClientePage /> },
+    { path: '/clientes/:id', element: <DetailClientePage /> },
+    { path: '/clientes/created/:idCliente', element: <ClientesPage /> },,
+    //Carrito
+    { path: '/carrito', element: <CarritoPage /> },
+    { path: '/carrito/:idCliente', element: <CarritoPage /> }, //nueva suscripcion
+    { path: '/carrito/:idCliente/:idSuscripcion', element: <CarritoPage /> }, //renovar o pagar suscripcion
+]
+
+
+
+export const employeeTabs = [
     { to: '/acceso', content: 'Acceso', icon: <MyIcons.FingerPrint size={"20px"} /> },
     { to: '/carrito', content: 'Ventas', icon: <MyIcons.Cart size={"21px"} /> },
+    { to: '/clientes', content: 'Clientes', icon: <MyIcons.People size={"18px"} /> },
 ]
 
 export const adminTabs = [
-
-    { to: '/clientes', content: 'Clientes', icon: <MyIcons.People size={"18px"} /> },
     { to: '/suscripciones', content: 'Suscripciones', icon: <MyIcons.Calendar size={"16px"} /> },
     { to: '/productos', content: 'Productos', icon: <MyIcons.Tag size={"20px"} /> },
     { to: '/usuarios', content: 'Usuarios', icon: <MyIcons.Key size={"20px"} /> },
