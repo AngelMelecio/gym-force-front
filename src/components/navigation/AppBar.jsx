@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { adminTabs, baseTabs, mainTabs } from '../../constants/appRoutes'
+import { adminTabs, baseTabs, employeeTabs } from '../../constants/appRoutes'
 import { MyIcons } from '../../constants/Icons'
 import { Link, useMatch, useResolvedPath } from 'react-router-dom'
 import { useAuth } from '../../context/authContext'
@@ -7,7 +7,7 @@ import GymLogoWhite from '../../assets/GymLogoWhite.svg'
 
 const AppBar = () => {
 
-  const { signOut } = useAuth()
+  const { signOut, session } = useAuth()
 
   const [adminTabsVisible, setAdminTabsVisible] = useState(false)
 
@@ -43,22 +43,23 @@ const AppBar = () => {
           <div className="relative w-full h-full overflow-x-hidden overflow-y-scroll">
             <div className='absolute top-0 w-full pl-3'>
               {// Main Tabs 
-                mainTabs.map((tab, indx) =>
+                employeeTabs.map((tab, indx) =>
                   <Tab key={"TAB_" + indx} info={tab} />
                 )
               }
               {/* Show / hide Tab */}
-              <Tab
-                onClick={() => setAdminTabsVisible(p => !p)}
-                info={{
-                  to: null,
-                  content: "Administración",
-                  icon: adminTabsVisible ?
-                    <MyIcons.Down size="28px" /> :
-                    <MyIcons.Right size="28px" />
-                }} />
-              { /* Admin Tabs*/
-                adminTabsVisible &&
+              {session?.usuario?.rol === 'Administrador' &&
+                <Tab
+                  onClick={() => setAdminTabsVisible(p => !p)}
+                  info={{
+                    to: null,
+                    content: "Administración",
+                    icon: adminTabsVisible ?
+                      <MyIcons.Down size="28px" /> :
+                      <MyIcons.Right size="28px" />
+                  }} />
+              }{ /* Admin Tabs*/
+                adminTabsVisible && session?.usuario?.rol === 'Administrador' &&
                 <div className='duration-200 group-hover:pl-3 group-hover:delay-300 '>
                   {adminTabs.map((tab, indx) =>
                     <Tab key={"TAB_" + indx} info={tab} />

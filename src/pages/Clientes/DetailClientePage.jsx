@@ -14,7 +14,7 @@ import Actividad from './components/Actividad'
 import CalendarToModal from 'react-calendar'
 import 'react-calendar/dist/Calendar.css'
 import Modal from '../../components/Modal'
-import { nuevaFecha } from '../../constants/nuevaFecha'
+import { useAuth } from '../../context/authContext'
 
 const DetailClientePage = () => {
   {/* Logic to new end date */ }
@@ -24,6 +24,7 @@ const DetailClientePage = () => {
   const [showModal, setShowModal] = useState(false)
   const [objHistory, setObjHistory] = useState(null)
   const { aplazarDetalleSuscripcion } = useSuscripciones()
+  const {session} = useAuth()
 
   const onConfirm = async () => {
     setShowModal(false)
@@ -229,6 +230,7 @@ const DetailClientePage = () => {
                       renderFunctionColumn={(item, i) => (
                         <div className='relative flex flex-row justify-center w-full text-lg font-semibold text-gray-500'>
                           {
+                            session?.usuario?.rol === 'Administrador' &&
                             (i === 0) ? (userFormik.values?.diferencia_dias > 0) ?
                               <button className='px-4 py-1 m-1 text-white rounded-lg btn-naranja '
                                 onClick={() => handleclickAplazar(item)} >
