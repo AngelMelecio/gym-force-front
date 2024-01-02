@@ -17,9 +17,10 @@ export const CarritoProvider = ({ children }) => {
             return response.data
 
         }catch(e){
-            if( e.respose )
+            console.log('cachado',e )
+            if( e.response )
             {
-                throw new Error(e.response.status)
+                throw new Error(e.response.data.error)
             }
         }
     }

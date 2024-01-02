@@ -20,14 +20,16 @@ const PerfilPage = () => {
             <div>
               <div className="flex items-center">
                 <h2 className="text-2xl font-bold text-blue-900">
-                  {session.usuario.nombre}
+                  {session.usuario.nombre} &nbsp;
                   {session.usuario.apellidos}
                 </h2>
-                <button
-                  onClick={() => navigate('/usuarios/' + session.usuario.id)}
-                  className="ml-2 text-gray-400 rounded-full w-7 h-7 total-center btn-neutral">
-                  <MyIcons.Edit size="18px" />
-                </button>
+                {session.usuario.is_staff &&
+                  <button
+                    onClick={() => navigate('/usuarios/' + session.usuario.id)}
+                    className="ml-2 text-gray-400 rounded-full w-7 h-7 total-center btn-neutral">
+                    <MyIcons.Edit size="18px" />
+                  </button>
+                }
               </div>
               <h3 className="text-lg font-medium text-gray-600 ">{session.usuario.rol}</h3>
               <h4 className="pt-1 text-sm font-normal text-gray-600">

@@ -58,7 +58,7 @@ const AccessoPage = () => {
         let { message } = e.response.data
         handleShowStatus({
           message,
-          background: "bg-red-500",
+          background: "bg-red-500/[0.92]",
           color: "text-red-500"
         })
       }
