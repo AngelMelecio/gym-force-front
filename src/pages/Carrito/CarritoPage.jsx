@@ -117,6 +117,7 @@ const CarritoPage = () => {
       fetchArticles()
 
     } catch (e) {
+
       notify(e.message, true)
     } finally {
       setLoading(p => ({ ...p, venta: false }))

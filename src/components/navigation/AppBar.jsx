@@ -31,7 +31,7 @@ const AppBar = () => {
 
   return (
     <div className='relative z-10 w-[4.4rem] h-screen text-white'>
-      <div id="side-bar" className='absolute flex flex-col w-16 h-full duration-200 ease-in-out bg-blue-600 group hover:w-56 hover:delay-300'>
+      <div id="side-bar" className='absolute flex flex-col w-16 h-full duration-200 ease-in-out bg-blue-600 group hover:w-56 hover:delay-300 shadow-[5px_0px_4px_-2px_#00000024]'>
         {/* AppBar Header */}
         <div className="flex flex-[0.20] w-full ">
           <img
@@ -69,7 +69,9 @@ const AppBar = () => {
             </div>
           </div>
         </div>
-        {/* Bottom Tabs */}
+        {/* Bottom Tabs */
+        
+        }
         <div className="flex flex-[0.20] w-full ">
           <div className="relative w-full h-full overflow-x-hidden overflow-y-scroll">
             <div className='absolute top-0 w-full pl-3'>

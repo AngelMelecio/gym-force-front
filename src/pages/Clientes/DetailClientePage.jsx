@@ -14,6 +14,7 @@ import Actividad from './components/Actividad'
 import CalendarToModal from 'react-calendar'
 import 'react-calendar/dist/Calendar.css'
 import Modal from '../../components/Modal'
+import { set } from 'date-fns'
 import { useAuth } from '../../context/authContext'
 
 const DetailClientePage = () => {
@@ -22,10 +23,10 @@ const DetailClientePage = () => {
   const [initialDate, setInitialDate] = useState(null)
   const [selectedDate, setSelectedDate] = useState(null)
   const [showModal, setShowModal] = useState(false)
+  const [showModalAsistencia, setShowModalAsistencia] = useState(false)
   const [objHistory, setObjHistory] = useState(null)
   const { aplazarDetalleSuscripcion } = useSuscripciones()
   const {session} = useAuth()
-
   const onConfirm = async () => {
     setShowModal(false)
     try {
@@ -239,7 +240,7 @@ const DetailClientePage = () => {
                               : null : null
                           }
                           <button className='px-4 py-1 m-1 text-white rounded-lg btn-naranja'
-                            onClick={() => handleShowActividad(item)}>
+                            onClick={() => handleShowActividad(true)}>
                             Historial
                           </button>
                         </div>
