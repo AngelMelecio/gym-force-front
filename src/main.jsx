@@ -12,6 +12,7 @@ import { ClientesProvider } from './pages/Clientes/hooks/useClientes.jsx'
 import { AccesoProvider } from './pages/Acceso/hooks/useAcceso.jsx'
 import { CarritoProvider } from './pages/Carrito/hooks/CarritoContext.jsx'
 import { ReportesProvider } from './pages/Reportes/hooks/useReportes.jsx'
+import { AccessNotifyProvider } from './context/accessNotifyContext.jsx'
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
@@ -25,7 +26,9 @@ ReactDOM.createRoot(document.getElementById('root')).render(
                   <AccesoProvider>
                     <CarritoProvider>
                       <ReportesProvider>
-                        <App />
+                        <AccessNotifyProvider>
+                          <App />
+                        </AccessNotifyProvider>
                       </ReportesProvider>
                     </CarritoProvider>
                   </AccesoProvider>

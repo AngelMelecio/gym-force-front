@@ -14,26 +14,31 @@ export const AccesoProvider = ({ children }) => {
 
   const { myAxios } = useAxios()
 
+  function formatAccessResponse(data) {
+    let { nombre, apellidos, fotografia } = data.idVenta.idCliente;
+    let { fechaFin } = data;
+    // Parse fechaFin to a Date object
+    fechaFin = new Date(fechaFin);
+    // Calculate the difference in days, rounding up to include the current day
+    let diferenciaMs = fechaFin - new Date();
+    let diasRestantes = Math.floor(diferenciaMs / (1000 * 60 * 60 * 24));
+
+    let { color, background, info } = getColor(diasRestantes);
+    let obj = {
+      image: HOST + fotografia,
+      message: `Bienvenido ${nombre} ${apellidos}`,
+      info,
+      background,
+      color,
+    }
+    return obj;
+
+  }
+
   async function register(values) {
     try {
       let response = await myAxios.post('api/registros/', values)
-      let { nombre, apellidos, fotografia } = response.data.registro.idVenta.idCliente
-      let { fechaFin } = response.data.registro
-
-      // Parse fechaFin to a Date object
-      fechaFin = new Date(fechaFin);
-       // Calculate the difference in days, rounding up to include the current day
-       let diferenciaMs = fechaFin - new Date();
-       let diasRestantes = Math.floor(diferenciaMs / (1000 * 60 * 60 * 24));
-
-      let { color, background, info } = getColor(diasRestantes)
-      return ({
-        image: HOST + fotografia,
-        message: `Bienvenido ${nombre} ${apellidos}`,
-        info,
-        background,
-        color
-      })
+      return formatAccessResponse(response.data.registro)
 
     } catch (e) {
       throw e
@@ -41,7 +46,7 @@ export const AccesoProvider = ({ children }) => {
   }
 
   return (
-    <AccesoContext.Provider value={{ register }}>
+    <AccesoContext.Provider value={{ register, formatAccessResponse }}>
       {children}
     </AccesoContext.Provider>
   );

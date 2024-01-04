@@ -11,11 +11,14 @@ import { useAcceso } from './hooks/useAcceso'
 import { useAuth } from '../../context/authContext'
 import StatusModal from './components/StatusModal'
 import ClientSelector from '../../components/inputs/ClientSelector'
+import { useAccessNotify } from '../../context/accessNotifyContext'
 
 
 const AccessoPage = () => {
 
   const pinRef = useRef()
+
+  const { handleShowModal } = useAccessNotify()
 
   const [showModal, setShowModal] = useState(false)
   const [loading, setLoading] = useState(false)
@@ -25,16 +28,11 @@ const AccessoPage = () => {
   const { session } = useAuth()
   const { register } = useAcceso()
 
-  const handleShowStatus = async (data) => {
-    setStatus(data)
-    await sleep(5000)
-    setStatus(null)
-  }
 
   const handleRegister = async ({ pin = null, idCliente = null }) => {
     try {
+      pinRef.current.blur()
       setLoading(true)
-
       let {
         image,
         message,
@@ -46,7 +44,7 @@ const AccessoPage = () => {
         idCliente: idCliente,
         idUser: session.usuario.id
       })
-      handleShowStatus({
+      await handleShowModal({
         image,
         message,
         info,
@@ -56,7 +54,7 @@ const AccessoPage = () => {
     } catch (e) {
       if (e.response) {
         let { message } = e.response.data
-        handleShowStatus({
+        await handleShowModal({
           message,
           background: "bg-red-500/[0.92]",
           color: "text-red-500"
@@ -67,18 +65,20 @@ const AccessoPage = () => {
       }
     }
     finally {
+      console.log('finally')
       setLoading(false)
       setCliente(null)
-      pinRef.current.value = ""
       await sleep(120)
       pinRef.current?.focus()
     }
   }
 
   const handlePinChange = (e) => {
+    if (loading) return
     let value = e.target.value
     if (value.length === 3) {
       handleRegister({ pin: value })
+      e.target.value = ''
     }
   }
 
@@ -90,35 +90,29 @@ const AccessoPage = () => {
           <Reloj />
         </div>
 
+        <input
+          ref={pinRef}
+          disabled={loading}
+          autoFocus={true}
+          //onBlur={e => e.target.focus()}
+          onChange={handlePinChange}
+          type="password"
+          placeholder="Ingresa tu PIN"
+          className='w-full h-full text-center placeholder-gray-300 pin focus:placeholder-gray-400' />
+        <div className='absolute flex flex-col h-24 mt-4 bottom-36'>
+          <ClientSelector
+            client={cliente}
+            setClient={setCliente}
+            name="cliente"
+            placeholder="Buscar cliente"
+          />
+          {cliente &&
+            <button
+              type="button"
+              onClick={() => handleRegister({ idCliente: cliente })}
+              className='w-full h-10 mt-3 text-lg font-semibold rounded-full emerge btn-naranja'>Ingresar</button>}
+        </div>
 
-        {status ?
-          <StatusModal data={status} />
-          :
-          <>
-            <input
-              ref={pinRef}
-              disabled={loading}
-              autoFocus={true}
-              //onBlur={e => e.target.focus()}
-              onChange={handlePinChange}
-              type="password"
-              placeholder="Ingresa tu PIN"
-              className='w-full h-full text-center placeholder-gray-300 pin focus:placeholder-gray-400' />
-            <div className='absolute flex flex-col h-24 mt-4 bottom-36'>
-              <ClientSelector
-                client={cliente}
-                setClient={setCliente}
-                name="cliente"
-                placeholder="Buscar cliente"
-              />
-              {cliente &&
-                <button
-                  type="button"
-                  onClick={() => handleRegister({ idCliente: cliente })}
-                  className='w-full h-10 mt-3 text-lg font-semibold rounded-full emerge btn-naranja'>Ingresar</button>}
-            </div>
-          </>
-        }
         {
           showModal &&
           <Modal
