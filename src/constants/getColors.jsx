@@ -1,6 +1,6 @@
 export function getColor(diasRestantes) {
-    let color;
-    let background;
+    let color = {};
+    let background = {};
     let info=`${diasRestantes} días restantes`
     if (diasRestantes > 10) {
         color = "text-green-500";
