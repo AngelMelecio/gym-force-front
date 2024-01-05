@@ -15,6 +15,7 @@ import CalendarToModal from 'react-calendar'
 import 'react-calendar/dist/Calendar.css'
 import Modal from '../../components/Modal'
 import { useAuth } from '../../context/authContext'
+import { nuevaFecha } from '../../constants/nuevaFecha'
 
 const DetailClientePage = () => {
   {/* Logic to new end date */ }
@@ -43,8 +44,8 @@ const DetailClientePage = () => {
   }
 
   const handleclickAplazar = async (objHistory) => {
-    setInitialDate(new Date(objHistory.fecha_fin))
-    setSelectedDate(new Date(objHistory.fecha_fin))
+    setInitialDate(nuevaFecha(objHistory.fecha_fin))
+    setSelectedDate(nuevaFecha(objHistory.fecha_fin))
     setShowModal(true)
     setObjHistory(objHistory)
     console.log(objHistory)
@@ -223,8 +224,8 @@ const DetailClientePage = () => {
                       className='appear'
                       columns={[
                         { label: "Suscripción", attribute: "nombre_suscripcion", onclick: (item) => navigate('/carrito/' + userFormik.values?.idCliente + '/' + item.id_suscripcion) },
-                        { label: "Fecha de inicio", attribute: "fecha_inicio", render: (item) => new Date(item.fecha_inicio).toLocaleDateString('es-ES') },
-                        { label: "Fecha de término", attribute: "fecha_fin", render: (item) => new Date(item.fecha_fin).toLocaleDateString('es-ES') }
+                        { label: "Fecha de inicio", attribute: "fecha_inicio", render: (item) => nuevaFecha(item.fecha_inicio).toLocaleDateString('es-ES') },
+                        { label: "Fecha de término", attribute: "fecha_fin", render: (item) => nuevaFecha(item.fecha_fin).toLocaleDateString('es-ES') }
                       ]}
                       data={userFormik.values?.historico_suscripciones}
                       renderFunctionColumn={(item, i) => (
