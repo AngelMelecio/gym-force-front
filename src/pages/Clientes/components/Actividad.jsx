@@ -97,7 +97,7 @@ const Actividad = ({
     let fin = nuevaFecha(fechaFin)
     let monthDays = {}
     let nextMonthDays = {}
-    while (inicio < fin) {
+    while (inicio <=fin) {
       if (inicio.getMonth() === month && inicio.getFullYear() === year) {
         monthDays[inicio.getDate()] = true
       }
