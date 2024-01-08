@@ -49,7 +49,7 @@ const PerfilPage = () => {
             {
               [{ label: "Usuario", value: session.usuario.usuario },
               { label: "Correo", value: session.usuario.correo },].map((v, i) =>
-                <div className="flex items-center px-5 py-2">
+                <div className="flex items-center px-5 py-2" key={i}>
                   <p className="text-sm text-gray-500">
                     {v.label}: &nbsp;
                   </p>
