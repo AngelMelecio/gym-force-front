@@ -16,6 +16,7 @@ export const AccesoProvider = ({ children }) => {
 
   function formatAccessResponse(data) {
     let {tipo} = data.idSuscripcion;
+
     let { nombre, apellidos, fotografia } = data.idVenta.idCliente;
     let { fechaFin } = data;
     // Parse fechaFin to a Date object
@@ -31,8 +32,6 @@ export const AccesoProvider = ({ children }) => {
       background,
       color,
     }
-    return obj;
-
   }
 
   async function register(values) {

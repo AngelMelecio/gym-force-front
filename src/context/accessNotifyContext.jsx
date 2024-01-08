@@ -23,9 +23,8 @@ export const AccessNotifyProvider = ({ children }) => {
     } = accessSocket('ws://localhost:8080/ws/access/all/');
 
     useEffect(() => {
-        if (accessStatus) {
+        if(accessStatus)
             handleShowModal(formatAccessResponse(accessStatus))
-        }
     }, [accessStatus])
 
 
@@ -33,10 +32,10 @@ export const AccessNotifyProvider = ({ children }) => {
         setStatus(status)
         containerRef.current.classList.remove('invisible')
         containerRef.current.classList.remove('opacity-0')
-        await sleep(4650)
+        await sleep(5000)
         containerRef.current.classList.add('invisible')
         containerRef.current.classList.add('opacity-0')
-        await sleep(350)
+        await sleep(150)
         setStatus(null)
     }
 
