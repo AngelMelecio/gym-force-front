@@ -15,29 +15,19 @@ export const AccesoProvider = ({ children }) => {
   const { myAxios } = useAxios()
 
   function formatAccessResponse(data) {
-
-    if (data.message) {
-      let { message } = data
-      return {
-        message,
-        background: "bg-red-500/[0.96]",
-        color: "text-red-500"
-      }
-    }
+    let {tipo} = data.idSuscripcion;
 
     let { nombre, apellidos, fotografia } = data.idVenta.idCliente;
     let { fechaFin } = data;
     // Parse fechaFin to a Date object
-    fechaFin = new Date(fechaFin);
+    fechaFin = nuevaFecha(fechaFin);
     // Calculate the difference in days, rounding up to include the current day
-    let diferenciaMs = fechaFin - new Date();
+    let diferenciaMs = fechaFin - (new Date().setHours(0, 0, 0, 0));
     let diasRestantes = Math.floor(diferenciaMs / (1000 * 60 * 60 * 24));
-
-    let { color, background, info } = getColor(diasRestantes);
-   
-    return {
+    let { color, background, info, message} = getColor(diasRestantes,tipo);
+    let obj = {
       image: HOST + fotografia,
-      message: `Bienvenido ${nombre} ${apellidos}`,
+      message: message+=` ${nombre} ${apellidos}`,
       info,
       background,
       color,

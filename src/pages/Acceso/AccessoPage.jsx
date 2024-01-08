@@ -12,6 +12,7 @@ import { useAuth } from '../../context/authContext'
 import StatusModal from './components/StatusModal'
 import ClientSelector from '../../components/inputs/ClientSelector'
 import { useAccessNotify } from '../../context/accessNotifyContext'
+import GymLogo from '../../assets/GymLogo.svg'
 
 
 const AccessoPage = () => {
@@ -26,42 +27,38 @@ const AccessoPage = () => {
   const [cliente, setCliente] = useState(null)
 
   const { session } = useAuth()
-  const { register } = useAcceso()
+  const { register, formatAccessResponse } = useAcceso()
 
 
   const handleRegister = async ({ pin = null, idCliente = null }) => {
     try {
       pinRef.current.blur()
       setLoading(true)
-      let {
-        image,
-        message,
-        info,
-        background,
-        color
-      } = await register({
+      let { image, message, info, background, color } = await register({
         pin: pin,
         idCliente: idCliente,
         idUser: session.usuario.id
       })
-      await handleShowModal({
-        image,
-        message,
-        info,
-        background,
-        color
-      })
+      await handleShowModal({ image, message, info, background, color })
     } catch (e) {
-      if (e.response) {
-        let { message } = e.response.data
+      if (e.response.data.registro) {
+        let { image, message, info, background, color } = formatAccessResponse(e.response.data.registro)
         await handleShowModal({
-          message,
-          background: "bg-red-500/[0.96]",
-          color: "text-red-500"
+          image, message, info, background, color
         })
       }
       else {
-        console.log(e)
+        if (e.response) {
+          let { message } = e.response.data
+          await handleShowModal({
+            message,
+            background: "bg-red-500/[0.92]",
+            color: "text-red-500"
+          })
+        }
+        else {
+          console.log(e)
+        }
       }
     }
     finally {
@@ -86,9 +83,13 @@ const AccessoPage = () => {
     <>
       <div className={`total-center w-full h-screen relative`}>
 
-        <div className='absolute flex flex-col w-full pointer-events-none total-center top-8'>
+        <div className='absolute flex flex-col w-full mt-4 pointer-events-none total-center top-8'>
+          <img
+            className='w-1/2 h-1/2'
+            src={GymLogo} alt="" />
           <Reloj />
         </div>
+
 
         <input
           ref={pinRef}
@@ -97,21 +98,27 @@ const AccessoPage = () => {
           //onBlur={e => e.target.focus()}
           onChange={handlePinChange}
           type="password"
-          placeholder="Ingresa tu PIN"
-          className='w-full h-full text-center placeholder-gray-300 pin focus:placeholder-gray-400' />
-        <div className='absolute flex flex-col h-24 mt-4 bottom-36'>
-          <ClientSelector
-            client={cliente}
-            setClient={setCliente}
-            name="cliente"
-            placeholder="Buscar cliente"
-          />
-          {cliente &&
-            <button
-              type="button"
-              onClick={() => handleRegister({ idCliente: cliente })}
-              className='w-full h-10 mt-3 text-lg font-semibold rounded-full emerge btn-naranja'>Ingresar</button>}
-        </div>
+          placeholder="Escanea tu huella"
+          className='absolute w-full text-center h-1/4 pin bottom-20' />
+
+        {
+
+          <div className='absolute left-0 flex flex-col h-24 top-1'>
+            <ClientSelector
+              client={cliente}
+              setClient={setCliente}
+              name="cliente"
+              placeholder="Buscar cliente"
+            />
+            {cliente &&
+              <button
+                type="button"
+                onClick={() => handleRegister({ idCliente: cliente })}
+                className='w-full h-10 mt-3 text-lg font-semibold rounded-full emerge btn-naranja'>Ingresar</button>}
+          </div>
+
+        }
+
 
         {
           showModal &&

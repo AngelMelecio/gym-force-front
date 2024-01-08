@@ -46,7 +46,7 @@ const Actividad = ({
     try {
       setLoading(true)
       const registros = await getRegistros({ cliente, suscripcion })
-
+      console.log('registros:', registros)
       setRegistros(registros)
     } catch (e) {
       console.log('Error al cargar registros:', e)
@@ -97,7 +97,7 @@ const Actividad = ({
     let fin = nuevaFecha(fechaFin)
     let monthDays = {}
     let nextMonthDays = {}
-    while (inicio < fin) {
+    while (inicio <=fin) {
       if (inicio.getMonth() === month && inicio.getFullYear() === year) {
         monthDays[inicio.getDate()] = true
       }

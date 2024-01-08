@@ -16,6 +16,7 @@ import 'react-calendar/dist/Calendar.css'
 import Modal from '../../components/Modal'
 import { set } from 'date-fns'
 import { useAuth } from '../../context/authContext'
+import { nuevaFecha } from '../../constants/nuevaFecha'
 
 const DetailClientePage = () => {
   {/* Logic to new end date */ }
@@ -44,8 +45,8 @@ const DetailClientePage = () => {
   }
 
   const handleclickAplazar = async (objHistory) => {
-    setInitialDate(new Date(objHistory.fecha_fin))
-    setSelectedDate(new Date(objHistory.fecha_fin))
+    setInitialDate(nuevaFecha(objHistory.fecha_fin))
+    setSelectedDate(nuevaFecha(objHistory.fecha_fin))
     setShowModal(true)
     setObjHistory(objHistory)
     console.log(objHistory)
@@ -224,8 +225,8 @@ const DetailClientePage = () => {
                       className='appear'
                       columns={[
                         { label: "Suscripción", attribute: "nombre_suscripcion", onclick: (item) => navigate('/carrito/' + userFormik.values?.idCliente + '/' + item.id_suscripcion) },
-                        { label: "Fecha de inicio", attribute: "fecha_inicio", render: (item) => new Date(item.fecha_inicio).toLocaleDateString('es-ES') },
-                        { label: "Fecha de término", attribute: "fecha_fin", render: (item) => new Date(item.fecha_fin).toLocaleDateString('es-ES') }
+                        { label: "Fecha de inicio", attribute: "fecha_inicio", render: (item) => nuevaFecha(item.fecha_inicio).toLocaleDateString('es-ES') },
+                        { label: "Fecha de término", attribute: "fecha_fin", render: (item) => nuevaFecha(item.fecha_fin).toLocaleDateString('es-ES') }
                       ]}
                       data={userFormik.values?.historico_suscripciones}
                       renderFunctionColumn={(item, i) => (
@@ -240,7 +241,7 @@ const DetailClientePage = () => {
                               : null : null
                           }
                           <button className='px-4 py-1 m-1 text-white rounded-lg btn-naranja'
-                            onClick={() => handleShowActividad(true)}>
+                            onClick={() => handleShowActividad(item)}>
                             Historial
                           </button>
                         </div>
