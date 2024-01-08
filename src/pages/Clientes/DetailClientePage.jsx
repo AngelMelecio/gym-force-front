@@ -241,7 +241,7 @@ const DetailClientePage = () => {
                               : null : null
                           }
                           <button className='px-4 py-1 m-1 text-white rounded-lg btn-naranja'
-                            onClick={() => handleShowActividad(true)}>
+                            onClick={() => handleShowActividad(item)}>
                             Historial
                           </button>
                         </div>
