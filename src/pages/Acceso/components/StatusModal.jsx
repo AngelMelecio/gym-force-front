@@ -9,10 +9,19 @@ const StatusModal = ({ data }) => {
           {data?.image &&
             <img className='object-cover w-40 h-40 rounded-full shadow-lg' src={data?.image} alt="" />}
         </div>
-        <p className={`font-[robotoCondensed] text-[5vw] font-extrabold ${data?.color}`}>
-          {data?.message}
-        </p>
-        <p className='font-[robotoCondensed] text-[3vw] font-semibold text-gray-700'>
+        
+        {
+          data.message && data.message.split('\n').map((item, i, array) => (
+            <React.Fragment key={i}>
+              <p className={`font-[robotoCondensed] text-[5vw] font-extrabold ${data?.color} w-full total-center`}>
+                {item}
+                {i !== array.length - 1 && <br />}
+              </p>
+            </React.Fragment>
+          ))
+        }
+
+        <p className='font-[robotoCondensed] text-[3vw] font-semibold text-gray-700 mt-2'>
           {data?.info && data?.info}
         </p>
         {/* Timer */}

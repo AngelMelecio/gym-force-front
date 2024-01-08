@@ -624,7 +624,7 @@ input[type="checkbox"].switch:checked::after {
 }
 
 input[type="password"].pin {
-  font-size: 6rem;
+  font-size: 5rem;
   transition: 0.2s;
   background-color: transparent;
   caret-color: transparent;
@@ -634,10 +634,6 @@ input[type="password"].pin {
   
 }
 
-input[type="password"].pin:hover{
-  background-color: #e2e8f0;
-
-}
 
 input[type="password"]:disabled {
   opacity: 20%;
