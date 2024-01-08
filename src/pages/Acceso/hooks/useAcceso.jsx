@@ -15,6 +15,16 @@ export const AccesoProvider = ({ children }) => {
   const { myAxios } = useAxios()
 
   function formatAccessResponse(data) {
+
+    if (data.message) {
+      let { message } = data
+      return {
+        message,
+        background: "bg-red-500/[0.96]",
+        color: "text-red-500"
+      }
+    }
+
     let { nombre, apellidos, fotografia } = data.idVenta.idCliente;
     let { fechaFin } = data;
     // Parse fechaFin to a Date object
@@ -24,15 +34,14 @@ export const AccesoProvider = ({ children }) => {
     let diasRestantes = Math.floor(diferenciaMs / (1000 * 60 * 60 * 24));
 
     let { color, background, info } = getColor(diasRestantes);
-    let obj = {
+   
+    return {
       image: HOST + fotografia,
       message: `Bienvenido ${nombre} ${apellidos}`,
       info,
       background,
       color,
     }
-    return obj;
-
   }
 
   async function register(values) {

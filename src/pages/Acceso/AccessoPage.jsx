@@ -56,7 +56,7 @@ const AccessoPage = () => {
         let { message } = e.response.data
         await handleShowModal({
           message,
-          background: "bg-red-500/[0.92]",
+          background: "bg-red-500/[0.96]",
           color: "text-red-500"
         })
       }
