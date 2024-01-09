@@ -47,8 +47,7 @@ const AccessoPage = () => {
         await handleShowModal({
           image, message, info, background, color
         })
-      }
-      else {
+      } else {
         if (e.response) {
           let { message } = e.response.data
           await handleShowModal({
