@@ -38,7 +38,7 @@ const DetailClientePage = () => {
       setSelectedDate(null)
       load()
     } catch (e) {
-      console.log(e)
+      //console.log(e)
     } finally {
       setLoading(false)
     }
@@ -49,19 +49,19 @@ const DetailClientePage = () => {
     setSelectedDate(nuevaFecha(objHistory.fecha_fin))
     setShowModal(true)
     setObjHistory(objHistory)
-    console.log(objHistory)
+    //console.log(objHistory)
   }
 
   const [objActividad, setObjActividad] = useState(null)
   const [showActividadModal, setShowActividadModal] = useState(false)
   const handleShowActividad = (item) => {
-    console.log(item)
+    //console.log(item)
     setObjActividad(item)
     setShowActividadModal(true)
   }
 
   useEffect(() => {
-    console.log('render')
+    //console.log('render')
   }, [])
 
   const windowRef = useRef(null)
@@ -84,7 +84,7 @@ const DetailClientePage = () => {
       const cliente = await getCliente(id)
       userFormik.setValues(cliente)
     } catch (e) {
-      console.log(e)
+      //console.log(e)
     } finally {
       setLoading(false)
     }
@@ -156,7 +156,7 @@ const DetailClientePage = () => {
           className='relative w-full h-full bg-white rounded-lg shadow-lg'>
 
           <AbsScroll
-            onBottomReached={() => console.log('bottom')}
+            onBottomReached={() => {}}
             setBottom={isWindowBottom}
             loading={loading}
             vertical>

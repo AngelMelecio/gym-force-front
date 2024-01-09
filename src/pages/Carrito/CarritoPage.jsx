@@ -16,11 +16,14 @@ import { useAuth } from '../../context/authContext'
 import { useCarrito } from './hooks/CarritoContext'
 import Ticket from './components/Ticket'
 import { useParams } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 
 const CarritoPage = () => {
 
-  // Params
+  // Params and navigation
   const { idCliente, idSuscripcion } = useParams()
+  const navigate = useNavigate()
+
 
   // Hook functions
   const { notify } = useAuth()
@@ -65,7 +68,7 @@ const CarritoPage = () => {
 
       setArticulos([...prodcuts, ...subs])
     } catch (e) {
-      console.log('Error al cargar Articulos:', e)
+      //console.log('Error al cargar Articulos:', e)
     } finally {
       setLoading(p => ({ ...p, articles: false }))
     }
@@ -301,6 +304,8 @@ const CarritoPage = () => {
           onConfirm={() => {
             handleRealizarVenta();
             fetchArticles();
+            navigate('/carrito')
+            setArticulos([])
           }}
           loading={loading.venta}
         />

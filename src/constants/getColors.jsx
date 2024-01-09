@@ -1,12 +1,12 @@
-export function getColor(diasRestantes,tipoSuscripcion) {
+export function getColor(diasRestantes,tipoSuscripcion,frase) {
     let color = {};
     let background = {};
-    let info = "";
+    let info = frase;
     let message = "¡ Bienvenid@ ! \n ";
-    if (diasRestantes > 8) {
+    if (diasRestantes >=8) {
         color = "text-green-500";
         background = "bg-green-500/[0.97]";
-        info = "¿Que toca hoy?"
+        info=frase;
     } else if (diasRestantes >= 5 && diasRestantes <= 7) {
         color = "text-yellow-400";
         background = "bg-yellow-400/[0.97]";

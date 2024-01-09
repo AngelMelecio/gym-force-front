@@ -23,7 +23,7 @@ const ReportesPage = () => {
     const { getVentas,getAsistencia } = useReportes()
 
     const handleclick = (details) => {
-        console.log(details)
+        //console.log(details)
         setDataModal(details)
         setShowModal(true)
     }
@@ -97,7 +97,7 @@ const ReportesPage = () => {
                     className='relative w-full h-full bg-white rounded-lg shadow-lg'>
 
                     <AbsScroll
-                        onBottomReached={() => console.log('bottom')}
+                        onBottomReached={() => {}}
                         setBottom={isWindowBottom}
                         loading={loading}
                         vertical>

@@ -52,7 +52,7 @@ export const SuscripcionesProvider = ({ children }) => {
             const resp = await myAxios.post(API_SUSCRIPCIONES_URL, formData)
             notify(resp.data.message)
         } catch (err) {
-            console.log(err)
+            //console.log(err)
             notify(err.response.data.message, true);
         }
     }
@@ -63,7 +63,7 @@ export const SuscripcionesProvider = ({ children }) => {
                 const resp = await myAxios.delete(API_SUSCRIPCIONES_URL + list[i])
                 notify(resp.data.message)
             } catch (err) {
-                console.log(err)
+                //console.log(err)
                 notify('No fue posible eliminar la suscripcion', true)
             }
         }
@@ -78,7 +78,7 @@ export const SuscripcionesProvider = ({ children }) => {
             const resp = await myAxios.put(API_SUSCRIPCIONES_URL + suscripcion.idSuscripcion, formData)
             notify(resp.data.message)
         } catch (err) {
-            console.log(err)
+            //console.log(err)
             notify("No fue posible actualizar la suscripcion", true);
         }
     }
@@ -91,7 +91,7 @@ export const SuscripcionesProvider = ({ children }) => {
             const resp = await myAxios.put('api/detalleSuscripcionNft/' + id, formData);
             notify(resp.data.message);
         } catch (err) {
-            console.log(err);
+            //console.log(err);
             notify("No fue posible actualizar la suscripcion", true);
         }
     }

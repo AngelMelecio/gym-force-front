@@ -25,8 +25,8 @@ const DetailProductoPage = () => {
 
       if (!values.nombre) {
         errors.nombre = 'Ingresa el nombre';
-      } else if (values.nombre.length > 25) {
-        errors.nombre = '25 caracteres o menos';
+      } else if (values.nombre.length > 100) {
+        errors.nombre = '100 caracteres o menos';
       }
 
       if (!values.precio) {
@@ -51,7 +51,7 @@ const DetailProductoPage = () => {
         await updateProducto(values)
         navigate('/productos')
       } catch (e) {
-        console.log(e)
+        //console.log(e)
       } finally {
         setLoading(false)
       }
@@ -65,7 +65,7 @@ const DetailProductoPage = () => {
         const producto = await getProducto(id)
         userFormik.setValues(producto)
       } catch (e) {
-        console.log('Error al traer detalles', e)
+        //console.log('Error al traer detalles', e)
       } finally {
         setLoading(false)
       }

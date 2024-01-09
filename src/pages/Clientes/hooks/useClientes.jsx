@@ -29,7 +29,7 @@ export const ClientesProvider = ({ children }) => {
             const cliente = await myAxios.get(API_CLIENTES_URL + id)
             return formatClientes([cliente.data])[0]
         } catch (err) {
-            console.log(err)
+            //console.log(err)
             notify("Ocurrió un error al tratar de obtener el cliente", true);
         }
     }
@@ -45,7 +45,7 @@ export const ClientesProvider = ({ children }) => {
             const clientes = await myAxios.get(API_CLIENTES_URL)
             setAllClientes(formatClientes(clientes.data))
         } catch (err) {
-            console.log(err)
+            //console.log(err)
             notify("Ocurrió un error al tratar de obtener los registros", true);
         }
     }
