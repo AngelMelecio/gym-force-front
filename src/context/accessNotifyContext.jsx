@@ -23,8 +23,22 @@ export const AccessNotifyProvider = ({ children }) => {
     } = accessSocket('ws://localhost:8080/ws/access/all/');
 
     useEffect(() => {
-        if(accessStatus)
-            handleShowModal(formatAccessResponse(accessStatus))
+        if (accessStatus) {
+            //console.log(accessStatus)
+            if (accessStatus.registro) {
+                let { image, message, info, background, color } = formatAccessResponse(accessStatus.registro)
+                handleShowModal({
+                    image, message, info, background, color
+                })
+            } else {
+                let { message } = accessStatus
+                handleShowModal({
+                    message,
+                    background: "bg-red-500/[0.92]",
+                    color: "text-red-500"
+                })
+            }
+        }
     }, [accessStatus])
 
 
