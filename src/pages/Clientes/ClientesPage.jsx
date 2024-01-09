@@ -24,7 +24,7 @@ const ClientesPage = () => {
       const cliente = await getCliente(idCliente)
       setObjCliente(cliente)
     } catch (e) {
-      console.log(e)
+      //console.log(e)
     }
   }
   useEffect(() => {
@@ -45,7 +45,7 @@ const ClientesPage = () => {
 
   useEffect(() => {
     setListaClientes(allClientes)
-    console.log(allClientes)
+    //console.log(allClientes)
   }, [allClientes])
 
   const onConfirm = async () => {

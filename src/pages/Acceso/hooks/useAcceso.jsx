@@ -16,7 +16,7 @@ export const AccesoProvider = ({ children }) => {
 
   function formatAccessResponse(data) {
     let {tipo} = data.idSuscripcion;
-
+    let {frase} = data;
     let { nombre, apellidos, fotografia } = data.idVenta.idCliente;
     let { fechaFin } = data;
     // Parse fechaFin to a Date object
@@ -24,7 +24,7 @@ export const AccesoProvider = ({ children }) => {
     // Calculate the difference in days, rounding up to include the current day
     let diferenciaMs = fechaFin - (new Date().setHours(0, 0, 0, 0));
     let diasRestantes = Math.floor(diferenciaMs / (1000 * 60 * 60 * 24));
-    let { color, background, info, message} = getColor(diasRestantes,tipo);
+    let { color, background, info, message} = getColor(diasRestantes,tipo,frase);
     let obj = {
       image: HOST + fotografia,
       message: message+=` ${nombre} ${apellidos}`,
@@ -32,6 +32,7 @@ export const AccesoProvider = ({ children }) => {
       background,
       color,
     }
+    return obj;
   }
 
   async function register(values) {

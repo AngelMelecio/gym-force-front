@@ -41,6 +41,7 @@ const AccessoPage = () => {
       })
       await handleShowModal({ image, message, info, background, color })
     } catch (e) {
+    
       if (e.response.data.registro) {
         let { image, message, info, background, color } = formatAccessResponse(e.response.data.registro)
         await handleShowModal({
@@ -57,12 +58,13 @@ const AccessoPage = () => {
           })
         }
         else {
-          console.log(e)
+          //console.log(e)
         }
+      
       }
+      
     }
     finally {
-      console.log('finally')
       setLoading(false)
       setCliente(null)
       await sleep(120)

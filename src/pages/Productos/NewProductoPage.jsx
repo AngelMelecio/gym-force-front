@@ -46,7 +46,7 @@ const NewProductoPage = () => {
         navigate('/productos')
 
       } catch (e) {
-        console.log(e)
+        //console.log(e)
       } finally {
         setLoading(false)
       }

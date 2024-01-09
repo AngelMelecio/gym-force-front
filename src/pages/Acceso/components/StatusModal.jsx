@@ -21,7 +21,7 @@ const StatusModal = ({ data }) => {
           ))
         }
 
-        <p className='font-[robotoCondensed] text-[3vw] font-semibold text-gray-700 mt-2'>
+        <p className='font-[robotoCondensed] text-[3vw] font-semibold text-gray-700 mt-2 w-full text-center'>
           {data?.info && data?.info}
         </p>
         {/* Timer */}

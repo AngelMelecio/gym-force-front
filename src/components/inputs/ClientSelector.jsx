@@ -23,7 +23,7 @@ const ClientSelector = ({ name, client, setClient, ...props }) => {
         { label: `${c.nombre} ${c.apellidos}`, value: c.idCliente }
       )))
     } catch (e) {
-      console.log('Error al cargar clientes:', e)
+      //console.log('Error al cargar clientes:', e)
     } finally {
       setLoading(false)
     }

@@ -20,7 +20,7 @@ function accessSocket(url) {
     };
 
     webSocket.current.onerror = (error) => {
-      console.error('WebSocket error: ', error);
+      //console.error('WebSocket error: ', error);
     };
 
     webSocket.current.onclose = (event) => {
@@ -47,7 +47,7 @@ function accessSocket(url) {
     if (webSocket.current && webSocket.current.readyState === WebSocket.OPEN) {
       webSocket.current.send(message);
     } else {
-      console.error('WebSocket is not open. Message was not sent');
+      //console.error('WebSocket is not open. Message was not sent');
     }
   };
 

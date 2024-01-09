@@ -53,7 +53,7 @@ const DetailSuscripcionPage = () => {
         await updateSuscripcion(values)
         navigate('/suscripciones')
       } catch (e) {
-        console.log(e)
+        //console.log(e)
       } finally {
         setLoading(false)
       }

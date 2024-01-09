@@ -53,7 +53,7 @@ export const ProductosProvider = ({ children }) => {
             const resp = await myAxios.post(API_PRODUCTOS_URL, formData)
             notify(resp.data.message)
         } catch (err) {
-            console.log(err)
+            //console.log(err)
             notify(err.response.data.message, true);
         }
     }
@@ -64,7 +64,7 @@ export const ProductosProvider = ({ children }) => {
                 const resp = await myAxios.delete(API_PRODUCTOS_URL + list[i])
                 notify(resp.data.message)
             } catch (err) {
-                console.log(err)
+                //console.log(err)
                 notify('No fue posible eliminar el producto', true)
             }
         }
