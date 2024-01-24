@@ -159,7 +159,7 @@ const ReportesPage = () => {
 
 
                                         <button className='px-10 py-1.5 rounded-lg text-white  btn-naranja h-10 w-1/5'
-                                            onClick={(e) => { e.preventDefault(); setShowReporteImpreso(true); }}> Imprimir reporte
+                                            onClick={(e) => { e.preventDefault(); setShowReporteImpreso(true); }}> Imprimir
                                         </button>
 
 
