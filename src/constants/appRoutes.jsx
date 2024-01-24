@@ -15,6 +15,7 @@ import ProductosPage from "../pages/Productos/ProductosPage";
 import NewProductoPage from "../pages/Productos/NewProductoPage";
 import DetailProductoPage from "../pages/Productos/DetailProductoPage";
 import ReportesPage from "../pages/Reportes/ReportesPage";
+import ReportToPrint from "../pages/Carrito/components/ReportToPrint";
 
 export const adminRoutes = [
     { path: '/acceso', element: <AccessoPage /> },
@@ -42,6 +43,8 @@ export const adminRoutes = [
     { path: '/carrito/:idCliente/:idSuscripcion', element: <CarritoPage /> }, //renovar o pagar suscripcion
     //Rerportes
     { path: '/reportes', element: <ReportesPage /> },
+    //Tests
+    { path: '/report', element: <ReportToPrint /> },
 ]
 
 export const employeeRoutes = [

@@ -7,7 +7,8 @@ import Inpt from '../../components/inputs/Inpt'
 import Opts from '../../components/inputs/Opts'
 import Modal from '../../components/Modal'
 import { useReportes } from './hooks/useReportes'
-import { nuevaFecha } from '../../constants/nuevaFecha'
+import TicketToPrint from '../Carrito/components/TicketToPrint'
+import ReportToPrint from '../Carrito/components/ReportToPrint'
 
 const ReportesPage = () => {
 
@@ -17,16 +18,13 @@ const ReportesPage = () => {
     const [loading, setLoading] = useState(false)
     const [ready, setReady] = useState(false)
     const [ventas, setVentas] = useState(false)
-    const [showModal, setShowModal] = useState(false)
-    const [dataModal, setDataModal] = useState([])
     const [data, setData] = useState([])
-    const { getVentas,getAsistencia } = useReportes()
+    const { getVentas, getAsistencia } = useReportes()
+    const [showTicket, setShowTicket] = useState(false)
+    const [ticket, setTicket] = useState(null)
+    const [showReporteImpreso, setShowReporteImpreso] = useState(false)
+    const [datosReporte, setDatosReporte] = useState(null)
 
-    const handleclick = (details) => {
-        //console.log(details)
-        setDataModal(details)
-        setShowModal(true)
-    }
     {/* Datos y formik */ }
     const [fieldChanged, setFieldChanged] = useState(false)
     const formikRef = useRef();
@@ -58,17 +56,17 @@ const ReportesPage = () => {
                     const ventas = await getVentas({ fecha_inicio: values.fechaInicio, fecha_final: values.fechaFin })
                     setData(ventas)
                     setVentas(true)
+                    setDatosReporte(values)
                 } else {
                     const asistencia = await getAsistencia({ fecha_inicio: values.fechaInicio, fecha_final: values.fechaFin })
-                    console.table(asistencia)
                     setData(asistencia)
                     setVentas(false)
                 }
-                
+
                 setReady(true)
 
             } catch (e) {
-                //console.log('Error al guardar', e)
+              
             } finally {
                 setLoading(false)
             }
@@ -97,7 +95,7 @@ const ReportesPage = () => {
                     className='relative w-full h-full bg-white rounded-lg shadow-lg'>
 
                     <AbsScroll
-                        onBottomReached={() => {}}
+                        onBottomReached={() => { }}
                         setBottom={isWindowBottom}
                         loading={loading}
                         vertical>
@@ -150,30 +148,37 @@ const ReportesPage = () => {
                             {ready && ventas &&
                                 <>
                                     <div className='flex flex-row justify-between mx-6'>
-                                        <h1 className='mb-2 text-2xl font-bold text-center text-blue-900'>
-                                            {ready ? 'Monto total: $' + data.map((item) => Number(item.total)).reduce((a, b) => a + b, 0) : null}
-                                        </h1>
-                                        <h1 className='mb-2 text-2xl font-bold text-center text-blue-900'>
-                                            {ready ? 'Cantidad de ventas: ' + data.length : null}
-                                        </h1>
+                                        <div className='flex flex-col content-start'>
+                                            <h1 className='mb-2 text-xl font-bold text-blue-900'>
+                                                {ready ? 'Monto total: $' + data.map((item) => Number(item.total)).reduce((a, b) => a + b, 0) : null}
+                                            </h1>
+                                            <h1 className='mb-2 text-xl font-bold text-blue-900'>
+                                                {ready ? 'Cantidad de ventas: ' + data.length : null}
+                                            </h1>
+                                        </div>
+
+
+                                        <button className='px-10 py-1.5 rounded-lg text-white  btn-naranja h-10 w-1/5'
+                                            onClick={(e) => { e.preventDefault(); setShowReporteImpreso(true); }}> Imprimir reporte
+                                        </button>
+
+
                                     </div>
+                                 
                                     <Report
                                         className='appear'
                                         columns={[
-                                            { label: "Vendedor", attribute: "nombre_usuario" },
-                                            { label: "Fecha de venta", attribute: "fecha", render: (item) => new  Date(item.fecha).toLocaleDateString()+' '+new Date(item.fecha).toLocaleTimeString() },
+                                            { label: "ID de venta", attribute: "idVenta" },
+                                            { label: "Fecha de venta", attribute: "fecha", render: (item) => new Date(item.fecha).toLocaleDateString() + ' ' + new Date(item.fecha).toLocaleTimeString() },
                                             { label: "Total", attribute: "total" },
-                                            { label: "Cliente", attribute: "nombre_cliente" }
+                                            { label: "Cliente", attribute: "cliente", render: (item) => (item.cliente ? item.cliente : 'No especificado') },
                                         ]}
                                         data={data}
                                         renderFunctionColumn={(item, i) => (
                                             <div className='relative flex flex-row justify-center w-full text-lg font-semibold text-gray-500'>
-
                                                 <button className='px-4 py-1 m-1 text-white rounded-lg btn-naranja '
-                                                    onClick={() => handleclick(item.detalles)} >
-                                                    Detalles
+                                                    onClick={(e) => { e.preventDefault(); setTicket(item); setShowTicket(true) }}> Detalles
                                                 </button>
-
                                             </div>
                                         )}
                                     />
@@ -191,8 +196,7 @@ const ReportesPage = () => {
                                         columns={[
                                             { label: "Mostrador", attribute: "nombre_usuario" },
                                             { label: "Cliente", attribute: "nombre_cliente" },
-                                            { label: "Fecha y hora de entrada", attribute: "fecha", render: (item) => new Date(item.fecha).toLocaleDateString()+' '+new Date(item.fecha).toLocaleTimeString() }
-
+                                            { label: "Fecha y hora de entrada", attribute: "fecha", render: (item) => new Date(item.fecha).toLocaleDateString() + ' ' + new Date(item.fecha).toLocaleTimeString() }
                                         ]}
                                         data={data}
                                     />
@@ -204,27 +208,26 @@ const ReportesPage = () => {
                 </div>
             </div>
             {
-                showModal &&
-                <Modal
-                    className='w-full appear'
-                    title="Detalles de venta"
-                    onConfirm={() => setShowModal(false)}
-                    onClose={() => setShowModal(false)}
-                    functionalComponent={() =>
-                        <Report
-                            className='w-full appear'
-                            columns={[
-                                { label: "Tipo", attribute: "tipo" },
-                                { label: "Nombre", attribute: "nombre" },
-                                { label: "Cantidad", attribute: "cantidad" },
-                                { label: "Precio unitario", attribute: "precio_unitario" },
-                                { label: "Importe", attribute: "importe" }
-                            ]}
-                            data={dataModal}
-                        />
-                    }
+                showTicket &&
+                <TicketToPrint
+                    tittle='Reimpresión de ticket'
+                    data={ticket}
+                    onCloseModal={() => setShowTicket(false)}
                 />
             }
+            {
+                showReporteImpreso &&
+                <ReportToPrint
+                    tittle='Reporte de ventas'
+                    data={{
+                        frmData:datosReporte,
+                        reportData:data
+                    }}
+                    onCloseModal={() => setShowReporteImpreso(false)}
+                />
+
+            }
+
 
         </>
 

@@ -15,6 +15,7 @@ import Modal from '../../components/Modal'
 import { useAuth } from '../../context/authContext'
 import { useCarrito } from './hooks/CarritoContext'
 import Ticket from './components/Ticket'
+import TicketToPrint from './components/TicketToPrint'
 import { useParams } from 'react-router-dom'
 import { useNavigate } from 'react-router-dom'
 
@@ -120,7 +121,6 @@ const CarritoPage = () => {
       fetchArticles()
 
     } catch (e) {
-
       notify(e.message, true)
     } finally {
       setLoading(p => ({ ...p, venta: false }))
@@ -310,12 +310,18 @@ const CarritoPage = () => {
           loading={loading.venta}
         />
       }
-      {showTicket &&
-        <Ticket
-          title={"Venta realizada con éxito"}
-          data={ticketData}
-          onConfirm={() => setShowTicket(false)}
-        />
+      {showTicket && (
+        (ticketData.detallesSuscripcion?.length == 0) ?
+          <Ticket
+            title={"¡Venta realizada con éxito!"}
+            data={ticketData}
+            onConfirm={() => {setShowTicket(false); }}
+          /> :
+          <TicketToPrint
+            title={"¡Venta realizada con éxito!"}
+            data={ticketData}
+            onCloseModal={() => {setShowTicket(false)}}
+          />)
 
       }
     </>
