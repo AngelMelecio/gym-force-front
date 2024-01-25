@@ -156,7 +156,7 @@ const ReportToPrint = ({tittle,data,onCloseModal}) => {
                                                         <Text style={[styles.textTable, { width: '10%', textAlign: 'center' }]}>{dtll.cantidad}</Text>
                                                         <Text style={[styles.textTable, { width: '50%', textAlign: 'left' }]}>{dtll.nombreSuscripcion}</Text>
                                                         <Text style={[styles.textTable, { width: '20%', textAlign: 'right' }]}>${(Number(dtll.precio)).toFixed(2)}</Text>
-                                                        <Text style={[styles.textTable, { width: '20%', textAlign: 'right' }]}>${(Number(dtll.precio)).toFixed(2)}</Text>
+                                                        <Text style={[styles.textTable, { width: '20%', textAlign: 'right' }]}>${(Number(dtll.importeTotal)).toFixed(2)}</Text>
                                                     </View>
                                                 ))}
 
@@ -165,7 +165,7 @@ const ReportToPrint = ({tittle,data,onCloseModal}) => {
                                                         <Text style={[styles.textTable, { width: '10%', textAlign: 'center' }]}>{dtll.cantidad}</Text>
                                                         <Text style={[styles.textTable, { width: '50%', textAlign: 'left' }]}>{dtll.nombreProducto}</Text>
                                                         <Text style={[styles.textTable, { width: '20%', textAlign: 'right' }]}>${(Number(dtll.precioVenta)).toFixed(2)}</Text>
-                                                        <Text style={[styles.textTable, { width: '20%', textAlign: 'right' }]}>${(Number(dtll.cantidad) * Number(dtll.precioVenta)).toFixed(2)}</Text>
+                                                        <Text style={[styles.textTable, { width: '20%', textAlign: 'right' }]}>${(Number(dtll.importeTotal)).toFixed(2)}</Text>
                                                     </View>
                                                 ))}
 
