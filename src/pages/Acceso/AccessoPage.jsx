@@ -34,18 +34,18 @@ const AccessoPage = () => {
     try {
       pinRef.current.blur()
       setLoading(true)
-      let { image, message, info, background, color } = await register({
+      let { image, message, info, background, colorMessage, colorInfo } = await register({
         pin: pin,
         idCliente: idCliente,
         idUser: session.usuario.id
       })
-      await handleShowModal({ image, message, info, background, color })
+      await handleShowModal({ image, message, info, background, colorMessage, colorInfo })
     } catch (e) {
     
-      if (e.response.data.registro) {
-        let { image, message, info, background, color } = formatAccessResponse(e.response.data.registro)
+      if (e.response?.data.registro) {
+        let { image, message, info, background , colorMessage, colorInfo} = formatAccessResponse(e.response.data.registro)
         await handleShowModal({
-          image, message, info, background, color
+          image, message, info, background, colorMessage, colorInfo
         })
       } else {
         if (e.response) {
@@ -53,7 +53,7 @@ const AccessoPage = () => {
           await handleShowModal({
             message,
             background: "bg-red-500/[0.92]",
-            color: "text-red-500"
+            colorMessage: "text-red-500"
           })
         }
         else {

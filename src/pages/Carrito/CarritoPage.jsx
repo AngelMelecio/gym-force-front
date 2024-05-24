@@ -310,18 +310,13 @@ const CarritoPage = () => {
           loading={loading.venta}
         />
       }
-      {showTicket && (
-        (ticketData.detallesSuscripcion?.length == 0) ?
-          <Ticket
-            title={"¡Venta realizada con éxito!"}
-            data={ticketData}
-            onConfirm={() => {setShowTicket(false); }}
-          /> :
-          <TicketToPrint
-            title={"¡Venta realizada con éxito!"}
-            data={ticketData}
-            onCloseModal={() => {setShowTicket(false)}}
-          />)
+      {showTicket && ticketData &&
+
+        <TicketToPrint
+          title={"¡Venta realizada con éxito!"}
+          data={ticketData}
+          onCloseModal={() => { setShowTicket(false) }}
+        />
 
       }
     </>

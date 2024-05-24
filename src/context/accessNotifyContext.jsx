@@ -24,18 +24,18 @@ export const AccessNotifyProvider = ({ children }) => {
 
     useEffect(() => {
         if (accessStatus) {
-            //console.log(accessStatus)
+            console.log(accessStatus)
             if (accessStatus.registro) {
-                let { image, message, info, background, color } = formatAccessResponse(accessStatus.registro)
+                let { image, message, info, background, colorMessage, colorInfo } = formatAccessResponse(accessStatus.registro)
                 handleShowModal({
-                    image, message, info, background, color
+                    image, message, info, background, colorMessage, colorInfo
                 })
             } else {
                 let { message } = accessStatus
                 handleShowModal({
                     message,
                     background: "bg-red-500/[0.92]",
-                    color: "text-red-500"
+                    colorMessage: "text-red-500"
                 })
             }
         }
