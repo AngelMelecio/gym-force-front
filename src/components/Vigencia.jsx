@@ -5,13 +5,13 @@ const Vigencia = ({ prop }) => {
     let colorClass;
     let message;
 
-    if (prop > 10) {
+    if (prop >= 8) {
         colorClass = "text-green-500";
         message = "Vigente, " + prop + " días restantes"
-    } else if (prop >= 6 && prop <= 10) {
+    } else if (prop >= 5 && prop <= 7) {
         colorClass = "text-yellow-400";
         message = "Por vencer, " + prop + " días restantes"
-    } else if (prop >= 2 && prop <= 5) {
+    } else if (prop >= 2 && prop <= 4) {
         colorClass = "text-orange-400";
         message = "Por vencer, " + prop + " días restantes"
     } else if (prop === 1) {

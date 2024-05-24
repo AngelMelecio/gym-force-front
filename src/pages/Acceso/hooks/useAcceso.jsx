@@ -24,13 +24,14 @@ export const AccesoProvider = ({ children }) => {
     // Calculate the difference in days, rounding up to include the current day
     let diferenciaMs = fechaFin - (new Date().setHours(0, 0, 0, 0));
     let diasRestantes = Math.floor(diferenciaMs / (1000 * 60 * 60 * 24));
-    let { color, background, info, message} = getColor(diasRestantes,tipo,frase);
+    let { background, info, message, colorMessage, colorInfo} = getColor(diasRestantes,tipo,frase);
     let obj = {
       image: HOST + fotografia,
       message: message+=` ${nombre} ${apellidos}`,
       info,
       background,
-      color,
+      colorMessage,
+      colorInfo
     }
     return obj;
   }

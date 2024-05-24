@@ -13,7 +13,7 @@ const StatusModal = ({ data }) => {
         {
           data.message && data.message.split('\n').map((item, i, array) => (
             <React.Fragment key={i}>
-              <p className={`font-[robotoCondensed] text-[5vw] font-extrabold ${data?.color} w-full total-center`}>
+              <p className={`font-[robotoCondensed] text-[4vw] font-extrabold ${data?.colorMessage} w-full total-center`}>
                 {item}
                 {i !== array.length - 1 && <br />}
               </p>
@@ -21,7 +21,7 @@ const StatusModal = ({ data }) => {
           ))
         }
 
-        <p className='font-[robotoCondensed] text-[3vw] font-semibold text-gray-700 mt-2 w-full text-center'>
+        <p className={`font-[robotoCondensed] text-[7vw] font-semibold ${data?.colorInfo} mt-2 w-full text-center text-shadow-lg`}>
           {data?.info && data?.info}
         </p>
         {/* Timer */}

@@ -236,7 +236,7 @@ const DetailClientePage = () => {
                             (i === 0) ? (userFormik.values?.diferencia_dias > 0) ?
                               <button className='px-4 py-1 m-1 text-white rounded-lg btn-naranja '
                                 onClick={() => handleclickAplazar(item)} >
-                                Aplazar
+                                Ajustar
                               </button>
                               : null : null
                           }
@@ -262,11 +262,10 @@ const DetailClientePage = () => {
           onCancel={() => setShowModal(false)}
           onClose={() => setShowModal(false)}
           onConfirm={() => onConfirm()}
-          title="Aplazar Suscripción"
+          title="Ajustar suscripción"
           info={`La fecha actual de vencimiento es ${initialDate.toLocaleDateString('es-ES')} \n selecciona la nueva fecha de vencimiento para esta suscripción`}
           functionalComponent={() =>
             <CalendarToModal
-              minDate={initialDate}
               onChange={setSelectedDate}
               locale='es-ES'
               className='w-full mt-5 border-2 border-gray-300 rounded-lg shadow-md bg-slate-50'

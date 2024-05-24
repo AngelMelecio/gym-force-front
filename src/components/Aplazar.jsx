@@ -9,7 +9,7 @@ const Aplazar = ({ fechaFin }) => {
     <DatePicker
       selected={fechaFinNueva}
       onChange={(date) => setFechaFinNueva(date)}
-      minDate={new Date(fechaFin)}
+     
       dateFormat="yyyy/MM/dd"
     />
   );
